@@ -14734,6 +14734,14 @@ tailwind.macro@^1.0.0-alpha.10:
     dset "^2.0.1"
     tailwindcss "^1.0.0-beta.8"
 
+tailwindcss-gradients@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-gradients/-/tailwindcss-gradients-3.0.0.tgz#aabcff1ec9afd7d09ffc2af82e8e4113412bd088"
+  integrity sha512-EM1OreQggjWW6WuaiHKy02j1ZxgQIEp2zj0cruf4XMZ1RoCBpb1a14i/CiTE9rjl+APk57oCb3l+kbsJy4W4EA==
+  dependencies:
+    color "^3.1.2"
+    lodash "^4.17.15"
+
 tailwindcss@^1.0.0-beta.8, tailwindcss@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.4.6.tgz#17b37166ccda08d7e7f9ca995ea48ce1e0089700"

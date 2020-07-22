@@ -5,10 +5,10 @@
   "private": true,
   "author": "Shumpei Koike <https://twitter.com/shunpei42ba_>",
   "keywords": [
-    "three.js", 
-    "typescript", 
-    "gatsby", 
-    "emotion", 
+    "three.js",
+    "typescript",
+    "gatsby",
+    "emotion",
     "tailwindcss"
   ],
   "license": "MIT",
@@ -65,6 +65,7 @@
     "stylelint": "^13.6.1",
     "tailwind.macro": "^1.0.0-alpha.10",
     "tailwindcss": "^1.4.6",
+    "tailwindcss-gradients": "^3.0.0",
     "three": "^0.117.1",
     "typescript": "^3.5.2"
   },
