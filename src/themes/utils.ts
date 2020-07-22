@@ -1,0 +1,41 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
+
+export interface ITheme {
+  [key: string]: string
+}
+
+export interface IThemes {
+  [key: string]: ITheme
+}
+
+export interface IMappedTheme {
+  [key: string]: string | null
+}
+
+export const mapTheme: (valuables: ITheme) => IMappedTheme = (variables: ITheme) => {
+  return {
+    '--color-primary': variables.primary || '',
+    '--color-secondary': variables.secondary || '',
+    '--color-positive': variables.positive || '',
+    '--color-negative': variables.negative || '',
+    '--color-text-primary': variables.textPrimary || '',
+    '--background-primary': variables.backgroundPrimary || '',
+    '--background-sec': variables.backgroundSecondary || ''
+  }
+}
+
+export const extend: (extending: ITheme, newTheme: ITheme) => ITheme = (extending: ITheme, newTheme: ITheme): ITheme => {
+  return { ...extending, ...newTheme }
+}
+
+export const applyTheme = (theme: string, themes: IThemes): void => {
+  const themeObject: IMappedTheme = mapTheme(themes[theme])
+  if (!themeObject) return
+  const root = document.documentElement
+  Object.keys(themeObject).forEach(property => {
+    if (property === 'name') {
+      return
+    }
+    root.style.setProperty(property, themeObject[property])
+  })
+}

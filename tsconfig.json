@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "esnext",
+    "target": "es2019",
     "jsx": "preserve",
-    "lib": ["dom", "es2015", "es2017"],
+    "lib": [
+      "dom",
+      "es2015",
+      "es2017",
+      "es2019",
+    ],
     "strict": true,
     "noEmit": true,
     "isolatedModules": true,
@@ -12,7 +17,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "baseUrl": ".",
+    "paths": {
+      "src": [
+        "src"
+      ]
+    }
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }
