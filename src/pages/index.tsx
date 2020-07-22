@@ -28,6 +28,7 @@ const IndexPage = () => {
       <div className="flex items-center">
         <span className="font-semibold text-xl tracking-tight text-white font-serif">StoryGate</span>
       </div>
+      <button type="button" className="inline-block text-xs px-2 py-2 leading-none text-white border-white border rounded">LOGIN</button>
     </nav>)
 }
 export default IndexPage
