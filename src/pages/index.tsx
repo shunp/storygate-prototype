@@ -29,6 +29,8 @@ const IndexPage = () => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
+  const [openTab, setOpenTab] = React.useState(1);
+
   return (
     <div>
       <nav id="header" className="flex items-center justify-between flex-wrap p-1 mt-2 w-full top-0 fixed z-20">
@@ -56,6 +58,48 @@ const IndexPage = () => {
         </div>
         <div id="profile-introduction" className="mt-2">
           <span className="text-gray-500">BlockchainやWebGLなど / AWS Best Architecture 2018 / 書籍「Solidityプログラミング」発売中 / 秋から香港で仮想世界構築の研究</span>
+        </div>
+      </div>
+      <div id="main-tab" className="flex flex-wrap">
+        <div className="w-full">
+          <ul className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row" role="tablist">
+            <li className="mx-1 flex-auto text-center">
+              <a className={
+                "text-xs font-bold uppercase px-2 py-3 shadow-lg rounded block leading-normal " +
+                (openTab === 1
+                  ? "text-white bg-primary"
+                  : "text-primary bg-white")
+              }
+                onClick={e => {
+                  e.preventDefault()
+                  setOpenTab(1)
+                }}
+                data-toggle="tab"
+                href="#link1"
+                role="tablist"
+              >
+                Portfolio
+              </a>
+            </li>
+            <li className="mx-1 flex-auto text-center">
+              <a className={
+                "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                (openTab === 2
+                  ? "text-white bg-primary"
+                  : "text-primary bg-white")
+              }
+                onClick={e => {
+                  e.preventDefault()
+                  setOpenTab(2)
+                }}
+                data-toggle="tab"
+                href="#link1"
+                role="tablist"
+              >
+                Story
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
