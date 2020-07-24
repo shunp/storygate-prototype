@@ -173,6 +173,24 @@ const IndexPage = () => {
               </div>
             </div>
             <div className={openTab === 2 ? 'block' : 'hidden'} id="link2">
+              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">
+                2014/9 (21歳) 社長インタビュアーの小池
+              </div>
+              <div>
+                <iframe
+                  title="facebook"
+                  src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fshunpei.koike.9%2Fposts%2F571158393013178"
+                  width={size.width}
+                  height={size.width ? size.width * 0.6 : 0}
+                  scrolling="no"
+                  frameBorder="0"
+                  // allowTransparency="true"
+                  allow="encrypted-media"
+                />
+              </div>
+              <div className="text-gray-500 p-4">
+                大学3年後期、学校の単位を全て取り切り、残りの期間は法人営業で自分を磨くことを決意。当時社長と二人三脚のような零細ベンチャーでの修行が始まった。時給も休みもあまりなかったけれど、大人の世界に背伸びして社長インタビューやスポンサー獲得のために必死に営業した日々はとても疲労に満ちて充実していた。
+              </div>
               <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">2020/5 (26歳) 人工的余白</div>
               <InstagramEmbed
                 url="https://www.instagram.com/p/CBPLA0eJs5Z/"
@@ -185,20 +203,8 @@ const IndexPage = () => {
                 onAfterRender={() => {}}
                 onFailure={() => {}}
               />
-              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">
-                2014/9 (21歳) 社長インタビュアーの小池
-              </div>
-              <div>
-                <iframe
-                  title="facebook"
-                  src="https://www.facebook.com/shunpei.koike.9/posts/571158393013178"
-                  width={size.width}
-                  height={size.width ? size.width * 0.6 : 0}
-                  scrolling="no"
-                  frameBorder="0"
-                  // allowTransparency="true"
-                  allow="encrypted-media"
-                />
+              <div className="text-gray-500 p-4">
+                日本を離れマレーシアでの生活。東南アジアの成長スピードと、異文化が交わる都市クアラルンプールの雰囲気に圧倒されつつも、気候も人情もあたたかいこの街がすごく好き。フリーランスエンジニアとしてのポジショニングも安定し、金銭的・時間的余裕を初めてつくり出すことができた。StoryGateを含む多くの活動をこの期間に始める。
               </div>
             </div>
           </div>
