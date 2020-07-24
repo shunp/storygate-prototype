@@ -5,6 +5,7 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
+import InstagramEmbed from 'react-instagram-embed'
 import { applyTheme } from '../themes/utils'
 
 const query = graphql`
@@ -182,7 +183,33 @@ const IndexPage = () => {
               </div>
             </div>
             <div className={openTab === 2 ? 'block' : 'hidden'} id="link2">
-              yyy
+              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">2020/5 (26歳) 人工的余白</div>
+              <InstagramEmbed
+                url="https://www.instagram.com/p/CBPLA0eJs5Z/"
+                maxWidth={size.width}
+                hideCaption
+                containerTagName="div"
+                protocol=""
+                onLoading={() => {}}
+                onSuccess={() => {}}
+                onAfterRender={() => {}}
+                onFailure={() => {}}
+              />
+              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">
+                2014/9 (21歳) 社長インタビュアーの小池
+              </div>
+              <div>
+                <iframe
+                  title="facebook"
+                  src="https://www.facebook.com/shunpei.koike.9/posts/571158393013178"
+                  width={size.width}
+                  height={size.width ? size.width * 0.6 : 0}
+                  scrolling="no"
+                  frameBorder="0"
+                  // allowTransparency="true"
+                  allow="encrypted-media"
+                />
+              </div>
             </div>
           </div>
         </div>
