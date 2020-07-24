@@ -1,38 +1,12 @@
 import * as React from 'react'
 import Img from 'gatsby-image'
-import { graphql, StaticQuery } from 'gatsby'
+import { graphql, useStaticQuery } from 'gatsby'
 import { themes, DEFAULT_THEME } from 'src/themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaw, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 import InstagramEmbed from 'react-instagram-embed'
 import { applyTheme } from '../themes/utils'
-
-const query = graphql`
-  query {
-    guest: file(relativePath: { eq: "guest.png" }) {
-      childImageSharp {
-        fluid(maxWidth: 1000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-    koike: file(relativePath: { eq: "koike.png" }) {
-      childImageSharp {
-        fluid(maxWidth: 1000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-    logo: file(relativePath: { eq: "logo.png" }) {
-      childImageSharp {
-        fluid(maxWidth: 1000) {
-          ...GatsbyImageSharpFluid
-        }
-      }
-    }
-  }
-`
 
 const useWindowSize = () => {
   const isClient = typeof window === 'object'
@@ -67,16 +41,37 @@ const IndexPage = () => {
   }, [])
   const [openTab, setOpenTab] = React.useState(1)
   const size = useWindowSize()
+  const data = useStaticQuery(graphql`
+    query {
+      guest: file(relativePath: { eq: "guest.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      logo: file(relativePath: { eq: "logo.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      koike: file(relativePath: { eq: "koike.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
+  `)
   return (
     <div>
       <nav id="header" className="flex items-center justify-between flex-wrap p-2 w-full top-0 fixed z-20 bg-white">
-        <StaticQuery
-          query={query}
-          render={data => <Img fluid={data.koike.childImageSharp.fluid} className="w-8 h-8 rounded-full z-20 bg-white" />}
-        />
+        <Img fluid={data.koike.childImageSharp.fluid} className="w-8 h-8 rounded-full z-20 bg-white" />
         <div className="flex items-center">
-          {/* <span className="font-semibold text-3xl tracking-tight font-serif">StoryGate</span> */}
-          <StaticQuery query={query} render={data => <Img fluid={data.logo.childImageSharp.fluid} className="w-40 z-20 bg-white" />} />
+          <Img fluid={data.logo.childImageSharp.fluid} className="w-40 z-20 bg-white" />
         </div>
         <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-black border-white border rounded">
           ...
@@ -84,12 +79,7 @@ const IndexPage = () => {
       </nav>
       <div id="caption" className="flex items-center justify-center flex-col flex-wrap p-4 pt-16">
         <div id="profile-image" className="flex items-center justify-between flex-wrap w-1/2">
-          <StaticQuery
-            query={query}
-            render={data => (
-              <Img fluid={data.koike.childImageSharp.fluid} className="w-24 h-24 rounded-full z-20 bg-white border-4 border-primary" />
-            )}
-          />
+          <Img fluid={data.koike.childImageSharp.fluid} className="w-24 h-24 rounded-full z-20 bg-white border-4 border-primary" />
           <FontAwesomeIcon icon={faPaw} size="2x" className="text-primary" />
         </div>
         <div id="profile-name" className="mt-2">
