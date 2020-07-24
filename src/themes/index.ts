@@ -10,7 +10,7 @@ import teal from './teal'
 /**
  * The default theme to load
  */
-export const DEFAULT_THEME = 'blue'
+export const DEFAULT_THEME = 'base'
 export const ORANGE_THEME = 'orange'
 export const BLUE_THEME = 'blue'
 export const WHITE_THEME = 'white'

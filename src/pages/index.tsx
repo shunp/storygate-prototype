@@ -25,12 +25,39 @@ const query = graphql`
   }
 `
 
+const useWindowSize = () => {
+  const isClient = typeof window === 'object'
+
+  const getSize = () => {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined
+    }
+  }
+  const [windowSize, setWindowSize] = React.useState(getSize)
+
+  React.useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+
+    function handleResize() {
+      setWindowSize(getSize())
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, []) // Empty array ensures that effect is only run on mount and unmount
+
+  return windowSize
+}
+
 const IndexPage = () => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
   const [openTab, setOpenTab] = React.useState(1);
-
+  const size = useWindowSize()
   return (
     <div>
       <nav id="header" className="flex items-center justify-between flex-wrap p-1 mt-2 w-full top-0 fixed z-20">
@@ -65,7 +92,7 @@ const IndexPage = () => {
           <ul className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row" role="tablist">
             <li className="mx-1 flex-auto text-center">
               <a className={
-                "text-xs font-bold uppercase px-2 py-3 shadow-lg rounded block leading-normal " +
+                "text-xs font-bold uppercase px-2 py-2 shadow-lg rounded block leading-normal " +
                 (openTab === 1
                   ? "text-white bg-primary"
                   : "text-primary bg-white")
@@ -83,7 +110,7 @@ const IndexPage = () => {
             </li>
             <li className="mx-1 flex-auto text-center">
               <a className={
-                "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                "text-xs font-bold uppercase px-5 py-2 shadow-lg rounded block leading-normal " +
                 (openTab === 2
                   ? "text-white bg-primary"
                   : "text-primary bg-white")
@@ -100,6 +127,31 @@ const IndexPage = () => {
               </a>
             </li>
           </ul>
+        </div>
+      </div>
+      <div id="main-content" className="relative flex flex-col w-full">
+        <div className="mt-4 flex-auto">
+          <div className="tab-content tab-space">
+            <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">
+                Best Architecture 2018
+              </div>
+              <div>
+                <iframe
+                  className="relative z-10"
+                  title="youtube"
+                  id="ytplayer"
+                  width={size.width}
+                  height={size.width ? size.width * 0.6 : 0}
+                  src={`https://www.youtube.com/embed/WlkWTye4mfI`}
+                  frameBorder="0"
+                />
+              </div>
+            </div>
+            <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+              yyy
+            </div>
+          </div>
         </div>
       </div>
     </div>
