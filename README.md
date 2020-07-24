@@ -4,12 +4,10 @@
   </a>
 </p>
 <h1 align="center">
-  gatsby-three-ts-plus
+  StoryGate
 </h1>
 
-> 3D web starter kit with Three.js and TypeScript.
-
-This is a 3D web starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. 3D scenes are expressed by a pure Three.js library. It includes the bare essentials for you to get started (styling, minimal toolset).
+This is a repository that is sandbox for public discussion, which is NOT the main repository containing sensitive information.
 
 ## 🗒️ Features
 
@@ -44,13 +42,13 @@ This is a 3D web starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites
     Use the `gatsby-cli` to create a new site and install its dependencies.
 
     ```bash
-    gatsby new project-name https://github.com/shunp/gatsby-three-ts-plus
+    gatsby new project-name https://github.com/shunp/storygate-prototype
     ```
     
     Or you can use this command if you are familiar with `degit`.
     
     ```bash
-    degit git@github.com:shunp/gatsby-three-ts-plus
+    degit git@github.com:shunp/storygate-prototype
     ```
 
 2.  **Start developing.**
@@ -143,77 +141,6 @@ A quick look at the top-level files and directories you'll see in a Gatsby proje
 
 12. **`README.md`**: A text file containing useful reference information about your project.
 
-## :earth_asia: Scene
-
-You can find a simple scene at `src/scenes/BaseScene.tsx`. The basic components such as a `camera` and `scene` have been decleared. You can customize your scene as you want, referencing other scenes placed on the same directry.
-
-```tsx
-import React, { useEffect, createRef } from 'react'
-import * as THREE from 'three'
-import { css } from '@emotion/core'
-
-const newScene = () => {
-  const scene = new THREE.Scene()
-  return scene
-}
-
-const newCamera = () => {
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-  camera.position.x = 100
-  camera.position.y = 100
-  camera.position.z = 400
-  return camera
-}
-
-const newRenderer = (mount: React.RefObject<HTMLInputElement>) => {
-  const renderer = new THREE.WebGLRenderer({ antialias: true })
-  renderer.setPixelRatio(window.devicePixelRatio)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  renderer.autoClear = true
-  if (mount.current) {
-    mount.current.appendChild(renderer.domElement)
-  }
-  return renderer
-}
-
-const BaseScene = () => {
-  const mount = createRef<HTMLInputElement>()
-  useEffect(() => {
-    // scene
-    const scene = newScene()
-
-    // camera
-    const camera = newCamera()
-
-    // renderer
-    const renderer = newRenderer(mount)
-
-    // mesh
-    const geometry = new THREE.BoxGeometry(50, 50, 50)
-    const material = new THREE.MeshNormalMaterial()
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
-
-    // render
-    const render = () => {
-      renderer.render(scene, camera)
-    }
-
-    // animation
-    const animate = () => {
-      requestAnimationFrame(animate)
-      render()
-    }
-    animate()
-  }, [])
-  return (
-    <>
-      <div css={css``} ref={mount} />
-    </>
-  )
-}
-export default BaseScene
-```
 
 ## ❤️ Credits
 
