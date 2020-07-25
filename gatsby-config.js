@@ -50,7 +50,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#ffffff`,
         display: `standalone`,
-        icon: `src/images/sg_icon.png`,
+        icon: `src/images/sg_icon.jpg`,
         cache_busting_mode: 'none'
       }
     }
