@@ -39,6 +39,20 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-offline',
-    'gatsby-plugin-robots-txt'
+    'gatsby-plugin-robots-txt',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: `StoryGate`,
+        short_name: `StoryGate`,
+        description: `You can create your gate to youself`,
+        start_url: `/`,
+        background_color: `#ffffff`,
+        theme_color: `#ffffff`,
+        display: `standalone`,
+        icon: `src/images/sg_icon.png`,
+        cache_busting_mode: 'none'
+      }
+    }
   ]
 }
