@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css } from '@emotion/core'
 import Img from 'gatsby-image'
 import { graphql, useStaticQuery } from 'gatsby'
 import { themes, DEFAULT_THEME } from 'src/themes'
@@ -79,18 +80,32 @@ const IndexPage = () => {
       </nav>
       <div id="caption" className="flex items-center justify-center flex-col flex-wrap p-4 pt-16">
         <div id="profile-image" className="flex items-center justify-between flex-wrap w-1/2">
-          <Img fluid={data.koike.childImageSharp.fluid} className="w-24 h-24 rounded-full z-20 bg-white border-4 border-primary" />
+          <Img fluid={data.koike.childImageSharp.fluid} className="w-24 h-24 rounded-full bg-white border-4 border-primary" />
           <FontAwesomeIcon icon={faPaw} size="2x" className="text-primary" />
         </div>
         <div id="profile-name" className="mt-2">
-          <span className="font-semibold font-serif text-xl">小池 駿平</span>
+          <span
+            className="font-semibold text-xl"
+            css={css`
+              font-family: noto-sans-cjk-jp, sans-serif;
+              font-style: normal;
+            `}
+          >
+            小池 駿平
+          </span>
         </div>
         <div id="profile-location" className="">
           <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" className="text-gray-500" />
           <span className="mx-1 text-gray-500">Hong Kong</span>
         </div>
         <div id="profile-introduction" className="mt-2">
-          <span className="text-gray-500">
+          <span
+            className="text-gray-500"
+            css={css`
+              font-family: noto-sans-cjk-jp, sans-serif;
+              font-style: normal;
+            `}
+          >
             BlockchainやWebGLなど / AWS Best Architecture 2018 / 書籍「Solidityプログラミング」発売中 / 秋から香港で仮想世界構築の研究
           </span>
         </div>
@@ -110,6 +125,9 @@ const IndexPage = () => {
                 data-toggle="tab"
                 href="#link1"
                 role="tablist"
+                css={css`
+                  font-family: 'Lato', sans-serif;
+                `}
               >
                 Portfolio
               </a>
@@ -126,6 +144,9 @@ const IndexPage = () => {
                 data-toggle="tab"
                 href="#link1"
                 role="tablist"
+                css={css`
+                  font-family: 'Lato', sans-serif;
+                `}
               >
                 Story
               </a>
@@ -137,7 +158,14 @@ const IndexPage = () => {
         <div className="mt-4 flex-auto">
           <div className="tab-content tab-space">
             <div className={openTab === 1 ? 'block' : 'hidden'} id="link1">
-              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">Best Architecture 2018</div>
+              <div
+                className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg"
+                css={css`
+                  font-family: 'Lato', sans-serif;
+                `}
+              >
+                Best Architecture 2018
+              </div>
               <div className="flex justify-center">
                 <iframe
                   className="relative z-10"
@@ -152,7 +180,14 @@ const IndexPage = () => {
               <div className="text-gray-500 p-4">
                 AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。
               </div>
-              <div className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg">3D WebXR Template</div>
+              <div
+                className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg"
+                css={css`
+                  font-family: 'Lato', sans-serif;
+                `}
+              >
+                3D WebXR Template
+              </div>
               <div className="flex justify-center">
                 <TwitterTweetEmbed
                   tweetId="1279046962025652225"
@@ -240,7 +275,7 @@ const IndexPage = () => {
         </div>
       </div>
       <div id="footer" className="flex items-center justify-center flex-wrap bg-primary p-2 text-white text-sm bottom-0 w-full mt-4">
-        <span className="">© 2020 Asymmatrix AÖ</span>
+        <span className="">© 2020 Asymmatrix OÜ</span>
       </div>
     </div>
   )
