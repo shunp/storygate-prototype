@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react'
 import Geocode from 'react-geocode'
+import Header from 'src/components/Header/index'
+import { Link } from 'gatsby'
 
 Geocode.setApiKey(process.env.GATSBY_MAP_API_KEY)
 // Geocode.fromLatLng('48.8583701', '2.2922926').then(
@@ -83,15 +85,18 @@ const MapPage = ({ google }) => {
 
   const TargetInfo = () => {
     return (
-      <div className="flex justify-center items-center flex-col">
-        <img src={targetUser.img} alt="" className="w-20" />
-        <div className="text-gray-600 mt-1">{targetUser.name}</div>
-      </div>
+      <Link to="/owner">
+        <div className="flex justify-center items-center flex-col">
+          <img src={targetUser.img} alt="" className="w-20" />
+          <div className="text-gray-600 mt-1">{targetUser.name}</div>
+        </div>
+      </Link>
     )
   }
 
   return (
     <>
+      <Header />
       <div>
         <Map
           google={google}

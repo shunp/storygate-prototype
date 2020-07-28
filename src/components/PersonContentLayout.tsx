@@ -8,8 +8,8 @@ const useWindowSize = () => {
 
   const getSize = () => {
     return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined
+      width: isClient ? window.innerWidth : 340,
+      height: isClient ? window.innerHeight : 200
     }
   }
   const [windowSize, setWindowSize] = React.useState(getSize)
@@ -149,6 +149,17 @@ const PersonContentLayout = ({ openTab }) => {
               より専門性を深めるため、アジアトップクラスの大学にて修行することを決意。Asia Future
               Leadersの100人にアジアから選出。3D技術、ディープラーニング、そしてブロックチェーンを使い、仮想空間には何が必要か技術的に探究予定。to
               be continued...
+            </div>
+          </div>
+          <div className={openTab === 3 ? 'block' : 'hidden'} id="link3">
+            <div className="font-semibold italic text-primary text-center py-3 shadow-lg">
+              <a href="#">西野亮廣エンタメ研究所 (70,000人)</a>
+            </div>
+            <div className="font-semibold italic text-primary text-center py-3 shadow-lg">
+              <a href="#">StoryGate (15人)</a>
+            </div>
+            <div className="font-semibold italic text-primary text-center py-3 shadow-lg">
+              <a href="#">香港日本人エンジニア会 (40人)</a>
             </div>
           </div>
         </div>
