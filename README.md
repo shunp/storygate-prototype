@@ -11,7 +11,7 @@ This is a repository that is sandbox for public discussion, which is NOT the mai
 
 ## 🗒️ Features
 
-:white_check_mark: Three.js
+:white_check_mark: React
 
 :white_check_mark: TypeScript
 
