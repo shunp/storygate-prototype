@@ -1,5 +1,26 @@
 import * as React from 'react'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react'
+import Geocode from 'react-geocode'
+
+Geocode.setApiKey(process.env.GATSBY_MAP_API_KEY)
+// Geocode.fromLatLng('48.8583701', '2.2922926').then(
+//   response => {
+//     const address = response.results[0].formatted_address
+//     console.log(address)
+//   },
+//   error => {
+//     console.error(error)
+//   }
+// )
+// Geocode.fromAddress('足立区').then(
+//   response => {
+//     const { lat, lng } = response.results[0].geometry.location
+//     console.log(lat, lng)
+//   },
+//   error => {
+//     console.error(error)
+//   }
+// )
 
 interface User {
   id: string

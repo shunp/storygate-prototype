@@ -3,6 +3,7 @@ import { css } from '@emotion/core'
 import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faMapMarkerAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'gatsby'
 
 const TopMenuBase = () => {
   return (
@@ -13,15 +14,17 @@ const TopMenuBase = () => {
       </div>
       <div className="menu">
         <div className="flex-col">
-          <div
-            className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-            css={css`
-              font-family: 'Lato', sans-serif;
-            `}
-          >
-            <FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />
-            FriendMap
-          </div>
+          <Link to="/map">
+            <div
+              className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
+              css={css`
+                font-family: 'Lato', sans-serif;
+              `}
+            >
+              <FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />
+              FriendMap
+            </div>
+          </Link>
           <div
             className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
             css={css`
