@@ -2,7 +2,7 @@ import * as React from 'react'
 import { css } from '@emotion/core'
 import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faMapMarkerAlt, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
 
 const MapMenuBox = () => {
@@ -37,6 +37,22 @@ const SearchMenuBox = () => {
   )
 }
 
+const EditMenuBox = () => {
+  return (
+    <Link to="/list">
+      <div
+        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
+        css={css`
+          font-family: 'Lato', sans-serif;
+        `}
+      >
+        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
+        Edit
+      </div>
+    </Link>
+  )
+}
+
 const TopMenuBase = () => {
   return (
     <div className="menu-wrap">
@@ -48,6 +64,7 @@ const TopMenuBase = () => {
         <div className="flex-col">
           <MapMenuBox />
           <SearchMenuBox />
+          <EditMenuBox />
           <div className="text-sm text-gray-600 mt-20 p-3 border border-gray-400 rounded">
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1 text-gray-600" />
             Logout
