@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 
-const CaptionIntroduction = () => {
+export interface CaptionIntroductionProps {
+  introduction: string
+}
+const CaptionIntroduction: React.FC<CaptionIntroductionProps> = ({ introduction }) => {
   return (
     <div id="profile-introduction" className="mt-2">
       <span
@@ -11,7 +14,7 @@ const CaptionIntroduction = () => {
           font-style: normal;
         `}
       >
-        BlockchainやWebGLなど / AWS Best Architecture 2018 / 書籍「Solidityプログラミング」発売中 / 秋から香港で仮想世界構築の研究
+        {introduction}
       </span>
     </div>
   )
