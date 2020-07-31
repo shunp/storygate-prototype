@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 interface EditButtonProps {
-  ClearButton: React.FC
-  DoneButton: React.FC
+  ClearButton: React.FC<any>
+  DoneButton: React.FC<any>
 }
 const EditButton: React.FC<EditButtonProps> = ({ ClearButton, DoneButton }) => {
   return (
