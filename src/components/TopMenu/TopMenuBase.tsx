@@ -4,6 +4,7 @@ import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
+import { toggleEditCaption } from 'src/state/app'
 
 const MapMenuBox = () => {
   return (
@@ -15,7 +16,7 @@ const MapMenuBox = () => {
         `}
       >
         <FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />
-        FriendMap
+        フレンドマップ
       </div>
     </Link>
   )
@@ -31,15 +32,21 @@ const SearchMenuBox = () => {
         `}
       >
         <FontAwesomeIcon icon={faSearch} size="sm" className="mr-2" />
-        Search
+        キーワード検索
       </div>
     </Link>
   )
 }
 
-const EditMenuBox = () => {
+const EditCaptionBox = ({ dispatch }) => {
+  const startEditingCaption = () => {
+    dispatch(toggleEditCaption())
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
   return (
-    <Link to="/list">
+    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
       <div
         className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
         css={css`
@@ -47,16 +54,82 @@ const EditMenuBox = () => {
         `}
       >
         <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
-        Edit
+        プロフィール編集
       </div>
-    </Link>
+    </button>
   )
 }
 
-const TopMenuBase = () => {
+const EditPortfolioBox = ({ dispatch }) => {
+  const startEditingCaption = () => {
+    dispatch(toggleEditCaption())
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
+      <div
+        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
+        css={css`
+          font-family: 'Lato', sans-serif;
+        `}
+      >
+        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
+        ポートフォリオ編集
+      </div>
+    </button>
+  )
+}
+
+const EditStoryBox = ({ dispatch }) => {
+  const startEditingCaption = () => {
+    dispatch(toggleEditCaption())
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
+      <div
+        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
+        css={css`
+          font-family: 'Lato', sans-serif;
+        `}
+      >
+        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
+        ストーリー編集
+      </div>
+    </button>
+  )
+}
+
+const EditCommunityBox = ({ dispatch }) => {
+  const startEditingCaption = () => {
+    dispatch(toggleEditCaption())
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
+      <div
+        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
+        css={css`
+          font-family: 'Lato', sans-serif;
+        `}
+      >
+        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
+        コミュニティ編集
+      </div>
+    </button>
+  )
+}
+
+const TopMenuBase = ({ dispatch }) => {
   return (
     <div className="menu-wrap">
-      <input type="checkbox" className="toggler" />
+      <input id="top-menu-toggle" type="checkbox" className="toggler" />
       <div className="hamburger">
         <div />
       </div>
@@ -64,7 +137,10 @@ const TopMenuBase = () => {
         <div className="flex-col">
           <MapMenuBox />
           <SearchMenuBox />
-          <EditMenuBox />
+          <EditCaptionBox dispatch={dispatch} />
+          <EditPortfolioBox dispatch={dispatch} />
+          <EditStoryBox dispatch={dispatch} />
+          <EditCommunityBox dispatch={dispatch} />
           <div className="text-sm text-gray-600 mt-20 p-3 border border-gray-400 rounded">
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1 text-gray-600" />
             Logout

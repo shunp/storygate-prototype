@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { toggleEditCaption } from 'src/state/app'
 import CaptionWrapper from './CaptionWrapper'
 import CaptionMain from './CaptionMain'
 import CaptionName from './CaptionName'
@@ -7,32 +8,34 @@ import CaptionTitle from './CaptionTitle'
 import CaptionIntroduction from './CaptionIntroduction'
 import EditCaptionName from './edit/EditCaptionName'
 import EditCaptionTitle from './edit/EditCaptionTitle'
+import EditCaptionLocation from './edit/EditCaptionLocation'
 
-const CaptionBase = () => {
+const CaptionBase = ({ editingCaption, dispatch }) => {
   // TODO: DB
-  const data = { name: '小池 駿平', title: 'Software Engineer' }
+  const data = { name: '小池 駿平', title: 'Software Engineer', location: '足立区六町' }
   // TODO: state
-  const [editting, setEditting] = React.useState(true)
+  // const [editing, setEditing] = React.useState(true)
   const [inputName, setInputName] = React.useState('')
   const [inputTitle, setInputTitle] = React.useState('')
+  const [inputLocation, setInputLocation] = React.useState('')
 
-  const doneEditting = () => {
+  const doneEditing = () => {
     // save inputName
-    setEditting(false)
+    dispatch(toggleEditCaption())
   }
 
-  const resetEditting = () => {
-    setEditting(false)
+  const resetEditing = () => {
+    dispatch(toggleEditCaption())
   }
 
-  if (editting) {
+  if (editingCaption) {
     return (
       <>
         <div className="float-left mt-20 ml-2">
           <button
             type="button"
             className="text-negative bg-transparent text-xs font-bold uppercase px-2 py-2 rounded"
-            onClick={resetEditting}
+            onClick={resetEditing}
           >
             Clear
           </button>
@@ -41,7 +44,7 @@ const CaptionBase = () => {
           <button
             type="button"
             className="text-positive bg-transparent text-xs font-bold uppercase px-2 py-2 rounded"
-            onClick={doneEditting}
+            onClick={doneEditing}
           >
             Done
           </button>
@@ -49,6 +52,7 @@ const CaptionBase = () => {
         <CaptionWrapper>
           <EditCaptionName name={data.name} inputName={inputName} setInputName={setInputName} />
           <EditCaptionTitle title={data.title} inputTitle={inputTitle} setInputTitle={setInputTitle} />
+          <EditCaptionLocation location={data.location} inputLocation={inputLocation} setInputLocation={setInputLocation} />
         </CaptionWrapper>
       </>
     )

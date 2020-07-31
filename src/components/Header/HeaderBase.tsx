@@ -4,7 +4,7 @@ import LoginUserIcon from './LoginUserIcon'
 import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 
-const HeaderBase = () => {
+const HeaderBase = ({ dispatch }) => {
   return (
     <NavWrapper>
       <LoginUserIcon />
@@ -12,7 +12,7 @@ const HeaderBase = () => {
       <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-black border-white border rounded">
         ...
       </button>
-      <TopMenuBase />
+      <TopMenuBase dispatch={dispatch} />
     </NavWrapper>
   )
 }
