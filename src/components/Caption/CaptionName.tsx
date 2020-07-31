@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 
-const CaptionName = () => {
+export interface CaptionNameProps {
+  name: string
+}
+const CaptionName: React.FC<CaptionNameProps> = ({ name }) => {
   return (
     <div id="profile-name" className="mt-2">
       <span
@@ -11,7 +14,7 @@ const CaptionName = () => {
           font-style: normal;
         `}
       >
-        小池 駿平
+        {name}
       </span>
     </div>
   )
