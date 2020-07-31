@@ -9,18 +9,24 @@ import CaptionIntroduction from './CaptionIntroduction'
 import EditCaptionName from './edit/EditCaptionName'
 import EditCaptionTitle from './edit/EditCaptionTitle'
 import EditCaptionLocation from './edit/EditCaptionLocation'
+import EditCaptionProfileImg from './edit/EditCaptionProfileImg'
 
 const CaptionBase = ({ editingCaption, dispatch }) => {
   // TODO: DB
-  const data = { name: '小池 駿平', title: 'Software Engineer', location: '足立区六町' }
-  // TODO: state
-  // const [editing, setEditing] = React.useState(true)
+  const data = {
+    name: '小池 駿平',
+    title: 'Software Engineer',
+    location: 'Hong Kong',
+    pic:
+      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/1sLl53hRd7Z0LDksz9iB%2Fprofile.jpg?alt=media&token=2e5eda6a-07c8-4fd4-bbc1-1a5a30f455f4'
+  }
+
   const [inputName, setInputName] = React.useState('')
   const [inputTitle, setInputTitle] = React.useState('')
   const [inputLocation, setInputLocation] = React.useState('')
 
   const doneEditing = () => {
-    // save inputName
+    // TODO: firebase
     dispatch(toggleEditCaption())
   }
 
@@ -50,6 +56,7 @@ const CaptionBase = ({ editingCaption, dispatch }) => {
           </button>
         </div>
         <CaptionWrapper>
+          <EditCaptionProfileImg profileImg={data.pic} />
           <EditCaptionName name={data.name} inputName={inputName} setInputName={setInputName} />
           <EditCaptionTitle title={data.title} inputTitle={inputTitle} setInputTitle={setInputTitle} />
           <EditCaptionLocation location={data.location} inputLocation={inputLocation} setInputLocation={setInputLocation} />
@@ -59,9 +66,9 @@ const CaptionBase = ({ editingCaption, dispatch }) => {
   }
   return (
     <CaptionWrapper>
-      <CaptionMain />
+      <CaptionMain profileImg={data.pic} />
       <CaptionName name={data.name} />
-      <CaptionLocation />
+      <CaptionLocation location={data.location} />
       <CaptionTitle title={data.title} />
       <CaptionIntroduction />
     </CaptionWrapper>
