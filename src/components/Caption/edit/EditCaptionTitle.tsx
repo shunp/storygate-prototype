@@ -1,8 +1,11 @@
 import * as React from 'react'
-import { CaptionTitleProps } from '../CaptionTitle'
 
-const EditCaptionTitle: React.FC<CaptionTitleProps> = ({ title }) => {
-  const [inputTitle, setInputTitle] = React.useState('')
+interface EditCaptionTitleProps {
+  title: string
+  inputTitle: string
+  setInputTitle: any
+}
+const EditCaptionTitle: React.FC<EditCaptionTitleProps> = ({ title, inputTitle, setInputTitle }) => {
   React.useEffect(() => {
     setInputTitle(title)
   }, [title])

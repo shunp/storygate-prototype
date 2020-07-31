@@ -1,9 +1,13 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
-import { CaptionNameProps } from '../CaptionName'
 
-const EditCapionName: React.FC<CaptionNameProps> = ({ name }) => {
-  const [inputName, setInputName] = React.useState('')
+interface EditCaptionNameProps {
+  name: string
+  inputName: string
+  setInputName: any
+}
+
+const EditCaptionName: React.FC<EditCaptionNameProps> = ({ name, inputName, setInputName }) => {
   React.useEffect(() => {
     setInputName(name)
   }, [name])
@@ -21,4 +25,4 @@ const EditCapionName: React.FC<CaptionNameProps> = ({ name }) => {
   )
 }
 
-export default EditCapionName
+export default EditCaptionName
