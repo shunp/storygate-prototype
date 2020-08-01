@@ -4,9 +4,9 @@ export class PersonModel implements Person {
   constructor(
     private _name: string,
     private _title: string,
+    private _introduction: string,
     private _location: string,
-    private _pic: string,
-    private _introduction: string
+    private _pic: string
   ) {}
 
   static empty(): Person {

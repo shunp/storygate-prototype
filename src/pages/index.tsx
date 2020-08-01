@@ -22,10 +22,7 @@ const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
   const [person, setPerson] = React.useState<Person>(PersonServiceImpl.emptyPerson())
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
-    const initialize = async () => {
-      setPerson(await PersonServiceImpl.fetchPersonById('owner'))
-    }
-    initialize()
+    PersonServiceImpl.fetchPersonById('owner').then(fetchedPerson => setPerson(fetchedPerson))
   }, [])
 
   return (
@@ -33,7 +30,7 @@ const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
       <Header dispatch={dispatch} />
       <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
-      <PersonContentLayout openTab={openTab} />
+      <PersonContentLayout openTab={openTab} editingStory={false} dispatch={dispatch} />
       <Footer />
     </div>
   )

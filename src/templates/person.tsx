@@ -17,9 +17,10 @@ import { Person } from 'src/services/interfaces/Person'
 interface PageContext {
   pageId: string
   ownerUid: string
-  username: string
+  name: string
   title: string
   introduction: string
+  location: string
 }
 interface PersonPageProps {
   pageContext: PageContext
@@ -28,14 +29,12 @@ interface PersonPageProps {
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, editingStory, dispatch }) => {
+  const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
-  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.emptyPerson())
+  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.fromContext(name, title, introduction, location))
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
-    const initialize = async () => {
-      setPerson(await PersonServiceImpl.fetchPersonById(pageContext.pageId))
-    }
-    initialize()
+    PersonServiceImpl.fetchPersonById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
   }, [])
 
   return (

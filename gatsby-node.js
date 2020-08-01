@@ -16,12 +16,12 @@ const communityTemplate = path.resolve(`src/templates/community.tsx`)
 exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(`
     query {
-      allPageCaption {
+      allPersonCaption {
         edges {
           node {
             id
             ownerUid
-            username
+            name
             title
             introduction
           }
@@ -40,7 +40,7 @@ exports.createPages = async ({ graphql, actions }) => {
       backgroundImg: ''
     }
   ]
-  result.data.allPageCaption.edges.forEach(edge => {
+  result.data.allPersonCaption.edges.forEach(edge => {
     const { node } = edge
     createPage({
       path: `/${node.id}`,
@@ -48,7 +48,7 @@ exports.createPages = async ({ graphql, actions }) => {
       context: {
         pageId: node.id,
         ownerUid: node.ownerUid,
-        username: node.username,
+        name: node.name,
         title: node.title,
         introduction: node.introduction,
         location: node.location
