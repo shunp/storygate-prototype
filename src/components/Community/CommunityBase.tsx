@@ -7,6 +7,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
 import CommunityBackground from './CommunityBackground'
 import CommunityCaption from './CommunityCaption'
+import SearchBar from '../SearchBar'
+import TitleLine from '../TitleLine'
 
 const Members = ({ members, filterWords }) => {
   return members
@@ -36,10 +38,9 @@ const Member = ({ id, name, title, pageId, pic }) => {
   )
 }
 
-const CommunityBase = () => {
+const CommunityBase = ({ name, number, introduction, backgroundImg }) => {
   // TODO: fetched data
   // TODO: filter
-  const community = { title: '西野亮廣エンタメ研究所', number: 70000, pic1: '', pic2: '' }
   const members = [
     {
       id: '1',
@@ -159,27 +160,9 @@ const CommunityBase = () => {
     <>
       <div className="flex justify-center items-center flex-col mt-16">
         <CommunityBackground />
-        <CommunityCaption title={community.title} number={community.number} />
-        <div id="search-title" className="flex flex-col w-full mt-2">
-          <div
-            className="font-semibold italic bg-primary text-white text-center py-2 shadow-lg text-lg"
-            css={css`
-              font-family: 'Lato', sans-serif;
-            `}
-          >
-            <FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />
-            Search
-          </div>
-        </div>
-        <div id="search-bar" className="flex flex-col w-full shadow-lg text-gray-600">
-          <input
-            type="search"
-            placeholder="name / job / hobby etc..."
-            className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
-            value={searchWord}
-            onChange={e => filter(e.target.value)}
-          />
-        </div>
+        <CommunityCaption name={name} num={number} />
+        <TitleLine title="Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
+        <SearchBar searchWord={searchWord} filter={filter} />
         <div id="search-result" className="flex flex-wrap w-full">
           <Members members={members} filterWords={filterWords} />
         </div>

@@ -4,6 +4,7 @@ import { TwitterTweetEmbed } from 'react-twitter-embed'
 import InstagramEmbed from 'react-instagram-embed'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
+import TitleLine from './TitleLine'
 
 const useWindowSize = () => {
   const isClient = typeof window === 'object'
@@ -32,19 +33,6 @@ const useWindowSize = () => {
   return windowSize
 }
 
-const ContentTitle = ({ title }) => {
-  return (
-    <div
-      className="font-semibold italic bg-primary text-white text-center py-3 shadow-lg"
-      css={css`
-        font-family: 'Lato', sans-serif;
-      `}
-    >
-      {title}
-    </div>
-  )
-}
-
 const ContentExplanation = ({ text }) => {
   return <div className="text-gray-500 p-4">{text}</div>
 }
@@ -59,7 +47,7 @@ interface ContentProps {
 const YouTubeContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
   return (
     <>
-      <ContentTitle title={title} />
+      <TitleLine title={title} />
       <div className="flex justify-center">
         <iframe
           className="relative z-10"
@@ -79,7 +67,7 @@ const YouTubeContent: React.FC<ContentProps> = ({ title, contentKey, text, size 
 const TwitterContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
   return (
     <>
-      <ContentTitle title={title} />
+      <TitleLine title={title} />
       <div className="flex justify-center">
         <TwitterTweetEmbed
           tweetId={contentKey}
@@ -103,7 +91,7 @@ const TwitterContent: React.FC<ContentProps> = ({ title, contentKey, text, size 
 const FacebookContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
   return (
     <>
-      <ContentTitle title={title} />
+      <TitleLine title={title} />
       <div className="flex justify-center">
         <iframe
           title="facebook"
@@ -124,7 +112,7 @@ const FacebookContent: React.FC<ContentProps> = ({ title, contentKey, text, size
 const InstagramContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
   return (
     <>
-      <ContentTitle title={title} />
+      <TitleLine title={title} />
       <div className="flex justify-center">
         <InstagramEmbed
           url={`https://www.instagram.com/p/${contentKey}/`}
@@ -146,7 +134,7 @@ const InstagramContent: React.FC<ContentProps> = ({ title, contentKey, text, siz
 const TextContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
   return (
     <>
-      <ContentTitle title={title} />
+      <TitleLine title={title} />
       <div className="flex justify-center">
         <span className="text-lg font-bold text-gray-600 mt-4">{contentKey}</span>
       </div>
