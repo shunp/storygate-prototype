@@ -11,8 +11,12 @@ import PersonTabLayout from 'src/components/PersonTabLayout'
 import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import { Person } from 'src/services/interfaces/Person'
+import { State } from 'src/state'
 import { applyTheme } from '../themes/utils'
 
+interface PagesState {
+  editingCaption: boolean
+}
 interface PagesProps {
   editingCaption: boolean
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
@@ -36,7 +40,7 @@ const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
   )
 }
 
-export default connect(
+export default connect<PagesState, null, {}, State>(
   state => ({
     editingCaption: state.app.editingCaption
   }),

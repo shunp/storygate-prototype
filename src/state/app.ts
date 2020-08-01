@@ -1,6 +1,10 @@
 import { AnyAction } from 'redux'
 
-const initialState = {
+export interface AppState {
+  editingCaption: boolean
+  editingStory: boolean
+}
+const initialState: AppState = {
   editingCaption: false,
   editingStory: false
 }

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
 
+import { State } from 'src/state'
 import { PersonServiceImpl } from 'src/services/PersonService'
 
 import Header from 'src/components/Header/index'
@@ -21,6 +22,10 @@ interface PageContext {
   title: string
   introduction: string
   location: string
+}
+interface PersonPageState {
+  editingCaption: boolean
+  editingStory: boolean
 }
 interface PersonPageProps {
   pageContext: PageContext
@@ -48,7 +53,7 @@ const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, ed
   )
 }
 
-export default connect(
+export default connect<PersonPageState, null, {}, State>(
   state => ({
     editingCaption: state.app.editingCaption,
     editingStory: state.app.editingStory
