@@ -10,8 +10,6 @@ import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
 
 const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
-  console.log('dispatch', dispatch)
-  console.log('edittingCaption', editingCaption)
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])

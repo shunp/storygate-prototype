@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
 import CommunityBackground from './CommunityBackground'
+import CommunityCaption from './CommunityCaption'
 
 const Members = ({ members, filterWords }) => {
   return members
@@ -158,8 +159,7 @@ const CommunityBase = () => {
     <>
       <div className="flex justify-center items-center flex-col mt-16">
         <CommunityBackground />
-        <div className="font-bold text-2xl">{community.title}</div>
-        <div className="text-gray-500">{community.number} 人参加</div>
+        <CommunityCaption title={community.title} number={community.number} />
         <div id="search-title" className="flex flex-col w-full mt-2">
           <div
             className="font-semibold italic bg-primary text-white text-center py-2 shadow-lg text-lg"

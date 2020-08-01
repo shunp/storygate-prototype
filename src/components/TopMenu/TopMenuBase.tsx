@@ -6,7 +6,7 @@ import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/fre
 import { Link } from 'gatsby'
 import { toggleEditCaption } from 'src/state/app'
 
-const MapMenuBox = () => {
+const MapMenuButton = () => {
   return (
     <Link to="/map">
       <div
@@ -22,7 +22,7 @@ const MapMenuBox = () => {
   )
 }
 
-const SearchMenuBox = () => {
+const SearchMenuButton = () => {
   return (
     <Link to="/list">
       <div
@@ -38,7 +38,7 @@ const SearchMenuBox = () => {
   )
 }
 
-const EditCaptionBox = ({ dispatch }) => {
+const EditCaptionButton = ({ dispatch }) => {
   const startEditingCaption = () => {
     dispatch(toggleEditCaption())
     if (document.getElementById('top-menu-toggle')) {
@@ -60,7 +60,7 @@ const EditCaptionBox = ({ dispatch }) => {
   )
 }
 
-const EditPortfolioBox = ({ dispatch }) => {
+const EditPortfolioButton = ({ dispatch }) => {
   const startEditingCaption = () => {
     dispatch(toggleEditCaption())
     if (document.getElementById('top-menu-toggle')) {
@@ -82,7 +82,7 @@ const EditPortfolioBox = ({ dispatch }) => {
   )
 }
 
-const EditStoryBox = ({ dispatch }) => {
+const EditStoryButton = ({ dispatch }) => {
   const startEditingCaption = () => {
     dispatch(toggleEditCaption())
     if (document.getElementById('top-menu-toggle')) {
@@ -104,7 +104,7 @@ const EditStoryBox = ({ dispatch }) => {
   )
 }
 
-const EditCommunityBox = ({ dispatch }) => {
+const EditCommunityButton = ({ dispatch }) => {
   const startEditingCaption = () => {
     dispatch(toggleEditCaption())
     if (document.getElementById('top-menu-toggle')) {
@@ -135,12 +135,12 @@ const TopMenuBase = ({ dispatch }) => {
       </div>
       <div className="menu">
         <div className="flex-col">
-          <MapMenuBox />
-          <SearchMenuBox />
-          <EditCaptionBox dispatch={dispatch} />
-          <EditPortfolioBox dispatch={dispatch} />
-          <EditStoryBox dispatch={dispatch} />
-          <EditCommunityBox dispatch={dispatch} />
+          <MapMenuButton />
+          <SearchMenuButton />
+          <EditCaptionButton dispatch={dispatch} />
+          <EditPortfolioButton dispatch={dispatch} />
+          <EditStoryButton dispatch={dispatch} />
+          <EditCommunityButton dispatch={dispatch} />
           <div className="text-sm text-gray-600 mt-20 p-3 border border-gray-400 rounded">
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1 text-gray-600" />
             Logout
