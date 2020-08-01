@@ -14,18 +14,23 @@ const personTemplate = path.resolve(`src/templates/person.tsx`)
 const communityTemplate = path.resolve(`src/templates/community.tsx`)
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
-  // TODO: DB
-  const persons = [
-    {
-      pageId: 'owner',
-      ownerUid: '1',
-      username: '小池 駿平',
-      title: 'Software Engineer',
-      introduction:
-        'BlockchainやWebGLなど / AWS Best Architecture 2018 / 書籍「Solidityプログラミング」 / アートブロックチェーンネットワークや仮想世界つくってます'
+  const result = await graphql(`
+    query {
+      allPageCaption {
+        edges {
+          node {
+            id
+            ownerUid
+            username
+            title
+            introduction
+          }
+        }
+      }
     }
-  ]
+  `)
+
+  const { createPage } = actions
   const communities = [
     {
       pageId: 'nishinosalon',
@@ -35,14 +40,13 @@ exports.createPages = async ({ graphql, actions }) => {
       backgroundImg: ''
     }
   ]
-  // result.data.allPageCaption.edges.forEach(edge => {
-  // const { node } = edge
-  persons.forEach(node => {
+  result.data.allPageCaption.edges.forEach(edge => {
+    const { node } = edge
     createPage({
-      path: `/${node.pageId}`,
+      path: `/${node.id}`,
       component: personTemplate,
       context: {
-        pageId: node.pageId,
+        pageId: node.id,
         ownerUid: node.ownerUid,
         username: node.username,
         title: node.title,

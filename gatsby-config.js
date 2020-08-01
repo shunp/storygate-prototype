@@ -1,7 +1,7 @@
 const dotenv = require('dotenv')
 const path = require('path')
 
-dotenv.config({ path: `env/.${process.env.BRANCH === 'master' ? 'master' : 'develop'}` })
+dotenv.config({ path: `env/.${process.env.BRANCH === 'master' ? 'master' : 'master'}` })
 
 module.exports = {
   siteMetadata: {
@@ -56,6 +56,55 @@ module.exports = {
         display: `standalone`,
         icon: `src/images/sg_icon_trans.png`,
         cache_busting_mode: 'none'
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-firebase',
+      options: {
+        credentials: {
+          apiKey: process.env.FIREBASE_API_KEY,
+          authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+          databaseURL: process.env.FIREBASE_DATABASE_URL,
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+          messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+          appId: process.env.FIREBASE_APP_ID,
+          measurementId: process.env.FIREBASE_MEASUREMENT_ID
+        }
+      }
+    },
+    {
+      resolve: 'gatsby-source-firestore',
+      options: {
+        credential: JSON.parse(process.env.FIREBASE_CREDENTIAL),
+        types: [
+          {
+            type: 'PageCaption',
+            collection: 'v2/proto/pageCaptions',
+            map: doc => ({
+              ownerUid: doc.ownerUid,
+              username: doc.username,
+              title: doc.title,
+              introduction: doc.introduction
+            })
+          }
+        ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-netlify`,
+      options: {
+        headers: {
+          '/*.html': ['cache-control: public, max-age=0, must-revalidate'],
+          '/page-data/app-data.json': ['cache-control: public, max-age=0, must-revalidate'],
+          '/page-data/*': ['cache-control: public, max-age=0, must-revalidate'],
+          '/icons/*': ['cache-control: public, max-age=31536000, immutable'],
+          '/models/*': ['cache-control: public, max-age=31536000, immutable'],
+          '/textures/*': ['cache-control: public, max-age=31536000, immutable'],
+          '/sw.js': ['cache-control: public, max-age=0, must-revalidate'],
+          '/**/*.js': ['cache-control: public, max-age=31536000, immutable'],
+          '/**/*.css': ['cache-control: public, max-age=31536000, immutable']
+        }
       }
     }
   ]
