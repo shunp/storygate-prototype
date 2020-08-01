@@ -5,6 +5,7 @@ import InstagramEmbed from 'react-instagram-embed'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
 import { toggleEditStory } from 'src/state/app'
+import { AnyAction } from 'redux'
 import TitleLine from './TitleLine'
 import EditButton from './EditButton'
 import ClearButton from './ClearButton'
@@ -251,8 +252,12 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
     </div>
   )
 }
-
-const PersonContentLayout = ({ openTab, editingStory, dispatch }) => {
+interface PersonContentLayoutProps {
+  openTab: number
+  editingStory: boolean
+  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
+}
+const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({ openTab, editingStory, dispatch }) => {
   const size = useWindowSize()
 
   return (
