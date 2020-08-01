@@ -12,6 +12,7 @@ import PersonTabLayout from 'src/components/PersonTabLayout'
 import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
+import { Person } from 'src/services/interfaces/Person'
 
 interface PageContext {
   pageId: string
@@ -27,15 +28,20 @@ interface PersonPageProps {
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, editingStory, dispatch }) => {
+  const [openTab, setOpenTab] = React.useState(1)
+  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.emptyPerson())
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
+    const initialize = async () => {
+      setPerson(await PersonServiceImpl.fetchPersonById(pageContext.pageId))
+    }
+    initialize()
   }, [])
-  const [openTab, setOpenTab] = React.useState(1)
 
   return (
     <PageRoot>
       <Header dispatch={dispatch} />
-      <Caption data={PersonServiceImpl.fetchPersonById(pageContext.pageId)} editingCaption={editingCaption} dispatch={dispatch} />
+      <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout openTab={openTab} editingStory={editingStory} dispatch={dispatch} />
       <Footer />

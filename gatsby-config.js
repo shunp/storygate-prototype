@@ -85,7 +85,8 @@ module.exports = {
               ownerUid: doc.ownerUid,
               username: doc.username,
               title: doc.title,
-              introduction: doc.introduction
+              introduction: doc.introduction,
+              location: doc.location
             })
           }
         ]

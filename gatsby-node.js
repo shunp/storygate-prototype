@@ -50,7 +50,8 @@ exports.createPages = async ({ graphql, actions }) => {
         ownerUid: node.ownerUid,
         username: node.username,
         title: node.title,
-        introduction: node.introduction
+        introduction: node.introduction,
+        location: node.location
       }
     })
   })

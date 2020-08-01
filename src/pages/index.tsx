@@ -10,6 +10,7 @@ import Caption from 'src/components/Caption/index'
 import PersonTabLayout from 'src/components/PersonTabLayout'
 import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
+import { Person } from 'src/services/interfaces/Person'
 import { applyTheme } from '../themes/utils'
 
 interface PagesProps {
@@ -17,15 +18,20 @@ interface PagesProps {
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
+  const [openTab, setOpenTab] = React.useState(1)
+  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.emptyPerson())
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
+    const initialize = async () => {
+      setPerson(await PersonServiceImpl.fetchPersonById('owner'))
+    }
+    initialize()
   }, [])
-  const [openTab, setOpenTab] = React.useState(1)
 
   return (
     <div>
       <Header dispatch={dispatch} />
-      <Caption data={PersonServiceImpl.fetchPersonById()} editingCaption={editingCaption} dispatch={dispatch} />
+      <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout openTab={openTab} />
       <Footer />
