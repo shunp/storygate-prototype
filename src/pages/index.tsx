@@ -2,7 +2,7 @@ import * as React from 'react'
 import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
 
-import { PersonServiceImpl } from 'src/services/PersonService'
+import { PersonService } from 'src/services/PersonService'
 
 import { themes, DEFAULT_THEME } from 'src/themes'
 import Header from 'src/components/Header/index'
@@ -23,10 +23,10 @@ interface PagesProps {
 }
 const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
   const [openTab, setOpenTab] = React.useState(1)
-  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.emptyPerson())
+  const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
-    PersonServiceImpl.fetchPersonById('owner').then(fetchedPerson => setPerson(fetchedPerson))
+    PersonService.fetchById('owner').then(fetchedPerson => setPerson(fetchedPerson))
   }, [])
 
   return (

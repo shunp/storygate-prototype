@@ -88,6 +88,14 @@ module.exports = {
               introduction: doc.introduction,
               location: doc.location
             })
+          },
+          {
+            type: 'CommunityCaption',
+            collection: 'v2/proto/communityCaptions',
+            map: doc => ({
+              name: doc.name,
+              introduction: doc.introduction
+            })
           }
         ]
       }

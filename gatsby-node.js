@@ -14,7 +14,7 @@ const personTemplate = path.resolve(`src/templates/person.tsx`)
 const communityTemplate = path.resolve(`src/templates/community.tsx`)
 
 exports.createPages = async ({ graphql, actions }) => {
-  const result = await graphql(`
+  const resultPerson = await graphql(`
     query {
       allPersonCaption {
         edges {
@@ -29,21 +29,25 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `)
+  const resultCommunity = await graphql(`
+    query {
+      allCommunityCaption {
+        edges {
+          node {
+            id
+            name
+            introduction
+          }
+        }
+      }
+    }
+  `)
 
   const { createPage } = actions
-  const communities = [
-    {
-      pageId: 'nishinosalon',
-      name: '西野亮廣エンタメ研究所',
-      number: 69000,
-      introduction: 'このグループには西野亮廣エンタメ研究所のサロンメンバーのみが参加しています。',
-      backgroundImg: ''
-    }
-  ]
-  result.data.allPersonCaption.edges.forEach(edge => {
+  resultPerson.data.allPersonCaption.edges.forEach(edge => {
     const { node } = edge
     createPage({
-      path: `/${node.id}`,
+      path: `/persons/${node.id}`,
       component: personTemplate,
       context: {
         pageId: node.id,
@@ -56,16 +60,16 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  communities.forEach(node => {
+  resultCommunity.data.allCommunityCaption.edges.forEach(edge => {
+    const { node } = edge
+    const { id, name, introduction } = node
     createPage({
-      path: `/${node.pageId}`,
+      path: `/communities/${node.id}`,
       component: communityTemplate,
       context: {
-        pageId: node.pageId,
-        name: node.name,
-        number: node.number,
-        introduction: node.introduction,
-        backgroundImg: node.backgroundImg
+        pageId: id,
+        name,
+        introduction
       }
     })
   })

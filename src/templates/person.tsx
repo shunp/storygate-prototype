@@ -3,7 +3,7 @@ import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
 
 import { State } from 'src/state'
-import { PersonServiceImpl } from 'src/services/PersonService'
+import { PersonService } from 'src/services/PersonService'
 
 import Header from 'src/components/Header/index'
 import Caption from 'src/components/Caption/index'
@@ -36,10 +36,10 @@ interface PersonPageProps {
 const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, editingStory, dispatch }) => {
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
-  const [person, setPerson] = React.useState<Person>(PersonServiceImpl.fromContext(name, title, introduction, location))
+  const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
-    PersonServiceImpl.fetchPersonById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
+    PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
   }, [])
 
   return (
