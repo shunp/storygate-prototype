@@ -4,7 +4,7 @@ import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
-import { toggleEditCaption } from 'src/state/app'
+import { toggleEditCaption, toggleEditStory } from 'src/state/app'
 
 const MapMenuButton = () => {
   return (
@@ -83,14 +83,14 @@ const EditPortfolioButton = ({ dispatch }) => {
 }
 
 const EditStoryButton = ({ dispatch }) => {
-  const startEditingCaption = () => {
-    dispatch(toggleEditCaption())
+  const startEditingStory = () => {
+    dispatch(toggleEditStory())
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
   }
   return (
-    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
+    <button type="button" className="focus:outline-none" onClick={startEditingStory}>
       <div
         className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
         css={css`

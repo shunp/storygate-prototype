@@ -10,7 +10,7 @@ import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 
-const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
+const PersonPage = ({ pageContext, editingCaption, editingStory, dispatch }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -21,7 +21,7 @@ const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
       <Header dispatch={dispatch} />
       <Caption editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
-      <PersonContentLayout openTab={openTab} />
+      <PersonContentLayout openTab={openTab} editingStory={editingStory} dispatch={dispatch} />
       <Footer />
     </PageRoot>
   )
@@ -29,7 +29,8 @@ const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
 
 export default connect(
   state => ({
-    editingCaption: state.app.editingCaption
+    editingCaption: state.app.editingCaption,
+    editingStory: state.app.editingStory
   }),
   null
 )(PersonPage)

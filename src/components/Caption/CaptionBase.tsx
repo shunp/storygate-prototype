@@ -44,7 +44,11 @@ const CaptionBase = ({ editingCaption, dispatch }) => {
   if (editingCaption) {
     return (
       <>
-        <EditButton ClearButton={<ClearButton onClick={resetEditing} />} DoneButton={<DoneButton onClick={doneEditing} />} />Ï
+        <EditButton
+          ClearButton={<ClearButton onClick={resetEditing} />}
+          DoneButton={<DoneButton onClick={doneEditing} />}
+          className="mt-20"
+        />
         <CaptionWrapper>
           <EditCaptionProfileImg profileImg={data.pic} />
           <EditCaptionName name={data.name} inputName={inputName} setInputName={setInputName} />
