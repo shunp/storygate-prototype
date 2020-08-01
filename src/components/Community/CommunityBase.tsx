@@ -31,8 +31,9 @@ const Members = ({ members, filterWords }) => {
 const Member = ({ id, name, title, pageId, pic }) => {
   return (
     <div className="p-3 w-1/3">
-      <Link to={`/persons/${pageId}`}>
+      <Link to={`/persons/${pageId}`} className="flex flex-col items-center">
         <img src={pic} width={140} className="w-24 h-24 rounded-full" />
+        <div>{name}</div>
       </Link>
     </div>
   )
