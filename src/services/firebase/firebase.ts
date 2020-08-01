@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
   firestore = firebase.firestore()
   firestore.settings({ timestampsInSnapshots: true })
   auth = firebase.auth()
+  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
   facebookProvider = new firebase.auth.FacebookAuthProvider()
 }
 

@@ -17,6 +17,10 @@ export const signInWithFacebook = async () => {
   const result = await auth.signInWithPopup(facebookProvider)
   return toCredential(result)
 }
+export const signUpWithFacebook = async () => {
+  const result = await auth.signInWithPopup(facebookProvider)
+  return result
+}
 
 export const signOut = () => auth.signOut()
 

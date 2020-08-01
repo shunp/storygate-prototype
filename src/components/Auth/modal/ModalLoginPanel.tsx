@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FacebookLoginButton } from 'src/components/Auth'
+import { FacebookLoginButton, InvitationLoginButton } from 'src/components/Auth'
 import { toggleLoginModal } from './utils'
 
 export const modalId = 'login-panel'
@@ -28,6 +28,13 @@ const ModalLoginPanel = ({ login }) => {
         <FacebookLoginButton login={login} />
       </div>
       <div className="border-solid border border-primary mx-8 my-6 lg:max-w-3xl lg:mx-auto" />
+
+      <div className="flex justify-center items-center">
+        <span className="bold text-gray-600 text-lg">Invitation Login</span>
+      </div>
+      <div className="flex justify-center items-center bg-gray-800 pb-4">
+        <InvitationLoginButton login={login} />
+      </div>
     </div>
   )
 }

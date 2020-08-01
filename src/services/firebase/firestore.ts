@@ -16,6 +16,10 @@ export interface CommunityCaption {
   introduction: string
   backgroundImg: string
 }
+export interface Invitation {
+  id: string
+  hostCommunity: string
+}
 
 export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(pageId)
@@ -46,4 +50,35 @@ export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCa
     members,
     backgroundImg: communityCaption.backgroundImg || ''
   }
+}
+
+export const fetchInvitation = async (invitationId: string): Promise<Invitation> => {
+  const docRef = firestore.collection('v2/proto/invitations').doc(invitationId)
+  const doc = await docRef.get()
+  const invitation = doc.data()
+  if (!invitation) {
+    return Promise.reject(new Error('Invitaion not found.'))
+  }
+  return {
+    id: doc.id,
+    hostCommunity: invitation.hostCommunity
+  }
+}
+
+export const addCommunityMember = async (communityId: string, uid: string) => {
+  const docRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
+  const doc = await docRef.get()
+  const communityCaption = doc.data() || {}
+  communityCaption.members.push(uid)
+  docRef.update(communityCaption)
+}
+
+export const addPersonPage = async (pageId: string, name: string, img: string) => {
+  firestore
+    .collection('v2/proto/personCaptions')
+    .doc(pageId)
+    .set({
+      name,
+      img
+    })
 }

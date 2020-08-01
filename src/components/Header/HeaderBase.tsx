@@ -9,6 +9,7 @@ import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 import ToggleLoginButton from './ToggleLoginButton'
 import LoginModal from '../Auth/modal/LoginModal'
+import { AuthService } from 'src/services/AuthService'
 
 interface HeaderStates {
   loginUser: LoginUser
@@ -19,6 +20,12 @@ interface HeaderDispatch {
 }
 type HeaderProps = HeaderStates & HeaderDispatch
 const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout, dispatch }) => {
+  if (!loginUser.loggedIn) {
+    const storedUser  = AuthService.loadStoredUser()
+    if(storedUser.loggedIn) {
+      login(storedUser)
+    }
+  }
   return (
     <>
       <NavWrapper>
@@ -32,8 +39,8 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout, dispatch 
             <TopMenuBase logout={logout} dispatch={dispatch} />
           </>
         ) : (
-          <ToggleLoginButton />
-        )}
+            <ToggleLoginButton />
+          )}
       </NavWrapper>
       <LoginModal login={login} />
     </>

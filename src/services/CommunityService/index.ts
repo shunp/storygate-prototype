@@ -1,5 +1,5 @@
 import { Community } from 'src/services/interfaces/Community'
-import { fetchCommunityCaption } from 'src/services/firebase/firestore'
+import { fetchCommunityCaption, addCommunityMember } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
 import { CommunityModel } from './CommunityModel'
 
@@ -21,6 +21,10 @@ class Service {
       members.map(member => PersonModel.fromCaption(member)),
       backgroundImg
     )
+  }
+
+  join = async (id: string, uid: string) => {
+    addCommunityMember(id, uid)
   }
 }
 
