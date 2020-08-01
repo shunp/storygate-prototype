@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 import Header from 'src/components/Header/index'
 import Footer from 'src/components/Footer'
 import Community from 'src/components/Community/index'
+import PageRoot from 'src/components/Root/PageRoot'
 
 const CommunityListPage = ({ pageContext, dispatch }) => {
-  console.log(pageContext)
-
   return (
-    <>
+    <PageRoot>
       <Header dispatch={dispatch} />
       <Community
         name={pageContext.name}
@@ -17,7 +16,7 @@ const CommunityListPage = ({ pageContext, dispatch }) => {
         backgroundImg={pageContext.backgroundImg}
       />
       <Footer />
-    </>
+    </PageRoot>
   )
 }
 

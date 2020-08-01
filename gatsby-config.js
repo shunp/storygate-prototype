@@ -12,7 +12,8 @@ module.exports = {
     author: {
       name: 'Shumpei Koike',
       url: 'https://twitter.com/shunpei42ba_'
-    }
+    },
+    lang: 'en'
   },
   plugins: [
     'gatsby-transformer-json',

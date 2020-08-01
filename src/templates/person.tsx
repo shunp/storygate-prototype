@@ -8,6 +8,7 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import PersonTabLayout from 'src/components/PersonTabLayout'
 import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
+import PageRoot from 'src/components/Root/PageRoot'
 
 const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
   React.useEffect(() => {
@@ -16,13 +17,13 @@ const PersonPage = ({ pageContext, editingCaption, dispatch }) => {
   const [openTab, setOpenTab] = React.useState(1)
 
   return (
-    <>
+    <PageRoot>
       <Header dispatch={dispatch} />
       <Caption editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout openTab={openTab} />
       <Footer />
-    </>
+    </PageRoot>
   )
 }
 
