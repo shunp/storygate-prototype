@@ -14,6 +14,7 @@ import PersonContentLayout from 'src/components/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
+import { LoginUser } from 'src/services/interfaces/Auth'
 
 interface PageContext {
   pageId: string
@@ -27,11 +28,14 @@ interface PersonPageState {
   editingCaption: boolean
   editingStory: boolean
 }
-interface PersonPageProps {
+interface PersonPageProps extends PersonPageDispatch {
   pageContext: PageContext
   editingCaption: boolean
   editingStory: boolean
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
+}
+interface PersonPageDispatch {
+  login: (loginUser: LoginUser) => void
 }
 const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, editingStory, dispatch }) => {
   const { pageId, name, title, introduction, location } = pageContext
@@ -44,7 +48,7 @@ const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, ed
 
   return (
     <PageRoot>
-      <Header dispatch={dispatch} />
+      <Header />
       <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout openTab={openTab} editingStory={editingStory} dispatch={dispatch} />

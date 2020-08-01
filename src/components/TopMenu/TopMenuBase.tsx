@@ -126,7 +126,7 @@ const EditCommunityButton = ({ dispatch }) => {
   )
 }
 
-const TopMenuBase = ({ dispatch }) => {
+const TopMenuBase = ({ logout, dispatch }) => {
   return (
     <div className="menu-wrap">
       <input id="top-menu-toggle" type="checkbox" className="toggler" />
@@ -141,8 +141,14 @@ const TopMenuBase = ({ dispatch }) => {
           <EditPortfolioButton dispatch={dispatch} />
           <EditStoryButton dispatch={dispatch} />
           <EditCommunityButton dispatch={dispatch} />
-          <div className="text-sm text-gray-600 mt-20 p-3 border border-gray-400 rounded">
-            <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1 text-gray-600" />
+          <div
+            className="text-sm text-gray-200 mt-20 p-3 border border-white rounded"
+            onClick={logout}
+            onKeyPress={logout}
+            role="button"
+            tabIndex={0}
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1" />
             Logout
           </div>
         </div>

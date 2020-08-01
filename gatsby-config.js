@@ -26,7 +26,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-root-import',
       options: {
-        src: path.join(__dirname, 'src')
+        src: path.join(__dirname, 'src'),
+        assets: path.join(__dirname, 'assets')
       }
     },
     {
@@ -34,6 +35,14 @@ module.exports = {
       options: {
         name: 'images',
         path: path.join(__dirname, 'src', 'images')
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /assets/
+        }
       }
     },
     'gatsby-plugin-emotion',
