@@ -22,17 +22,17 @@ const ModalLoginPanel = ({ login }) => {
         </div>
       </div>
       <div className="flex justify-center items-center">
-        <span className="bold text-gray-600 text-lg">Facebook Login</span>
+        <span className="bold text-gray-600 text-sm px-2">既にアカウントをお持ちの方はこちらからログインできます。</span>
       </div>
-      <div className="flex justify-center items-center pt-2 bg-gray-800 pb-4">
+      <div className="flex justify-center items-center pt-2 bg-white pb-4">
         <FacebookLoginButton login={login} />
       </div>
-      <div className="border-solid border border-primary mx-8 my-6 lg:max-w-3xl lg:mx-auto" />
-
-      <div className="flex justify-center items-center">
-        <span className="bold text-gray-600 text-lg">Invitation Login</span>
+      <div className="flex justify-center items-center mt-10">
+        <span className="bold text-gray-600 text-sm px-2">
+          新規ユーザは招待コードまたは招待URLが必要です。招待コードをお持ちの方はこちらに入力の上SignUpボタンを押してください。
+        </span>
       </div>
-      <div className="flex justify-center items-center bg-gray-800 pb-4">
+      <div className="flex justify-center items-center bg-white pb-4">
         <InvitationLoginButton login={login} />
       </div>
     </div>

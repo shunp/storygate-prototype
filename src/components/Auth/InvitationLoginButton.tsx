@@ -28,21 +28,21 @@ const InvitationLoginButton: React.FC<InvitationLoginButtonProps> = ({ login }) 
   const [invitationCode, setInvitationCode] = React.useState('')
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mt-2">
       <input
-        className="appearance-none bg-transparent border-none w-1/2 text-gray-600 m-3 py-1 px-2 leading-tight focus:outline-none underline text-lg lowercase"
         type="text"
+        className="border-2 border-gray-300 bg-white h-10 w-48 px-2 rounded text-md focus:outline-none"
         value={invitationCode}
-        placeholder="INVITATION CODE"
+        placeholder="Invitation Code..."
         onChange={e => setInvitationCode(e.target.value)}
       />
       <button
         type="button"
-        className="text-gray-400 bg-transparent text-sm py-2 px-6 border border-gray-400 rounded"
+        className="text-white bg-blue-800 bg-transparent text-sm py-2 px-2 rounded"
         onClick={() => invitationSignIn(invitationCode, login)}
         disabled={!invitationCode}
       >
-        Sign Up
+        SignUp
       </button>
     </div>
   )

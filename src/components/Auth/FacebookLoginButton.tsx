@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import Facebook from 'assets/facebook.svg'
 import { AuthService } from 'src/services/AuthService'
 import { toggleLoginModal } from 'src/components/Auth/modal/utils'
 import { LoginUser } from 'src/services/interfaces/Auth'
@@ -17,9 +16,11 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
 
 const FacebookLoginButton = ({ login }) => {
   return (
-    <button type="button" className="px-2 bg-transparent text-indigo-500" onClick={async () => onClickLogin(login)}>
-      <Facebook className="focus:outline-none w-12 h-12" />
-    </button>
+    <div className="flex flex-col w-full">
+      <button type="button" className="bg-transparent p-2 " onClick={async () => onClickLogin(login)}>
+        <div className="font-semibold italic bg-blue-800 text-white text-center py-2 shadow-lg text-lg">Facebookでログイン</div>
+      </button>
+    </div>
   )
 }
 export default FacebookLoginButton
