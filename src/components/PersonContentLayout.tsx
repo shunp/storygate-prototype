@@ -5,6 +5,7 @@ import InstagramEmbed from 'react-instagram-embed'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
 import { toggleEditStory } from 'src/state/app'
+import { AnyAction } from 'redux'
 import TitleLine from './TitleLine'
 import EditButton from './EditButton'
 import ClearButton from './ClearButton'
@@ -156,7 +157,7 @@ interface CommunityPanelProps {
 const CommunityPanel: React.FC<CommunityPanelProps> = ({ title, num, link }) => {
   return (
     <div className="font-semibold italic text-primary text-center py-3 shadow-lg">
-      <Link to={`/${link}`}>
+      <Link to={`/communities/${link}`}>
         {title} ({display(num)}人)
       </Link>
     </div>
@@ -251,8 +252,12 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
     </div>
   )
 }
-
-const PersonContentLayout = ({ openTab, editingStory, dispatch }) => {
+interface PersonContentLayoutProps {
+  openTab: number
+  editingStory: boolean
+  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
+}
+const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({ openTab, editingStory, dispatch }) => {
   const size = useWindowSize()
 
   return (
@@ -275,9 +280,9 @@ const PersonContentLayout = ({ openTab, editingStory, dispatch }) => {
           </div>
           <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} dispatch={dispatch} />
           <div className={openTab === 3 ? 'block' : 'hidden'} id="link3">
-            <CommunityPanel title="西野亮廣エンタメ研究所" num={70000} link="list" />
-            <CommunityPanel title="StoryGate" num={15} link="list" />
-            <CommunityPanel title="香港日本人エンジニア会" num={40} link="list" />
+            <CommunityPanel title="西野亮廣エンタメ研究所" num={70000} link="nishinosalon" />
+            <CommunityPanel title="StoryGate" num={15} link="stroygate" />
+            <CommunityPanel title="香港日本人エンジニア会" num={40} link="hongkong" />
           </div>
         </div>
       </div>

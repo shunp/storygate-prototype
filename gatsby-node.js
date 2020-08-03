@@ -14,53 +14,62 @@ const personTemplate = path.resolve(`src/templates/person.tsx`)
 const communityTemplate = path.resolve(`src/templates/community.tsx`)
 
 exports.createPages = async ({ graphql, actions }) => {
+  const resultPerson = await graphql(`
+    query {
+      allPersonCaption {
+        edges {
+          node {
+            id
+            ownerUid
+            name
+            title
+            introduction
+          }
+        }
+      }
+    }
+  `)
+  const resultCommunity = await graphql(`
+    query {
+      allCommunityCaption {
+        edges {
+          node {
+            id
+            name
+            introduction
+          }
+        }
+      }
+    }
+  `)
+
   const { createPage } = actions
-  // TODO: DB
-  const persons = [
-    {
-      pageId: 'owner',
-      ownerUid: '1',
-      username: '小池 駿平',
-      title: 'Software Engineer',
-      introduction:
-        'BlockchainやWebGLなど / AWS Best Architecture 2018 / 書籍「Solidityプログラミング」 / アートブロックチェーンネットワークや仮想世界つくってます'
-    }
-  ]
-  const communities = [
-    {
-      pageId: 'nishinosalon',
-      name: '西野亮廣エンタメ研究所',
-      number: 69000,
-      introduction: 'このグループには西野亮廣エンタメ研究所のサロンメンバーのみが参加しています。',
-      backgroundImg: ''
-    }
-  ]
-  // result.data.allPageCaption.edges.forEach(edge => {
-  // const { node } = edge
-  persons.forEach(node => {
+  resultPerson.data.allPersonCaption.edges.forEach(edge => {
+    const { node } = edge
     createPage({
-      path: `/${node.pageId}`,
+      path: `/persons/${node.id}`,
       component: personTemplate,
       context: {
-        pageId: node.pageId,
+        pageId: node.id,
         ownerUid: node.ownerUid,
-        username: node.username,
+        name: node.name,
         title: node.title,
-        introduction: node.introduction
+        introduction: node.introduction,
+        location: node.location
       }
     })
   })
 
-  communities.forEach(node => {
+  resultCommunity.data.allCommunityCaption.edges.forEach(edge => {
+    const { node } = edge
+    const { id, name, introduction } = node
     createPage({
-      path: `/${node.pageId}`,
+      path: `/communities/${node.id}`,
       component: communityTemplate,
       context: {
-        pageId: node.pageId,
-        name: node.name,
-        number: node.number,
-        introduction: node.introduction,
-        backgroundImg: node.backgroundImg
+        pageId: id,
+        name,
+        introduction
       }
     })
   })

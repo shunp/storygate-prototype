@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux'
-import app from './app'
+import app, { AppState } from './app'
 
-export default combineReducers({ app })
+export interface State {
+  app: AppState
+}
+export default combineReducers<State>({ app })

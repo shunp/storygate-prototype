@@ -15,7 +15,7 @@ const LoginUserIcon = () => {
     }
   `)
   return (
-    <Link to="/owner">
+    <Link to="/persons/owner">
       <Img fluid={data.koike.childImageSharp.fluid} className="w-8 h-8 rounded-full z-20 bg-white" />
     </Link>
   )

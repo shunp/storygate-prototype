@@ -17,6 +17,9 @@
     "max-len": ["error", { "code": 140, "ignoreUrls": true }],
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": ["error"],
     "react/no-unescaped-entities": [
       "error",
       {
