@@ -7,35 +7,59 @@ import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/fre
 import { Link } from 'gatsby'
 import { toggleEditCaption, toggleEditStory, toggleEditPortfolio, toggleEditCommunity } from 'src/state/app'
 
+const MenuLinkWrapper = ({ title, to, icon }) => {
+  return (
+    <div className="flex justify-center w-full bg-gray-600 p-2 mt-4 rounded-lg">
+      <Link to={`/${to}`}>
+        <div
+          className="text-white bg-gray-600 text-xl"
+          css={css`
+            font-family: 'Lato', sans-serif;
+          `}
+        >
+          {icon}
+          {title}
+        </div>
+      </Link>
+    </div>
+  )
+}
+
+const MenuButtonWrapper = ({ title, icon, onClick }) => {
+  return (
+    <div className="flex justify-center w-full bg-gray-600 p-2 mt-4 rounded-lg">
+      <button type="button" className="focus:outline-none" onClick={onClick}>
+        <div
+          className="text-white bg-gray-600 text-xl"
+          css={css`
+            font-family: 'Lato', sans-serif;
+          `}
+        >
+          {icon}
+          {title}
+        </div>
+      </button>
+    </div>
+  )
+}
+
 const MapMenuButton = () => {
   return (
-    <Link to="/map">
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />
-        フレンドマップ
+    <>
+      <MenuLinkWrapper title="フレンドマップ" to="map" icon={<FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />} />
+      <div className="text-white text-xs">
+        グループ内の友達を地図上から検索できます。近くにある店舗や待ち合わせ場所を決める際に便利です。
       </div>
-    </Link>
+    </>
   )
 }
 
 const SearchMenuButton = () => {
   return (
-    <Link to="/list">
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faSearch} size="sm" className="mr-2" />
-        キーワード検索
-      </div>
-    </Link>
+    <>
+      <MenuLinkWrapper title="キーワード検索" to="list" icon={<FontAwesomeIcon icon={faSearch} size="sm" className="mr-2" />} />
+      <div className="text-white text-xs">キーワードで友達を検索できます。仕事の依頼や共通の趣味を持つ人を見つけることができます。</div>
+    </>
   )
 }
 
@@ -47,39 +71,37 @@ const EditCaptionButton = ({ editCaption }) => {
     }
   }
   return (
-    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
-        プロフィール編集
+    <>
+      <MenuButtonWrapper
+        title="プロフィール編集"
+        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
+        onClick={startEditingCaption}
+      />
+      <div className="text-white text-xs">
+        自分のプロフィールを変更できます。検索でヒットしてもらいやすいようなわかりやすいプロフィールを心がけましょう。
       </div>
-    </button>
+    </>
   )
 }
 
 const EditPortfolioButton = ({ editPortfolio }) => {
-  const startEditingCaption = () => {
+  const startEditingPortfolio = () => {
     editPortfolio()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
   }
   return (
-    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
-        ポートフォリオ編集
+    <>
+      <MenuButtonWrapper
+        title="ポートフォリオ編集"
+        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
+        onClick={startEditingPortfolio}
+      />
+      <div className="text-white text-xs">
+        自分のポートフォリオを修正できます。最近の活動内容や自身の強みを記載してGiveできる項目をまとめてみましょう。
       </div>
-    </button>
+    </>
   )
 }
 
@@ -91,39 +113,35 @@ const EditStoryButton = ({ editStory }) => {
     }
   }
   return (
-    <button type="button" className="focus:outline-none" onClick={startEditingStory}>
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
-        ストーリー編集
+    <>
+      <MenuButtonWrapper
+        title="ストーリー編集"
+        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
+        onClick={startEditingStory}
+      />
+      <div className="text-white text-xs">
+        自分のストーリーを修正できます。苦い経験や達成した出来事を過去から順に綴ったあなたの物語は、きっと共感者や応援してくれる仲間を呼ぶことに繋がるでしょう。
       </div>
-    </button>
+    </>
   )
 }
 
 const EditCommunityButton = ({ editCommunity }) => {
-  const startEditingCaption = () => {
+  const startEditingCommunity = () => {
     editCommunity()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
   }
   return (
-    <button type="button" className="focus:outline-none" onClick={startEditingCaption}>
-      <div
-        className="flex items-center text-2xl text-gray-200 font-semibold my-4 p-3 border border-white rounded"
-        css={css`
-          font-family: 'Lato', sans-serif;
-        `}
-      >
-        <FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />
-        コミュニティ編集
-      </div>
-    </button>
+    <>
+      <MenuButtonWrapper
+        title="コミュニティ編集"
+        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
+        onClick={startEditingCommunity}
+      />
+      <div className="text-white text-xs">自分のコミュニティを修正できます。所属先を増やして新たな仲間を見つけましょう。</div>
+    </>
   )
 }
 
@@ -136,6 +154,14 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
       </div>
       <div className="menu">
         <div className="flex-col">
+          <div
+            className="text-white font-bold text-3xl"
+            css={css`
+              font-family: 'Lato', sans-serif;
+            `}
+          >
+            MENU
+          </div>
           <MapMenuButton />
           <SearchMenuButton />
           <EditCaptionButton editCaption={editCaption} />
@@ -143,7 +169,7 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
           <EditStoryButton editStory={editStory} />
           <EditCommunityButton editCommunity={editCommunity} />
           <div
-            className="text-sm text-gray-200 mt-20 p-3 border border-white rounded"
+            className="text-sm text-gray-300 mt-6 p-2 border border-gray-300 rounded"
             onClick={logout}
             onKeyPress={logout}
             role="button"
