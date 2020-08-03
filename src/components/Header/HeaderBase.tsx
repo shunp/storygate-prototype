@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { State } from 'src/state'
 import { LoginUser } from 'src/services/interfaces/Auth'
 import { publishLogin, publishLogout } from 'src/state/app'
+import { AuthService } from 'src/services/AuthService'
 import NavWrapper from './NavWrapper'
 import LoginUserIcon from './LoginUserIcon'
 import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 import ToggleLoginButton from './ToggleLoginButton'
 import LoginModal from '../Auth/modal/LoginModal'
-import { AuthService } from 'src/services/AuthService'
 
 interface HeaderStates {
   loginUser: LoginUser
@@ -21,8 +21,8 @@ interface HeaderDispatch {
 type HeaderProps = HeaderStates & HeaderDispatch
 const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout, dispatch }) => {
   if (!loginUser.loggedIn) {
-    const storedUser  = AuthService.loadStoredUser()
-    if(storedUser.loggedIn) {
+    const storedUser = AuthService.loadStoredUser()
+    if (storedUser.loggedIn) {
       login(storedUser)
     }
   }
@@ -36,11 +36,11 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout, dispatch 
             <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-black border-white border rounded">
               ...
             </button>
-            <TopMenuBase logout={logout} dispatch={dispatch} />
+            <TopMenuBase logout={logout} />
           </>
         ) : (
-            <ToggleLoginButton />
-          )}
+          <ToggleLoginButton />
+        )}
       </NavWrapper>
       <LoginModal login={login} />
     </>

@@ -7,16 +7,22 @@ export interface AppState {
   loginUser: LoginUser
   editingCaption: boolean
   editingStory: boolean
+  editingPortfolio: boolean
+  editingCommunity: boolean
 }
 const initialState: AppState = {
   loginUser: LoginUserModel.guest(),
   editingCaption: false,
-  editingStory: false
+  editingStory: false,
+  editingPortfolio: false,
+  editingCommunity: false
 }
 
 const SET_LOGIN_USER = 'SET_LOGIN_USER'
 const TOGGLE_EDIT_CAPTION = 'TOGGLE_EDIT_CAPTION'
 const TOGGLE_EDIT_STORY = 'TOGGLE_EDIT_STORY'
+const TOGGLE_EDIT_PORTFOLIO = 'TOGGLE_EDIT_PORTFOLIO'
+const TOGGLE_EDIT_COMMUNITY = 'TOGGLE_EDIT_COMMUNITY'
 
 export const publishLogin = (loginUser: LoginUser) => ({
   type: SET_LOGIN_USER,
@@ -38,6 +44,14 @@ export const toggleEditStory = () => ({
   type: TOGGLE_EDIT_STORY
 })
 
+export const toggleEditPortfolio = () => ({
+  type: TOGGLE_EDIT_PORTFOLIO
+})
+
+export const toggleEditCommunity = () => ({
+  type: TOGGLE_EDIT_COMMUNITY
+})
+
 export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_LOGIN_USER:
@@ -46,6 +60,10 @@ export default (state = initialState, action: AnyAction) => {
       return { ...state, editingCaption: !state.editingCaption }
     case TOGGLE_EDIT_STORY:
       return { ...state, editingStory: !state.editingStory }
+    case TOGGLE_EDIT_PORTFOLIO:
+      return { ...state, editingStory: !state.editingPortfolio }
+    case TOGGLE_EDIT_COMMUNITY:
+      return { ...state, editingStory: !state.editingCommunity }
     default:
       return state
   }

@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { css } from '@emotion/core'
 import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
-import { toggleEditCaption, toggleEditStory } from 'src/state/app'
+import { toggleEditCaption, toggleEditStory, toggleEditPortfolio, toggleEditCommunity } from 'src/state/app'
 
 const MapMenuButton = () => {
   return (
@@ -38,9 +39,9 @@ const SearchMenuButton = () => {
   )
 }
 
-const EditCaptionButton = ({ dispatch }) => {
+const EditCaptionButton = ({ editCaption }) => {
   const startEditingCaption = () => {
-    dispatch(toggleEditCaption())
+    editCaption()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
@@ -60,9 +61,9 @@ const EditCaptionButton = ({ dispatch }) => {
   )
 }
 
-const EditPortfolioButton = ({ dispatch }) => {
+const EditPortfolioButton = ({ editPortfolio }) => {
   const startEditingCaption = () => {
-    dispatch(toggleEditCaption())
+    editPortfolio()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
@@ -82,9 +83,9 @@ const EditPortfolioButton = ({ dispatch }) => {
   )
 }
 
-const EditStoryButton = ({ dispatch }) => {
+const EditStoryButton = ({ editStory }) => {
   const startEditingStory = () => {
-    dispatch(toggleEditStory())
+    editStory()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
@@ -104,9 +105,9 @@ const EditStoryButton = ({ dispatch }) => {
   )
 }
 
-const EditCommunityButton = ({ dispatch }) => {
+const EditCommunityButton = ({ editCommunity }) => {
   const startEditingCaption = () => {
-    dispatch(toggleEditCaption())
+    editCommunity()
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }
@@ -126,7 +127,7 @@ const EditCommunityButton = ({ dispatch }) => {
   )
 }
 
-const TopMenuBase = ({ logout, dispatch }) => {
+const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommunity }) => {
   return (
     <div className="menu-wrap">
       <input id="top-menu-toggle" type="checkbox" className="toggler" />
@@ -137,10 +138,10 @@ const TopMenuBase = ({ logout, dispatch }) => {
         <div className="flex-col">
           <MapMenuButton />
           <SearchMenuButton />
-          <EditCaptionButton dispatch={dispatch} />
-          <EditPortfolioButton dispatch={dispatch} />
-          <EditStoryButton dispatch={dispatch} />
-          <EditCommunityButton dispatch={dispatch} />
+          <EditCaptionButton editCaption={editCaption} />
+          <EditPortfolioButton editPortfolio={editPortfolio} />
+          <EditStoryButton editStory={editStory} />
+          <EditCommunityButton editCommunity={editCommunity} />
           <div
             className="text-sm text-gray-200 mt-20 p-3 border border-white rounded"
             onClick={logout}
@@ -157,4 +158,12 @@ const TopMenuBase = ({ logout, dispatch }) => {
   )
 }
 
-export default TopMenuBase
+export default connect(
+  state => ({}),
+  dispatch => ({
+    editCaption: () => dispatch(toggleEditCaption()),
+    editStory: () => dispatch(toggleEditStory()),
+    editPortfolio: () => dispatch(toggleEditPortfolio()),
+    editCommunity: () => dispatch(toggleEditCommunity())
+  })
+)(TopMenuBase)

@@ -259,6 +259,7 @@ interface PersonContentLayoutProps {
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({ openTab, editingStory, dispatch }) => {
   const size = useWindowSize()
+  console.log('size: ', size)
 
   return (
     <div id="main-content" className="relative flex flex-col w-full">
