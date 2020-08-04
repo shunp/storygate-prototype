@@ -13,9 +13,9 @@ import EditCaptionTitle from './edit/EditCaptionTitle'
 import EditCaptionLocation from './edit/EditCaptionLocation'
 import EditCaptionProfileImg from './edit/EditCaptionProfileImg'
 import EditCaptionIntroduction from './edit/EditCaptionIntroduction'
-import DoneButton from '../DoneButton'
-import ClearButton from '../ClearButton'
-import EditButton from '../EditButton'
+import DoneButton from '../../DoneButton'
+import ClearButton from '../../ClearButton'
+import EditButton from '../../EditButton'
 
 interface CaptionBaseProps {
   data: Person

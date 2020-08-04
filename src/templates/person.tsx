@@ -6,11 +6,11 @@ import { State } from 'src/state'
 import { PersonService } from 'src/services/PersonService'
 
 import Header from 'src/components/Header/index'
-import Caption from 'src/components/Caption/index'
+import Caption from 'src/components/Person/Caption/index'
 import { applyTheme } from 'src/themes/utils'
 import { themes, DEFAULT_THEME } from 'src/themes'
-import PersonTabLayout from 'src/components/PersonTabLayout'
-import PersonContentLayout from 'src/components/PersonContentLayout'
+import PersonTabLayout from 'src/components/Person/PersonTabLayout'
+import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
@@ -62,7 +62,13 @@ const PersonPage: React.FC<PersonPageProps> = ({
       <Header />
       <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
-      <PersonContentLayout openTab={openTab} editingPortfolio={editingPortfolio} editingStory={editingStory} dispatch={dispatch} />
+      <PersonContentLayout
+        openTab={openTab}
+        editingPortfolio={editingPortfolio}
+        editingStory={editingStory}
+        editingCommunity={editingCommunity}
+        dispatch={dispatch}
+      />
       <Footer />
     </PageRoot>
   )
