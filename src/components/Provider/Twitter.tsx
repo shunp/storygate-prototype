@@ -1,13 +1,12 @@
 import * as React from 'react'
-import TitleLine from 'src/components/TitleLine'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 import ContentExplanation from '../ContentExplanation'
 
-export const TwitterPost: React.FC<IframeProps> = ({ title, iframeKey, text, size }) => {
+export const TwitterPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (
     <>
-      <TitleLine title={title} />
+      {TitleLine}
       <div className="flex justify-center">
         <TwitterTweetEmbed
           tweetId={iframeKey}

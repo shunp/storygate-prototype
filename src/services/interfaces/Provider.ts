@@ -1,5 +1,5 @@
 export interface IframeProps {
-  title: string
+  TitleLine: any
   iframeKey: string
   text: string
   size: number

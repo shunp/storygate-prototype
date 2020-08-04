@@ -166,7 +166,7 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
     {
       type: 'Text',
       time: '2020/9',
-      title: 'フツウのCTOに収まるものか',
+      title: '更なる専門性の追求',
       iframeKey: '香港科技大学で技術研究',
       fullURL: '',
       pic: '',

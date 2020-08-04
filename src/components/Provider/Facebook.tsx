@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import ContentExplanation from '../ContentExplanation'
-import TitleLine from '../TitleLine'
 
-export const FacebookPost: React.FC<IframeProps> = ({ title, iframeKey, text, size }) => {
+export const FacebookPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (
     <>
-      <TitleLine title={title} />
+      {TitleLine}
       <div className="flex justify-center">
         <iframe
           title="facebook"

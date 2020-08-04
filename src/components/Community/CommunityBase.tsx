@@ -8,7 +8,7 @@ import { Link } from 'gatsby'
 import CommunityBackground from './CommunityBackground'
 import CommunityCaption from './CommunityCaption'
 import SearchBar from '../SearchBar'
-import TitleLine from '../TitleLine'
+import { BasicTitleLine } from '../TitleLine'
 
 const Members = ({ members, filterWords }) => {
   return members
@@ -61,7 +61,7 @@ const CommunityBase = ({ name, number, introduction, members, backgroundImg }) =
       <div className="flex justify-center items-center flex-col mt-16">
         <CommunityBackground />
         <CommunityCaption name={name} num={number} />
-        <TitleLine title="Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
+        <BasicTitleLine title="Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />
         <div id="search-result" className="flex flex-wrap w-full">
           <Members members={members} filterWords={filterWords} />

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { YouTubePost } from '../Provider/YouTube'
 import { TwitterPost } from '../Provider/Twitter'
+import { BasicTitleLine } from '../TitleLine'
 
 export const NewPortfolio = ({
   inputNewTitle,
@@ -47,9 +48,9 @@ export const PortfolioList = ({ data, size }) => {
   return data.map(p => {
     switch (p.type) {
       case 'YouTubePost':
-        return <YouTubePost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return <YouTubePost TitleLine={<BasicTitleLine title={p.title} />} iframeKey={p.iframeKey} text={p.text} size={size} />
       case 'TwitterPost':
-        return <TwitterPost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return <TwitterPost TitleLine={<BasicTitleLine title={p.title} />} iframeKey={p.iframeKey} text={p.text} size={size} />
       default:
         return <></>
     }

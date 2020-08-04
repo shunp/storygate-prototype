@@ -2,12 +2,11 @@ import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import InstagramEmbed from 'react-instagram-embed'
 import ContentExplanation from '../ContentExplanation'
-import TitleLine from '../TitleLine'
 
-export const InstagramPost: React.FC<IframeProps> = ({ title, iframeKey, text, size }) => {
+export const InstagramPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (
     <>
-      <TitleLine title={title} />
+      {TitleLine}
       <div className="flex justify-center">
         <InstagramEmbed
           url={`https://www.instagram.com/p/${iframeKey}/`}

@@ -1,12 +1,11 @@
 import * as React from 'react'
-import TitleLine from 'src/components/TitleLine'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import ContentExplanation from '../ContentExplanation'
 
-export const YouTubePost: React.FC<IframeProps> = ({ title, iframeKey, text, size }) => {
+export const YouTubePost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (
     <>
-      <TitleLine title={title} />
+      {TitleLine}
       <div className="flex justify-center">
         <iframe
           className="relative z-10"

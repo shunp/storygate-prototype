@@ -4,6 +4,7 @@ import { TwitterPost } from '../Provider/Twitter'
 import { FacebookPost } from '../Provider/Facebook'
 import { InstagramPost } from '../Provider/Instagram'
 import { Text } from '../Provider/FreeText'
+import { BallonTitleLine } from '../TitleLine'
 
 export const AddStory = ({ inputNewTitle, setInputNewTitle, inputNewURL, setInputNewURL, inputNewExplanation, setInputNewExplanation }) => {
   return (
@@ -40,20 +41,34 @@ export const Story = ({ data, size }) => {
   if (!data) {
     return <></>
   }
-  return data.map(p => {
+  const StoryLine = data.map(p => {
     switch (p.type) {
       case 'YouTubePost':
-        return <YouTubePost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return (
+          <YouTubePost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+        )
       case 'TwitterPost':
-        return <TwitterPost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return (
+          <TwitterPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+        )
       case 'FacebookPost':
-        return <FacebookPost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return (
+          <FacebookPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+        )
       case 'InstagramPost':
-        return <InstagramPost title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return (
+          <InstagramPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+        )
       case 'Text':
-        return <Text title={p.title} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return <Text TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
       default:
         return <></>
     }
   })
+  return (
+    <>
+      {StoryLine}
+      <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continue..." text="" size={size} />
+    </>
+  )
 }
