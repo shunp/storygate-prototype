@@ -128,6 +128,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
 }
 
 const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
+  const [inputNewMonth, setInputNewMonth] = React.useState('')
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
@@ -205,6 +206,8 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
           className="mt-1"
         />
         <AddStory
+          inputNewMonth={inputNewMonth}
+          setInputNewMonth={setInputNewMonth}
           inputNewTitle={inputNewTitle}
           setInputNewTitle={setInputNewTitle}
           inputNewURL={inputNewURL}

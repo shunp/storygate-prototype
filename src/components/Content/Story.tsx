@@ -6,10 +6,26 @@ import { InstagramPost } from '../Provider/Instagram'
 import { Text } from '../Provider/FreeText'
 import { BallonTitleLine } from '../TitleLine'
 
-export const AddStory = ({ inputNewTitle, setInputNewTitle, inputNewURL, setInputNewURL, inputNewExplanation, setInputNewExplanation }) => {
+export const AddStory = ({
+  inputNewMonth,
+  setInputNewMonth,
+  inputNewTitle,
+  setInputNewTitle,
+  inputNewURL,
+  setInputNewURL,
+  inputNewExplanation,
+  setInputNewExplanation
+}) => {
   return (
     <div id="add-story" className="m-2">
       <div className="text-center text-lg font-bold">新しいコンテンツを追加</div>
+      <div className="text-center mt-2">時期</div>
+      <input
+        type="month"
+        className="border-2 bordeer-gray-300 focus:outline-none bg-white w-full h-10 px-5 rounded-lg"
+        value={inputNewMonth}
+        onChange={e => setInputNewMonth(e.target.value)}
+      />
       <div className="text-center mt-2">タイトル</div>
       <input
         type="text"
