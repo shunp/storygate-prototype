@@ -18,8 +18,9 @@ interface HeaderDispatch {
   login: (logingUser: LoginUser) => void
   logout: () => void
 }
+
 type HeaderProps = HeaderStates & HeaderDispatch
-const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout, dispatch }) => {
+const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
     if (storedUser.loggedIn) {

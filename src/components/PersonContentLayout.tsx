@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
-import { TwitterTweetEmbed } from 'react-twitter-embed'
 import InstagramEmbed from 'react-instagram-embed'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
-import { toggleEditStory } from 'src/state/app'
+import { toggleEditStory, toggleEditPortfolio } from 'src/state/app'
 import { AnyAction } from 'redux'
 import TitleLine from './TitleLine'
 import EditButton from './EditButton'
 import ClearButton from './ClearButton'
 import DoneButton from './DoneButton'
+import Portfolio from './Provider/Portfolio'
+import ContentExplanation from './ContentExplanation'
 
 const useWindowSize = () => {
   const isClient = typeof window === 'object'
@@ -38,59 +39,11 @@ const useWindowSize = () => {
   return windowSize
 }
 
-const ContentExplanation = ({ text }) => {
-  return <div className="text-gray-500 p-4">{text}</div>
-}
-
 interface ContentProps {
   title: string
   contentKey: string
   text: string
   size: number
-}
-
-const YouTubeContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
-  return (
-    <>
-      <TitleLine title={title} />
-      <div className="flex justify-center">
-        <iframe
-          className="relative z-10"
-          title="youtube"
-          id="ytplayer"
-          width={size}
-          height={size ? size * 0.6 : 0}
-          src={`https://www.youtube.com/embed/${contentKey}`}
-          frameBorder="0"
-        />
-      </div>
-      <ContentExplanation text={text} />
-    </>
-  )
-}
-
-const TwitterContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
-  return (
-    <>
-      <TitleLine title={title} />
-      <div className="flex justify-center">
-        <TwitterTweetEmbed
-          tweetId={contentKey}
-          options={{ width: size }}
-          onLoad={tweetWidgetEl => {
-            if (tweetWidgetEl.children[0]) {
-              tweetWidgetEl.children[0].style.width = `${size}px`
-            }
-            if (tweetWidgetEl.shadowRoot) {
-              const tweetEl = tweetWidgetEl.shadowRoot.querySelector('.SandboxRoot')
-              tweetEl.style.position = 'static'
-            }
-          }}
-        />
-      </div>
-      <ContentExplanation text={text} />
-    </>
-  )
 }
 
 const FacebookContent: React.FC<ContentProps> = ({ title, contentKey, text, size }) => {
@@ -164,9 +117,130 @@ const CommunityPanel: React.FC<CommunityPanelProps> = ({ title, num, link }) => 
   )
 }
 
-const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
+const NewContent = ({ inputNewTitle, setInputNewTitle, inputNewURL, setInputNewURL, inputNewExplanation, setInputNewExplanation }) => {
+  return (
+    <div id="new-content" className="m-2">
+      <div className="text-center text-lg font-bold">新しいコンテンツを追加</div>
+      <div className="text-center mt-2">タイトル</div>
+      <input
+        type="text"
+        className="border-2 bordeer-gray-300 focus:outline-none bg-white w-full h-10 px-5 rounded-lg"
+        value={inputNewTitle}
+        placeholder="Title..."
+        onChange={e => setInputNewTitle(e.target.value)}
+      />
+      <div className="text-center mt-2">コンテンツURL</div>
+      <input
+        type="text"
+        className="border-2 bordeer-gray-300 focus:outline-none bg-white w-full h-10 px-5 rounded-lg"
+        value={inputNewURL}
+        placeholder="URL..."
+        onChange={e => setInputNewURL(e.target.value)}
+      />
+      <div className="text-center mt-2">詳細</div>
+      <textarea
+        className="border-2 bordeer-gray-300 focus:outline-none bg-white h-20 w-full px-5 rounded-lg"
+        value={inputNewExplanation}
+        placeholder="Introduction..."
+        onChange={e => setInputNewExplanation(e.target.value)}
+      />
+    </div>
+  )
+}
+
+const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
+  const [inputNewTitle, setInputNewTitle] = React.useState('')
+  const [inputNewURL, setInputNewURL] = React.useState('')
+  const [inputNewExplanation, setInputNewExplanation] = React.useState('')
+
   const doneEditing = () => {
     // TODO: firebase
+    if (!inputNewTitle) {
+      // TODO: validate
+      console.log('inputNewTitle', inputNewTitle)
+      return
+    }
+
+    if (!inputNewURL) {
+      // TODO: validate
+      console.log('inputNewURL', inputNewURL)
+      return
+    }
+
+    dispatch(toggleEditPortfolio())
+  }
+
+  const resetEditing = () => {
+    dispatch(toggleEditPortfolio())
+  }
+
+  const portfolioData = [
+    {
+      type: 'YouTubePost',
+      title: 'Best Architecture 2018',
+      iframeKey: 'WlkWTye4mfI',
+      fullURL: 'https://www.youtube.com/watch?v=WlkWTye4mfI',
+      pic: '',
+      text:
+        'AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。'
+    },
+    {
+      type: 'TwitterPost',
+      title: '3D WebXR Template',
+      iframeKey: '1279046962025652225',
+      fullURL:
+        'https://twitter.com/shunpei42ba_/status/1279046962025652225?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1279046962025652225%7Ctwgr%5E&ref_url=https%3A%2F%2Fgatsby-three-ts-plus.netlify.app%2Fpersons%2Fowner',
+      pic: '',
+      text: 'GatsbyへThree.js×TypeScriptのテンプレートをコントリビュートさせていただきました。'
+    }
+  ]
+
+  if (editing) {
+    return (
+      <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
+        <EditButton
+          ClearButton={<ClearButton onClick={resetEditing} />}
+          DoneButton={<DoneButton onClick={doneEditing} />}
+          className="mt-1"
+        />
+        <NewContent
+          inputNewTitle={inputNewTitle}
+          setInputNewTitle={setInputNewTitle}
+          inputNewURL={inputNewURL}
+          setInputNewURL={setInputNewURL}
+          inputNewExplanation={inputNewExplanation}
+          setInputNewExplanation={setInputNewExplanation}
+        />
+        <Portfolio data={portfolioData} size={size} />
+      </div>
+    )
+  }
+  return (
+    <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
+      <Portfolio data={portfolioData} size={size} />
+    </div>
+  )
+}
+
+const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
+  const [inputNewTitle, setInputNewTitle] = React.useState('')
+  const [inputNewURL, setInputNewURL] = React.useState('')
+  const [inputNewExplanation, setInputNewExplanation] = React.useState('')
+
+  const doneEditing = () => {
+    // TODO: firebase
+    if (!inputNewTitle) {
+      // TODO: validate
+      console.log('inputNewTitle', inputNewTitle)
+      return
+    }
+
+    if (!inputNewURL) {
+      // TODO: validate
+      console.log('inputNewURL', inputNewURL)
+      return
+    }
+
     dispatch(toggleEditStory())
   }
 
@@ -174,19 +248,9 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
     dispatch(toggleEditStory())
   }
 
-  const [inputNewTitle, setInputNewTitle] = React.useState('')
-  const [inputNewURL, setInputNewURL] = React.useState('')
-  const [inputNewExplanation, setInputNewExplanation] = React.useState('')
-
   if (editing) {
     return (
       <>
-        <FacebookContent
-          title="2014/9 (21歳) 社長インタビュアーの小池"
-          contentKey="https%3A%2F%2Fwww.facebook.com%2Fshunpei.koike.9%2Fposts%2F571158393013178"
-          text="大学3年後期、学校の単位を全て取り切り、残りの期間は法人営業で自分を磨くことを決意。当時社長と二人三脚のような零細ベンチャーでの修行が始まった。時給も休みもあまりなかったけれど、大人の世界に背伸びして社長インタビューやスポンサー獲得のために必死に営業した日々はとても疲労に満ちて充実していた。"
-          size={size}
-        />
         <EditButton
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
@@ -218,6 +282,12 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
             onChange={e => setInputNewExplanation(e.target.value)}
           />
         </div>
+        <FacebookContent
+          title="2014/9 (21歳) 社長インタビュアーの小池"
+          contentKey="https%3A%2F%2Fwww.facebook.com%2Fshunpei.koike.9%2Fposts%2F571158393013178"
+          text="大学3年後期、学校の単位を全て取り切り、残りの期間は法人営業で自分を磨くことを決意。当時社長と二人三脚のような零細ベンチャーでの修行が始まった。時給も休みもあまりなかったけれど、大人の世界に背伸びして社長インタビューやスポンサー獲得のために必死に営業した日々はとても疲労に満ちて充実していた。"
+          size={size}
+        />
       </>
     )
   }
@@ -254,31 +324,18 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
 }
 interface PersonContentLayoutProps {
   openTab: number
+  editingPortfolio: boolean
   editingStory: boolean
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
-const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({ openTab, editingStory, dispatch }) => {
+const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({ openTab, editingPortfolio, editingStory, dispatch }) => {
   const size = useWindowSize()
-  console.log('size: ', size)
 
   return (
     <div id="main-content" className="relative flex flex-col w-full">
       <div className="mt-4 flex-auto">
         <div className="tab-content tab-space">
-          <div className={openTab === 1 ? 'block' : 'hidden'} id="link1">
-            <YouTubeContent
-              title="Best Architecture 2018"
-              contentKey="WlkWTye4mfI"
-              text="AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。"
-              size={size.width}
-            />
-            <TwitterContent
-              title="3D WebXR Template"
-              contentKey="1279046962025652225"
-              text="AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。"
-              size={size.width}
-            />
-          </div>
+          <PortfolioTabContent index={1} openTab={openTab} size={size.width} editing={editingPortfolio} dispatch={dispatch} />
           <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} dispatch={dispatch} />
           <div className={openTab === 3 ? 'block' : 'hidden'} id="link3">
             <CommunityPanel title="西野亮廣エンタメ研究所" num={70000} link="nishinosalon" />

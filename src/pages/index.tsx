@@ -16,14 +16,22 @@ import { applyTheme } from '../themes/utils'
 
 interface PagesState {
   editingCaption: boolean
+  editingPortfolio: boolean
+  editingStory: boolean
 }
 interface PagesProps {
   editingCaption: boolean
+  editingPortfolio: boolean
+  editingStory: boolean
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
-const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
+const IndexPage: React.FC<PagesProps> = ({ editingCaption, editingPortfolio, editingStory, dispatch }) => {
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
+  console.log('1caption', editingCaption)
+  console.log('1editingPortfolio', editingPortfolio)
+  console.log('1editingStory', editingStory)
+
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
     PersonService.fetchById('owner').then(fetchedPerson => setPerson(fetchedPerson))
@@ -31,10 +39,10 @@ const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
 
   return (
     <div>
-      <Header dispatch={dispatch} />
+      <Header />
       <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
-      <PersonContentLayout openTab={openTab} editingStory={false} dispatch={dispatch} />
+      <PersonContentLayout openTab={openTab} editingPortfolio={editingPortfolio} editingStory={editingStory} dispatch={dispatch} />
       <Footer />
     </div>
   )
@@ -42,7 +50,9 @@ const IndexPage: React.FC<PagesProps> = ({ editingCaption, dispatch }) => {
 
 export default connect<PagesState, null, {}, State>(
   state => ({
-    editingCaption: state.app.editingCaption
+    editingCaption: state.app.editingCaption,
+    editingPortfolio: state.app.editingPortfolio,
+    editingStory: state.app.editingStory
   }),
   null
 )(IndexPage)

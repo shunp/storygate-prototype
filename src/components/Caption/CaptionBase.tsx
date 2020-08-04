@@ -27,9 +27,12 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, dispatc
   const [inputTitle, setInputTitle] = React.useState('')
   const [inputLocation, setInputLocation] = React.useState('')
   const [inputIntroduction, setInputIntroduction] = React.useState('')
+  const [profileImg, setProfileImg] = React.useState('')
 
   const doneEditing = () => {
     // TODO: firebase
+    // save inputName, inputTitle, inputLocation, inputIntroduction, profileImg
+    // if the value has changed
     dispatch(toggleEditCaption())
   }
 
@@ -46,7 +49,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, dispatc
           className="mt-20"
         />
         <CaptionWrapper>
-          <EditCaptionProfileImg profileImg={data.pic} />
+          <EditCaptionProfileImg profileImg={data.pic} setProfileImg={setProfileImg} />
           <EditCaptionName name={data.name} inputName={inputName} setInputName={setInputName} />
           <EditCaptionTitle title={data.title} inputTitle={inputTitle} setInputTitle={setInputTitle} />
           <EditCaptionLocation location={data.location} inputLocation={inputLocation} setInputLocation={setInputLocation} />

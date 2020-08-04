@@ -61,9 +61,9 @@ export default (state = initialState, action: AnyAction) => {
     case TOGGLE_EDIT_STORY:
       return { ...state, editingStory: !state.editingStory }
     case TOGGLE_EDIT_PORTFOLIO:
-      return { ...state, editingStory: !state.editingPortfolio }
+      return { ...state, editingPortfolio: !state.editingPortfolio }
     case TOGGLE_EDIT_COMMUNITY:
-      return { ...state, editingStory: !state.editingCommunity }
+      return { ...state, editingCommunity: !state.editingCommunity }
     default:
       return state
   }

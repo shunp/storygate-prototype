@@ -26,18 +26,29 @@ interface PageContext {
 }
 interface PersonPageState {
   editingCaption: boolean
+  editingPortfolio: boolean
   editingStory: boolean
+  editingCommunity: boolean
 }
 interface PersonPageProps extends PersonPageDispatch {
   pageContext: PageContext
   editingCaption: boolean
+  editingPortfolio: boolean
   editingStory: boolean
+  editingCommunity: boolean
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 interface PersonPageDispatch {
   login: (loginUser: LoginUser) => void
 }
-const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, editingStory, dispatch }) => {
+const PersonPage: React.FC<PersonPageProps> = ({
+  pageContext,
+  editingCaption,
+  editingPortfolio,
+  editingStory,
+  editingCommunity,
+  dispatch
+}) => {
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
@@ -51,7 +62,7 @@ const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, ed
       <Header />
       <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
-      <PersonContentLayout openTab={openTab} editingStory={editingStory} dispatch={dispatch} />
+      <PersonContentLayout openTab={openTab} editingPortfolio={editingPortfolio} editingStory={editingStory} dispatch={dispatch} />
       <Footer />
     </PageRoot>
   )
@@ -60,7 +71,9 @@ const PersonPage: React.FC<PersonPageProps> = ({ pageContext, editingCaption, ed
 export default connect<PersonPageState, null, {}, State>(
   state => ({
     editingCaption: state.app.editingCaption,
-    editingStory: state.app.editingStory
+    editingPortfolio: state.app.editingPortfolio,
+    editingStory: state.app.editingStory,
+    editingCommunity: state.app.editingCommunity
   }),
   null
 )(PersonPage)

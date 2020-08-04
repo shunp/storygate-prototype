@@ -4,7 +4,7 @@ import Img from 'gatsby-image'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
-const EditCaptionProfileImg = ({ profileImg }) => {
+const EditCaptionProfileImg = ({ profileImg, setProfileImg }) => {
   const [upImg, setUpImg] = React.useState()
   const imgRef = React.useRef(null)
   const [crop, setCrop] = React.useState({ unit: '%', width: 30, aspect: 1 / 1, minWidth: 20, minHeight: 20 })
