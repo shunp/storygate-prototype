@@ -82,6 +82,7 @@
     "react-redux": "^7.2.1",
     "react-twitter-embed": "^3.0.3",
     "redux": "^4.0.5",
+    "shallow-equal": "^1.2.1",
     "stylelint": "^13.6.1",
     "tailwind.macro": "^1.0.0-alpha.10",
     "tailwindcss": "^1.4.6",

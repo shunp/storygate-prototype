@@ -2,23 +2,19 @@ import * as React from 'react'
 
 interface EditCaptionNameProps {
   name: string
-  inputName: string
-  setInputName: any
+  setName: React.Dispatch<React.SetStateAction<string>>
 }
 
-const EditCaptionName: React.FC<EditCaptionNameProps> = ({ name, inputName, setInputName }) => {
-  React.useEffect(() => {
-    setInputName(name)
-  }, [name])
+const EditCaptionName: React.FC<EditCaptionNameProps> = ({ name, setName }) => {
   return (
     <div id="profile-name-edit" className="mt-2">
       <div>お名前</div>
       <input
         type="text"
         className="border-2 bordeer-gray-300 focus:outline-none bg-white h-10 px-5 rounded-lg"
-        value={inputName}
+        value={name}
         placeholder="Name..."
-        onChange={e => setInputName(e.target.value)}
+        onChange={e => setName(e.target.value)}
       />
     </div>
   )
