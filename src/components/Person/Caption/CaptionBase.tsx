@@ -28,11 +28,11 @@ const CaptionEdit: React.FC<CaptionEditProps> = ({ original, dispatch }) => {
   const [introduction, setIntroduction] = React.useState(original.introduction)
   const [pic, setPic] = React.useState(original.pic)
 
-  const doneEditing = () => {
+  const doneEditing = async () => {
     if (!shallowEqualObjects(original, { name, title, introduction, location, pic })) {
-      PersonService.updateCaption({ pageId: original.pageId, name, title, introduction, location, pic })
+      await PersonService.updateCaption({ pageId: original.pageId, name, title, introduction, location, pic })
       // TODO hook
-      window.location.reload()
+      // window.location.reload()
     }
     dispatch(toggleEditCaption())
   }

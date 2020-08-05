@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 
-export const OtherURLIframe: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, iframeKey, text, size }) => {
+export const GeneralURLIframe: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, iframeKey, text, size }) => {
   return (
     <>
       {TitleLine}
@@ -23,13 +23,13 @@ export const OtherURLIframe: React.FC<IframeProps> = ({ TitleLine, Explain, Loca
   )
 }
 
-export const OtherURL: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, pic, iframeKey, text, size }) => {
+export const GeneralURL: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, pic, iframeKey, text, size }) => {
   return (
     <>
       {TitleLine}
       <div className="flex justify-center">
         <a href={fullURL} className="" aria-label="panel-link">
-          <img alt="OtherURL" src={pic} className="" />
+          <img alt="GeneralURL" src={pic} className="" />
         </a>
       </div>
       {Explain}

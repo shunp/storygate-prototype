@@ -6,7 +6,7 @@ import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, Clear
 import { togglePostModal } from './modal/utils'
 import PostModal from './modal/PostModal'
 import { ContentExplanation, ModifiableContentExplanation } from '../ContentExplanation'
-import { OtherURL } from '../Provider/OtherURL'
+import { GeneralURL } from '../Provider/GeneralURL'
 import { ContentLocation, ModifiableContentLocation } from '../ContentLocation'
 
 export const NewPortfolio = ({
@@ -73,9 +73,9 @@ export const PortfolioList = ({ data, size }) => {
             size={size}
           />
         )
-      case 'OtherURL':
+      case 'GeneralURL':
         return (
-          <OtherURL
+          <GeneralURL
             TitleLine={<BasicTitleLine title={p.title} />}
             Explain={<ContentExplanation text={p.text} />}
             Location={<ContentLocation location={p.location} />}
@@ -182,7 +182,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
             />
           </>
         )
-      case 'OtherURL':
+      case 'GeneralURL':
         return (
           <>
             <EditingButtonSet
@@ -190,7 +190,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
               EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
               className="mt-10"
             />
-            <OtherURL
+            <GeneralURL
               TitleLine={<BasicTitleLine title={p.title} />}
               Explain={<ContentExplanation text={p.text} />}
               Location={<ContentLocation location={p.location} />}
@@ -209,7 +209,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
                     DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
                     className="mt-1"
                   />
-                  <OtherURL
+                  <GeneralURL
                     TitleLine={<ModifiableTitleLine title={p.title} />}
                     Explain={<ModifiableContentExplanation text={p.text} />}
                     Location={<ModifiableContentLocation location={p.location} />}

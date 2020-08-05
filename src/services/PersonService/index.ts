@@ -21,7 +21,7 @@ class Service {
   }
 
   updateCaption = async (person: Person) => {
-    updatePerson(person)
+    await updatePerson(person)
   }
 }
 

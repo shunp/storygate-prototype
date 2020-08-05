@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { toggleEditPortfolio } from 'src/state/app'
+import { OgTag } from 'src/utils/scraper'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
 
@@ -9,7 +10,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
   const [inputNewLocation, setInputNewLocation] = React.useState('')
 
-  const doneEditing = () => {
+  const doneEditing = async () => {
     // TODO: firebase
     if (!inputNewTitle) {
       // TODO: validate
@@ -23,6 +24,9 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
       return
     }
 
+    const ogTag = new OgTag()
+    const tagParam = await ogTag.fetch(inputNewURL)
+    console.log('tagParam', tagParam)
     dispatch(toggleEditPortfolio())
   }
 
@@ -55,7 +59,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
     },
     {
       id: '3xxxxxxxx',
-      type: 'OtherURL',
+      type: 'GeneralURL',
       title: '美容院（店舗表示テスト用）',
       iframeKey: '',
       fullURL: 'https://beauty.hotpepper.jp/slnH000105506/?cstt=3',
