@@ -39,7 +39,7 @@ const InvitationLoginButton: React.FC<InvitationLoginButtonProps> = ({ login }) 
       <button
         type="button"
         className="text-white bg-blue-800 bg-transparent text-sm py-2 px-2 rounded"
-        onClick={() => invitationSignIn(invitationCode, login)}
+        onClick={() => invitationSignIn(invitationCode.trim(), login)}
         disabled={!invitationCode}
       >
         SignUp
