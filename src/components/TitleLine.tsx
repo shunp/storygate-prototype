@@ -55,7 +55,7 @@ export const ModifiableTitleLine = ({ title }) => {
   const [inputTitle, setInputTitle] = React.useState(title)
   return (
     <div id="line-title" className="flex flex-col w-full mt-2">
-      {/* <div className="m-1 text-xs">Title</div> */}
+      <div className="m-1 text-xs text-white">タイトル</div>
       <input
         type="text"
         placeholder="title..."

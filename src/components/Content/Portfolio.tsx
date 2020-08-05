@@ -6,6 +6,8 @@ import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, Clear
 import { togglePostModal } from './modal/utils'
 import PostModal from './modal/PostModal'
 import { ContentExplanation, ModifiableContentExplanation } from '../ContentExplanation'
+import { OtherURL } from '../Provider/OtherURL'
+import { ContentLocation, ModifiableContentLocation } from '../ContentLocation'
 
 export const NewPortfolio = ({
   inputNewTitle,
@@ -71,6 +73,19 @@ export const PortfolioList = ({ data, size }) => {
             size={size}
           />
         )
+      case 'OtherURL':
+        return (
+          <OtherURL
+            TitleLine={<BasicTitleLine title={p.title} />}
+            Explain={<ContentExplanation text={p.text} />}
+            Location={<ContentLocation location={p.location} />}
+            fullURL={p.fullURL}
+            pic={p.pic}
+            iframeKey={p.iframeKey}
+            text={p.text}
+            size={size}
+          />
+        )
       default:
         return <></>
     }
@@ -78,7 +93,9 @@ export const PortfolioList = ({ data, size }) => {
 }
 
 export const ModifiablePortfolioList = ({ data, size }) => {
-  const deletePost = (id: string) => {}
+  const deletePost = (id: string) => {
+    // delete modal
+  }
   const editPost = (id: string) => {
     togglePostModal(id)
   }
@@ -110,7 +127,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
             />
             <PostModal
               id={p.id}
-              post={
+              Post={
                 <>
                   <CompleteButtonSet
                     ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
@@ -146,7 +163,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
             />
             <PostModal
               id={p.id}
-              post={
+              Post={
                 <>
                   <CompleteButtonSet
                     ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
@@ -156,6 +173,48 @@ export const ModifiablePortfolioList = ({ data, size }) => {
                   <TwitterPost
                     TitleLine={<ModifiableTitleLine title={p.title} />}
                     Explain={<ModifiableContentExplanation text={p.text} />}
+                    iframeKey={p.iframeKey}
+                    text={p.text}
+                    size={size}
+                  />
+                </>
+              }
+            />
+          </>
+        )
+      case 'OtherURL':
+        return (
+          <>
+            <EditingButtonSet
+              DeleteButton={<DeleteButton onClick={() => deletePost(p.id)} />}
+              EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
+              className="mt-10"
+            />
+            <OtherURL
+              TitleLine={<BasicTitleLine title={p.title} />}
+              Explain={<ContentExplanation text={p.text} />}
+              Location={<ContentLocation location={p.location} />}
+              fullURL={p.fullURL}
+              pic={p.pic}
+              iframeKey={p.iframeKey}
+              text={p.text}
+              size={size}
+            />
+            <PostModal
+              id={p.id}
+              Post={
+                <>
+                  <CompleteButtonSet
+                    ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
+                    DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
+                    className="mt-1"
+                  />
+                  <OtherURL
+                    TitleLine={<ModifiableTitleLine title={p.title} />}
+                    Explain={<ModifiableContentExplanation text={p.text} />}
+                    Location={<ModifiableContentLocation location={p.location} />}
+                    fullURL={p.fullURL}
+                    pic={p.pic}
                     iframeKey={p.iframeKey}
                     text={p.text}
                     size={size}
