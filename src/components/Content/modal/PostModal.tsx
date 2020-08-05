@@ -3,10 +3,10 @@ import PostModalWrapper from './PostModalWrapper'
 import ModalOverlay from './ModalOverlay'
 import ModalContainer from './ModalContainer'
 
-const PostModal = ({ post }) => {
+const PostModal = ({ post, id }) => {
   return (
-    <PostModalWrapper>
-      <ModalOverlay />
+    <PostModalWrapper id={id}>
+      <ModalOverlay id={id} />
       <ModalContainer>{post}</ModalContainer>
     </PostModalWrapper>
   )

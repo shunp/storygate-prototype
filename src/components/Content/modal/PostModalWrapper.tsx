@@ -5,11 +5,12 @@ const modalCss = css`
   transition: opacity 0.25s ease;
 `
 
-const PostModalWrapper = ({ children }) => {
+const PostModalWrapper = ({ children, id }) => {
+  console.log('wrapper', id)
   return (
     <div
       css={modalCss}
-      className="post-modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-40"
+      className={`post-modal-${id} opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-40`}
     >
       {children}
     </div>

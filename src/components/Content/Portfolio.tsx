@@ -62,7 +62,15 @@ export const PortfolioList = ({ data, size }) => {
           />
         )
       case 'TwitterPost':
-        return <TwitterPost TitleLine={<BasicTitleLine title={p.title} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+        return (
+          <TwitterPost
+            TitleLine={<BasicTitleLine title={p.title} />}
+            Explain={<ContentExplanation text={p.text} />}
+            iframeKey={p.iframeKey}
+            text={p.text}
+            size={size}
+          />
+        )
       default:
         return <></>
     }
@@ -72,10 +80,14 @@ export const PortfolioList = ({ data, size }) => {
 export const ModifiablePortfolioList = ({ data, size }) => {
   const deletePost = (id: string) => {}
   const editPost = (id: string) => {
-    togglePostModal()
+    togglePostModal(id)
   }
-  const clearEditing = () => {}
-  const doneEditing = () => {}
+  const clearEditing = (id: string) => {
+    togglePostModal(id)
+  }
+  const doneEditing = (id: string) => {
+    togglePostModal(id)
+  }
   if (!data) {
     return <></>
   }
@@ -97,11 +109,12 @@ export const ModifiablePortfolioList = ({ data, size }) => {
               size={size}
             />
             <PostModal
+              id={p.id}
               post={
                 <>
                   <CompleteButtonSet
-                    ClearButton={<ClearButton onClick={clearEditing} />}
-                    DoneButton={<DoneButton onClick={doneEditing} />}
+                    ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
+                    DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
                     className="mt-1"
                   />
                   <YouTubePost
@@ -124,7 +137,32 @@ export const ModifiablePortfolioList = ({ data, size }) => {
               EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
               className="mt-10"
             />
-            <TwitterPost TitleLine={<BasicTitleLine title={p.title} />} iframeKey={p.iframeKey} text={p.text} size={size} />
+            <TwitterPost
+              TitleLine={<BasicTitleLine title={p.title} />}
+              Explain={<ContentExplanation text={p.text} />}
+              iframeKey={p.iframeKey}
+              text={p.text}
+              size={size}
+            />
+            <PostModal
+              id={p.id}
+              post={
+                <>
+                  <CompleteButtonSet
+                    ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
+                    DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
+                    className="mt-1"
+                  />
+                  <TwitterPost
+                    TitleLine={<ModifiableTitleLine title={p.title} />}
+                    Explain={<ModifiableContentExplanation text={p.text} />}
+                    iframeKey={p.iframeKey}
+                    text={p.text}
+                    size={size}
+                  />
+                </>
+              }
+            />
           </>
         )
       default:
