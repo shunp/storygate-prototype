@@ -3,12 +3,12 @@ import { PersonCaption } from '../firebase/firestore'
 
 export class PersonModel implements Person {
   constructor(
-    private _pageId: string,
-    private _name: string,
-    private _title: string,
-    private _introduction: string,
-    private _location: string,
-    private _pic: string
+    readonly pageId: string,
+    readonly name: string,
+    readonly title: string,
+    readonly introduction: string,
+    readonly location: string,
+    readonly pic: string
   ) {}
 
   static empty(): Person {
@@ -22,29 +22,5 @@ export class PersonModel implements Person {
   static fromCaption(caption: PersonCaption): Person {
     const { pageId, name, title, introduction, location, img } = caption
     return new PersonModel(pageId, name, title, introduction, location, img)
-  }
-
-  get pageId(): string {
-    return this._pageId
-  }
-
-  get name(): string {
-    return this._name
-  }
-
-  get title(): string {
-    return this._title
-  }
-
-  get location(): string {
-    return this._location
-  }
-
-  get pic(): string {
-    return this._pic
-  }
-
-  get introduction(): string {
-    return this._introduction
   }
 }

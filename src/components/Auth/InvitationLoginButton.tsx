@@ -14,8 +14,8 @@ const invitationSignIn = async (invitationCode: string, login: (loginUser: Login
   }
   // FIXME move to cloud functions
   const invitation = await AccountService.acceptInvitation(invitationCode)
-  CommunityService.join(invitation.hostCommunity, user.uid)
-  PersonService.addPage(user.uid, user.name, user.img)
+  await CommunityService.join(invitation.hostCommunity, user.uid)
+  await PersonService.addPage(user.uid, user.name, user.img)
   login(LoginUserModel.fromUserCredential(user))
   location.reload()
   toggleLoginModal()
@@ -39,7 +39,7 @@ const InvitationLoginButton: React.FC<InvitationLoginButtonProps> = ({ login }) 
       <button
         type="button"
         className="text-white bg-blue-800 bg-transparent text-sm py-2 px-2 rounded"
-        onClick={() => invitationSignIn(invitationCode, login)}
+        onClick={() => invitationSignIn(invitationCode.trim(), login)}
         disabled={!invitationCode}
       >
         SignUp

@@ -2,6 +2,8 @@ import * as React from 'react'
 import { AnyAction } from 'redux'
 import { toggleEditCaption } from 'src/state/app'
 import { Person } from 'src/services/interfaces/Person'
+import { PersonService } from 'src/services/PersonService'
+import { shallowEqualObjects } from 'shallow-equal'
 import CaptionWrapper from './CaptionWrapper'
 import CaptionMain from './CaptionMain'
 import CaptionName from './CaptionName'
@@ -15,50 +17,54 @@ import EditCaptionProfileImg from './edit/EditCaptionProfileImg'
 import EditCaptionIntroduction from './edit/EditCaptionIntroduction'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 
-interface CaptionBaseProps {
-  data: Person
-  editingCaption: boolean
+interface CaptionEditProps {
+  original: Person
   dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
-const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, dispatch }) => {
-  const [inputName, setInputName] = React.useState('')
-  const [inputTitle, setInputTitle] = React.useState('')
-  const [inputLocation, setInputLocation] = React.useState('')
-  const [inputIntroduction, setInputIntroduction] = React.useState('')
-  const [profileImg, setProfileImg] = React.useState('')
+const CaptionEdit: React.FC<CaptionEditProps> = ({ original, dispatch }) => {
+  const [name, setName] = React.useState(original.name)
+  const [title, setTitle] = React.useState(original.title)
+  const [location, setLocation] = React.useState(original.location)
+  const [introduction, setIntroduction] = React.useState(original.introduction)
+  const [pic, setPic] = React.useState(original.pic)
 
   const doneEditing = () => {
-    // TODO: firebase
-    // save inputName, inputTitle, inputLocation, inputIntroduction, profileImg
-    // if the value has changed
+    if (!shallowEqualObjects(original, { name, title, introduction, location, pic })) {
+      PersonService.updateCaption({ pageId: original.pageId, name, title, introduction, location, pic })
+      // TODO hook
+      window.location.reload()
+    }
     dispatch(toggleEditCaption())
   }
 
   const resetEditing = () => {
     dispatch(toggleEditCaption())
   }
-
+  return (
+    <>
+      <CompleteButtonSet
+        ClearButton={<ClearButton onClick={resetEditing} />}
+        DoneButton={<DoneButton onClick={doneEditing} />}
+        className="mt-20"
+      />
+      <CaptionWrapper>
+        <EditCaptionProfileImg profileImg={pic} setProfileImg={setPic} />
+        <EditCaptionName name={name} setName={setName} />
+        <EditCaptionTitle title={title} setTitle={setTitle} />
+        <EditCaptionLocation location={location} setLocation={setLocation} />
+      </CaptionWrapper>
+      <EditCaptionIntroduction introduction={introduction} setIntroduction={setIntroduction} />
+    </>
+  )
+}
+interface CaptionBaseProps {
+  data: Person
+  editingCaption: boolean
+  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
+}
+const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, dispatch }) => {
   if (editingCaption) {
-    return (
-      <>
-        <CompleteButtonSet
-          ClearButton={<ClearButton onClick={resetEditing} />}
-          DoneButton={<DoneButton onClick={doneEditing} />}
-          className="mt-20"
-        />
-        <CaptionWrapper>
-          <EditCaptionProfileImg profileImg={data.pic} setProfileImg={setProfileImg} />
-          <EditCaptionName name={data.name} inputName={inputName} setInputName={setInputName} />
-          <EditCaptionTitle title={data.title} inputTitle={inputTitle} setInputTitle={setInputTitle} />
-          <EditCaptionLocation location={data.location} inputLocation={inputLocation} setInputLocation={setInputLocation} />
-        </CaptionWrapper>
-        <EditCaptionIntroduction
-          introduction={data.introduction}
-          inputIntroduction={inputIntroduction}
-          setInputIntroduction={setInputIntroduction}
-        />
-      </>
-    )
+    return <CaptionEdit original={data} dispatch={dispatch} />
   }
   return (
     <CaptionWrapper>

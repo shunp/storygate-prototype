@@ -1,5 +1,5 @@
 import { Person } from 'src/services/interfaces/Person'
-import { fetchPersonCaption, addPersonPage } from 'src/services/firebase/firestore'
+import { fetchPersonCaption, addPersonPage, updatePerson } from 'src/services/firebase/firestore'
 import { PersonModel } from './PersonModel'
 
 class Service {
@@ -18,6 +18,10 @@ class Service {
 
   addPage = async (pageId: string, name: string, img: string) => {
     addPersonPage(pageId, name, img)
+  }
+
+  updateCaption = async (person: Person) => {
+    updatePerson(person)
   }
 }
 

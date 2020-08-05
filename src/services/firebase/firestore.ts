@@ -1,3 +1,4 @@
+import { Person } from 'src/services/interfaces/Person'
 import { firestore } from './firebase'
 
 export interface PersonCaption {
@@ -81,4 +82,11 @@ export const addPersonPage = async (pageId: string, name: string, img: string) =
       name,
       img
     })
+}
+
+export const updatePerson = async (person: Person) => {
+  const docRef = firestore.collection('v2/proto/personCaptions').doc(person.pageId)
+  const update = { ...person }
+  delete update.pageId
+  docRef.update(update)
 }
