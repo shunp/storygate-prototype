@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { toggleEditPortfolio } from 'src/state/app'
-import EditButton from '../EditButton'
-import ClearButton from '../ClearButton'
-import DoneButton from '../DoneButton'
-import { NewPortfolio, PortfolioList } from '../Content/Portfolio'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
+import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
 
 const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
   const [inputNewTitle, setInputNewTitle] = React.useState('')
@@ -33,6 +31,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
 
   const portfolioData = [
     {
+      id: '1xxxxxxxx',
       type: 'YouTubePost',
       title: 'Best Architecture 2018',
       iframeKey: 'WlkWTye4mfI',
@@ -42,6 +41,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
         'AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。'
     },
     {
+      id: '2xxxxxxxx',
       type: 'TwitterPost',
       title: '3D WebXR Template',
       iframeKey: '1279046962025652225',
@@ -55,7 +55,7 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
   if (editing) {
     return (
       <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-        <EditButton
+        <CompleteButtonSet
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
           className="mt-1"
@@ -68,7 +68,8 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
           inputNewExplanation={inputNewExplanation}
           setInputNewExplanation={setInputNewExplanation}
         />
-        <PortfolioList data={portfolioData} size={size} />
+        <ModifiablePortfolioList data={portfolioData} size={size} />
+        {/* <PortfolioList data={portfolioData} size={size} /> */}
       </div>
     )
   }

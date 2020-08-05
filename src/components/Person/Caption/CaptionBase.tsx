@@ -13,9 +13,7 @@ import EditCaptionTitle from './edit/EditCaptionTitle'
 import EditCaptionLocation from './edit/EditCaptionLocation'
 import EditCaptionProfileImg from './edit/EditCaptionProfileImg'
 import EditCaptionIntroduction from './edit/EditCaptionIntroduction'
-import DoneButton from '../../DoneButton'
-import ClearButton from '../../ClearButton'
-import EditButton from '../../EditButton'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 
 interface CaptionBaseProps {
   data: Person
@@ -43,7 +41,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, dispatc
   if (editingCaption) {
     return (
       <>
-        <EditButton
+        <CompleteButtonSet
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
           className="mt-20"

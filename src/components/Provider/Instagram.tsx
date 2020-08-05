@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import InstagramEmbed from 'react-instagram-embed'
-import ContentExplanation from '../ContentExplanation'
+import { ContentExplanation } from '../ContentExplanation'
 
 export const InstagramPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
-import ContentExplanation from '../ContentExplanation'
+import { ContentExplanation } from '../ContentExplanation'
 
 export const TwitterPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (

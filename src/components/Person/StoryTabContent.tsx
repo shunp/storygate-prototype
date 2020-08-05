@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { toggleEditStory } from 'src/state/app'
-import EditButton from '../EditButton'
-import ClearButton from '../ClearButton'
-import DoneButton from '../DoneButton'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { Story, AddStory } from '../Content/Story'
 
 const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
@@ -78,7 +76,7 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
   if (editing) {
     return (
       <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-        <EditButton
+        <CompleteButtonSet
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
           className="mt-1"

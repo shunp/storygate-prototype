@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
-import ContentExplanation from '../ContentExplanation'
+import { ContentExplanation } from '../ContentExplanation'
 
 export const Text: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   // TODO: background pic

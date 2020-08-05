@@ -50,3 +50,19 @@ export const BallonTitleLine: React.FC<TitleLineProps> = ({ title, time }) => {
     </div>
   )
 }
+
+export const ModifiableTitleLine = ({ title }) => {
+  const [inputTitle, setInputTitle] = React.useState(title)
+  return (
+    <div id="line-title" className="flex flex-col w-full mt-2">
+      {/* <div className="m-1 text-xs">Title</div> */}
+      <input
+        type="text"
+        placeholder="title..."
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
+        value={inputTitle}
+        onChange={e => setInputTitle(e.target.value)}
+      />
+    </div>
+  )
+}
