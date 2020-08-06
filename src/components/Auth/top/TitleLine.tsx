@@ -11,3 +11,14 @@ export const LoginTitleLine = () => {
     </>
   )
 }
+
+export const RegisterTitleLine = () => {
+  return (
+    <>
+      <div className="flex justify-center pt-10 pb-4">
+        <div className="h-full text-white">Create Account</div>
+      </div>
+      <div className="border-white border-solid border-2 mx-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
+    </>
+  )
+}

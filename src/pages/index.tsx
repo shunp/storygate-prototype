@@ -96,7 +96,7 @@ const IndexPage = () => {
             <FacebookLoginButton />
           </div>
         </div>
-        <div className="border-white border-solid border-2 mx-4 mt-4 lg:max-w-3xl lg:mx-auto" />
+        <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
         <div className="flex justify-center mt-10">
           <span className="text-white">アカウントをお持ちでないですか？</span>
           <Link to="/register" className="text-white underline">

@@ -1,6 +1,6 @@
 import Background from './Background'
-import { LoginTitleLine } from './TitleLine'
+import { LoginTitleLine, RegisterTitleLine } from './TitleLine'
 import Heading from './Heading'
 import Logo from './Logo'
 
-export { Background, LoginTitleLine, Heading, Logo }
+export { Background, LoginTitleLine, RegisterTitleLine, Heading, Logo }
