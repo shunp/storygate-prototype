@@ -4,17 +4,19 @@ import { toggleEditCaption } from 'src/state/app'
 import { Person } from 'src/services/interfaces/Person'
 import { PersonService } from 'src/services/PersonService'
 import { shallowEqualObjects } from 'shallow-equal'
+import {
+  EditCaptionName,
+  EditCaptionTitle,
+  EditCaptionLocation,
+  EditCaptionProfileImg,
+  EditCaptionIntroduction
+} from 'src/components/Person/Caption/edit'
 import CaptionWrapper from './CaptionWrapper'
 import CaptionMain from './CaptionMain'
 import CaptionName from './CaptionName'
 import CaptionLocation from './CaptionLocation'
 import CaptionTitle from './CaptionTitle'
 import CaptionIntroduction from './CaptionIntroduction'
-import EditCaptionName from './edit/EditCaptionName'
-import EditCaptionTitle from './edit/EditCaptionTitle'
-import EditCaptionLocation from './edit/EditCaptionLocation'
-import EditCaptionProfileImg from './edit/EditCaptionProfileImg'
-import EditCaptionIntroduction from './edit/EditCaptionIntroduction'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 
 interface CaptionEditProps {

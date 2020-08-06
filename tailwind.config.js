@@ -126,7 +126,8 @@ module.exports = {
         600: '#805ad5',
         700: '#6b46c1',
         800: '#553c9a',
-        900: '#44337a'
+        900: '#44337a',
+        c1: '#AF23C8'
       },
       pink: {
         100: '#fff5f7',
@@ -164,6 +165,7 @@ module.exports = {
       'gray700-secondary-gray700': ['#4a5568 10%', 'var(--color-secondary)', '#4a5568 90%'],
       'gray900-secondary-gray900': ['#1a202c', 'var(--color-secondary)', '#1a202c 90%'],
       'secondary-gray500-secondary': ['var(--color-secondary) 10%', '#a0aec0', 'var(--color-secondary) 90%'],
+      'blue-pink-purple': ['#5442D6', '#9622D2', '#CC2CB7'],
       'red-blue': ['#f00', '#00f'],
       'red-green-blue': ['#f00', '#0f0', '#00f'],
       'black-white-with-stops': ['#000', '#000 45%', '#fff 55%', '#fff']
