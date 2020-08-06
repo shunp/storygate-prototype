@@ -71,11 +71,11 @@ export const addCommunityMember = async (communityId: string, uid: string) => {
   const doc = await docRef.get()
   const communityCaption = doc.data() || {}
   communityCaption.members.push(uid)
-  docRef.update(communityCaption)
+  await docRef.update(communityCaption)
 }
 
 export const addPersonPage = async (pageId: string, name: string, img: string) => {
-  firestore
+  await firestore
     .collection('v2/proto/personCaptions')
     .doc(pageId)
     .set({
@@ -88,5 +88,5 @@ export const updatePerson = async (person: Person) => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(person.pageId)
   const update = { ...person }
   delete update.pageId
-  docRef.update(update)
+  await docRef.update(update)
 }
