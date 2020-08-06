@@ -88,7 +88,7 @@ const IndexPage = ({ login }) => {
     <Background>
       <div className="absolute w-full h-full">
         <LoginTitleLine />
-        <div className="mt-20 mx-6">
+        <div className="mt-10 mx-6">
           <Heading>世界初のオンラインコミュニティ</Heading>
           <Heading>特化型ソーシャルメディア</Heading>
           <Logo>StoryGate</Logo>
