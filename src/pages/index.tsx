@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
-import Img from 'gatsby-image'
-import { useStaticQuery, graphql, Link, navigate } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { State } from 'src/state'
 
 import { Background, LoginTitleLine, Heading, Logo } from 'src/components/Auth/top'
@@ -25,7 +24,7 @@ const MailAddress = ({ emailAddress, setEmailAddress }) => {
         <input
           type="email"
           placeholder="abc@example.com"
-          className="border-none bg-transparent h-8 px-3 w-full rounded-lg text-lg focus:outline-none"
+          className="border-none bg-transparent text-white h-8 px-3 w-full rounded-lg text-lg focus:outline-none"
           value={emailAddress}
           onChange={e => setEmailAddress(e.target.value)}
         />
@@ -42,7 +41,7 @@ const Password = ({ password, setPassword }) => {
         <input
           type="password"
           placeholder="********"
-          className="border-none bg-transparent h-8 px-3 w-full rounded-lg text-lg focus:outline-none"
+          className="border-none bg-transparent text-white h-8 px-3 w-full rounded-lg text-lg focus:outline-none"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
@@ -83,13 +82,10 @@ const FacebookLoginButton = ({ login }) => {
 }
 
 const IndexPage = ({ login }) => {
-  // TODO: from GraphQL Schema
-  const url = `https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/443502378%2Fbackground.jpg?alt=media&token=d51ed645-6e89-4475-aef5-695efba575ba`
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   return (
-    <>
-      <Background bgImg={url} />
+    <Background>
       <div className="absolute w-full h-full">
         <LoginTitleLine />
         <div className="mt-20 mx-6">
@@ -118,7 +114,7 @@ const IndexPage = ({ login }) => {
           </Link>
         </div>
       </div>
-    </>
+    </Background>
   )
 }
 

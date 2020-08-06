@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
-import Img from 'gatsby-image'
-import { useStaticQuery, graphql, Link } from 'gatsby'
+import { Link } from 'gatsby'
 import { Background, Heading, Logo, RegisterTitleLine } from 'src/components/Auth/top'
 
 const InvitationCode = ({ invitation, setInvitation }) => {
@@ -33,23 +32,9 @@ const FacebookSignupButton = () => {
 }
 
 const IndexPage = () => {
-  // const data = useStaticQuery(graphql`
-  //   query {
-  //     background: file(relativePath: { eq: "nishinosalon_background.jpg" }) {
-  //       childImageSharp {
-  //         fluid(maxWidth: 1000) {
-  //           ...GatsbyImageSharpFluid
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
-  // TODO: from GraphQL Schema
-  const url = `https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/443502378%2Fbackground.jpg?alt=media&token=d51ed645-6e89-4475-aef5-695efba575ba`
   const [invitation, setInvitation] = React.useState('')
   return (
-    <>
-      <Background bgImg={url} />
+    <Background>
       <div className="absolute w-full h-full">
         <RegisterTitleLine />
         <div className="mt-20 mx-6">
@@ -73,7 +58,7 @@ const IndexPage = () => {
           </Link>
         </div>
       </div>
-    </>
+    </Background>
   )
 }
 

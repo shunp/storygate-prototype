@@ -10,3 +10,10 @@ import 'firebase/firestore'
 import 'firebase/auth'
 
 export { default as wrapRootElement } from 'src/state/ReduxWrapper'
+export const onClientEntry = () => {
+  // IntersectionObserver polyfill for gatsby-background-image (Safari, IE)
+  if (!(`IntersectionObserver` in window)) {
+    import(`intersection-observer`)
+    console.log(`# IntersectionObserver is polyfilled!`)
+  }
+}
