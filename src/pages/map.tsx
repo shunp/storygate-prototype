@@ -31,9 +31,24 @@ interface User {
   lng: number
 }
 
+class Pos {
+  lat: number
+
+  lng: number
+
+  constructor(lat: number, lng: number) {
+    this.lat = lat
+    this.lng = lng
+  }
+}
+
 const MapPage = ({ google }) => {
+  navigator.geolocation.getCurrentPosition(pos => {
+    console.log('location', pos)
+  })
   const [activeMarker, setActiveMarker] = React.useState(null)
-  const [targetUser, setTargetUser] = React.useState<User>()
+  const [targetUser, setTargetUser] = React.useState<User>({ id: '', name: '', lat: 0, lng: 0 })
+  const [currentPos, setCurrentPos] = React.useState<Pos>(new Pos(35.6804, 139.769))
 
   const onMarkerClick = (props, marker, e, user: User) => {
     console.log('onMarketClick', marker)
@@ -53,6 +68,14 @@ const MapPage = ({ google }) => {
     console.log('onMapClicked')
   }
 
+  const fetchCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(pos => {
+      console.log('location', pos)
+      console.log('coords', pos.coords)
+      setCurrentPos(new Pos(pos.coords.latitude, pos.coords.longitude))
+    })
+  }
+
   const markerList = []
   const users = [
     {
@@ -69,6 +92,14 @@ const MapPage = ({ google }) => {
       img:
         'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/443502378%2Fprofile.jpg?alt=media&token=bc87f7be-760d-4f9a-92e1-c6b2abc0eba4',
       lat: 35.6904,
+      lng: 139.749
+    },
+    {
+      id: 3,
+      name: '小池 駿平',
+      img:
+        'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/443502378%2Fprofile.jpg?alt=media&token=bc87f7be-760d-4f9a-92e1-c6b2abc0eba4',
+      lat: 36.6904,
       lng: 139.749
     }
   ]
@@ -102,8 +133,12 @@ const MapPage = ({ google }) => {
           google={google}
           zoom={14}
           initialCenter={{
-            lat: 35.6804,
-            lng: 139.769
+            lat: currentPos.lat,
+            lng: currentPos.lng
+          }}
+          center={{
+            lat: currentPos.lat,
+            lng: currentPos.lng
           }}
           onClick={onMapClicked}
         >
@@ -112,6 +147,11 @@ const MapPage = ({ google }) => {
             <TargetInfo />
           </InfoWindow>
         </Map>
+      </div>
+      <div id="map-footer" className="absolute z-10 bottom-0">
+        <button type="button" className="p-40" onClick={fetchCurrentLocation}>
+          現在地へ
+        </button>
       </div>
     </>
   )
