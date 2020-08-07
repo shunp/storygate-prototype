@@ -13,7 +13,7 @@ interface StaticQueryProps {
   }
 }
 
-const PageRoot: React.FC = ({ children }) => (
+const PageRoot = ({ children, loading = true }) => (
   <StaticQuery
     query={graphql`
       query IndexLayoutQuery {
@@ -36,8 +36,9 @@ const PageRoot: React.FC = ({ children }) => (
           ]}
         >
           <html lang="en" />
+          <link rel="stylesheet" href="https://use.typekit.net/ajn0goi.css" />
         </Helmet>
-        <PageLoader />
+        {loading && <PageLoader />}
         {/* <FooterMessage /> */}
         {children}
       </>

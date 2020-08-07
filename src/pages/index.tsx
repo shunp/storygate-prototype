@@ -8,6 +8,8 @@ import { AuthService } from 'src/services/AuthService'
 import { LoginUser } from 'src/services/interfaces/Auth'
 import { connect } from 'react-redux'
 import { publishLogin } from 'src/state/app'
+import PageRoot from 'src/components/Root/PageRoot'
+import SGText from 'src/components/SGText'
 
 interface HeaderStates {
   loginUser: LoginUser
@@ -50,13 +52,13 @@ const Password = ({ password, setPassword }) => {
   )
 }
 
-const MailLoginButton = ({ emailAddress, password }) => {
+const MailLoginButton = ({ emailAddress, password, children }) => {
   const loginByEmail = () => {
     console.log('emailAddress: ', emailAddress)
   }
   return (
-    <button type="button" className="rounded-full text-purple-c1 bg-white py-2 px-10 m-2 w-full" onClick={loginByEmail}>
-      ログイン
+    <button type="button" className="rounded-full bg-white py-2 px-10 m-2 w-full" onClick={loginByEmail}>
+      {children}
     </button>
   )
 }
@@ -73,10 +75,10 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
   navigate('/persons/owner')
 }
 
-const FacebookLoginButton = ({ login }) => {
+const FacebookLoginButton = ({ login, children }) => {
   return (
-    <button type="button" className="rounded-full text-white bg-blue-800 py-2 px-10 m-2 w-full" onClick={() => onClickLogin(login)}>
-      Facebookでログイン
+    <button type="button" className="rounded-full bg-blue-800 py-2 px-10 m-2 w-full" onClick={() => onClickLogin(login)}>
+      {children}
     </button>
   )
 }
@@ -85,36 +87,44 @@ const IndexPage = ({ login }) => {
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   return (
-    <Background>
-      <div className="absolute w-full h-full">
-        <LoginTitleLine />
-        <div className="mt-10 mx-6">
-          <Heading>世界初のオンラインコミュニティ</Heading>
-          <Heading>特化型ソーシャルメディア</Heading>
-          <Logo>StoryGate</Logo>
-        </div>
-        <div className="mx-6 mt-10">
-          <MailAddress emailAddress={emailAddress} setEmailAddress={setEmailAddress} />
-          <Password password={password} setPassword={setPassword} />
-        </div>
-        <div className="flex justify-center flex-col">
-          <div className="flex justify-center">
-            <MailLoginButton emailAddress={emailAddress} password={password} />
+    <PageRoot loading={false}>
+      <Background>
+        <div className="absolute w-full h-full">
+          <LoginTitleLine>
+            <SGText className="text-white">Login</SGText>
+          </LoginTitleLine>
+          <div className="mt-10 mx-6">
+            <Heading>世界初のオンラインコミュニティ</Heading>
+            <Heading>特化型ソーシャルメディア</Heading>
+            <Logo>StoryGate</Logo>
           </div>
-          <div className="flex justify-center text-white">または</div>
-          <div className="flex justify-center">
-            <FacebookLoginButton login={login} />
+          <div className="mx-6 mt-10">
+            <MailAddress emailAddress={emailAddress} setEmailAddress={setEmailAddress} />
+            <Password password={password} setPassword={setPassword} />
+          </div>
+          <div className="flex justify-center flex-col">
+            <div className="flex justify-center">
+              <MailLoginButton emailAddress={emailAddress} password={password}>
+                <SGText className="text-purple-c1">ログイン</SGText>
+              </MailLoginButton>
+            </div>
+            <div className="flex justify-center text-white">または</div>
+            <div className="flex justify-center">
+              <FacebookLoginButton login={login}>
+                <SGText className="text-white ">Facebookでログイン</SGText>
+              </FacebookLoginButton>
+            </div>
+          </div>
+          <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
+          <div className="flex justify-center mt-10">
+            <SGText className="text-white">アカウントをお持ちでないですか？</SGText>
+            <Link to="/register">
+              <SGText className="text-white underline">新規登録</SGText>
+            </Link>
           </div>
         </div>
-        <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
-        <div className="flex justify-center mt-10">
-          <span className="text-white">アカウントをお持ちでないですか？</span>
-          <Link to="/register" className="text-white underline">
-            新規登録
-          </Link>
-        </div>
-      </div>
-    </Background>
+      </Background>
+    </PageRoot>
   )
 }
 

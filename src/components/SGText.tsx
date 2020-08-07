@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 
-const Heading = ({ children }) => {
+const SGText = ({ children, className }) => {
   return (
     <div
-      className="h-full text-white text-lg font-bold my-1"
+      className={className}
       css={css`
         font-family: noto-sans-cjk-jp, sans-serif;
       `}
@@ -13,4 +13,5 @@ const Heading = ({ children }) => {
     </div>
   )
 }
-export default Heading
+
+export default SGText

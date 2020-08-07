@@ -4,10 +4,10 @@ import { css } from '@emotion/core'
 const Logo = ({ children }) => {
   return (
     <div
-      className="h-full text-white text-5xl font-serif italic my-2"
+      className="h-full text-white text-5xl my-2"
       css={css`
-        /* font-family: livermore-script-atf, sans-serif; */
-        font-style: italic;
+        font-family: 'livermore-script-atf', sans-serif;
+        font-style: normal;
         font-weight: 400;
       `}
     >
