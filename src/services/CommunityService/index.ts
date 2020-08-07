@@ -24,7 +24,7 @@ class Service {
   }
 
   join = async (id: string, uid: string) => {
-    addCommunityMember(id, uid)
+    await addCommunityMember(id, uid)
   }
 }
 

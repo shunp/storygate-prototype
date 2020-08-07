@@ -17,7 +17,7 @@ class Service {
   }
 
   addPage = async (pageId: string, name: string, img: string) => {
-    addPersonPage(pageId, name, img)
+    await addPersonPage(pageId, name, img)
   }
 
   updateCaption = async (person: Person) => {
