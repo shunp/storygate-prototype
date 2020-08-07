@@ -1,10 +1,40 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { css } from '@emotion/core'
-import { Link } from 'gatsby'
+import { State } from 'src/state'
+import { publishLogin } from 'src/state/app'
+
+import { Link, navigate } from 'gatsby'
 import { Background, Heading, Logo, RegisterTitleLine } from 'src/components/Auth/top'
 import PageRoot from 'src/components/Root/PageRoot'
 import SGText from 'src/components/SGText'
+import { AccountService } from 'src/services/AccountService'
+import { AuthService } from 'src/services/AuthService'
+import { LoginUser } from 'src/services/interfaces/Auth'
+import { CommunityService } from 'src/services/CommunityService'
+import { PersonService } from 'src/services/PersonService'
+import { LoginUserModel } from 'src/services/AuthService/LoginUserModel'
 
+interface HeaderStates {
+  loginUser: LoginUser
+}
+interface HeaderDispatch {
+  login: (logingUser: LoginUser) => void
+}
+const invitationSignIn = async (invitationCode: string, login: (loginUser: LoginUser) => void) => {
+  const user = await AuthService.signUp()
+  if (!user) {
+    return
+  }
+  // FIXME move to cloud functions
+  const invitation = await AccountService.acceptInvitation(invitationCode)
+  await CommunityService.join(invitation.hostCommunity, user.uid)
+  await PersonService.addPage(user.uid, user.name, user.img)
+  login(LoginUserModel.fromUserCredential(user))
+  // TODO:
+  // navigate(`/persons/${loginUser.uid}`)
+  navigate('/persons/owner')
+}
 const InvitationCode = ({ invitation, setInvitation }) => {
   return (
     <>
@@ -25,15 +55,15 @@ const InvitationCode = ({ invitation, setInvitation }) => {
   )
 }
 
-const FacebookSignupButton = () => {
+const FacebookSignupButton = ({ onClick }) => {
   return (
-    <button type="button" className="rounded-full bg-blue-800 py-2 px-10 m-2 w-full">
+    <button type="button" className="rounded-full bg-blue-800 py-2 px-10 m-2 w-full" onClick={onClick}>
       <SGText className="text-white ">Facebookで登録</SGText>
     </button>
   )
 }
 
-const IndexPage = () => {
+const IndexPage = ({ login }) => {
   const [invitation, setInvitation] = React.useState('')
   return (
     <PageRoot loading={false}>
@@ -52,7 +82,7 @@ const IndexPage = () => {
           </div>
           <div className="flex justify-center flex-col">
             <div className="flex justify-center">
-              <FacebookSignupButton />
+              <FacebookSignupButton onClick={() => invitationSignIn(invitation.trim(), login)} />
             </div>
           </div>
           <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
@@ -68,4 +98,11 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default connect<HeaderStates, HeaderDispatch, {}, State>(
+  state => ({
+    loginUser: state.app.loginUser
+  }),
+  dispatch => ({
+    login: (loginUser: LoginUser) => dispatch(publishLogin(loginUser))
+  })
+)(IndexPage)
