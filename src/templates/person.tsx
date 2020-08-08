@@ -14,7 +14,7 @@ import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
-import { LoginUser } from 'src/services/interfaces/Auth'
+import { toggleEditCaption } from 'src/state/app'
 
 interface PageContext {
   pageId: string
@@ -30,16 +30,12 @@ interface PersonPageState {
   editingStory: boolean
   editingCommunity: boolean
 }
-interface PersonPageProps extends PersonPageDispatch {
-  pageContext: PageContext
-  editingCaption: boolean
-  editingPortfolio: boolean
-  editingStory: boolean
-  editingCommunity: boolean
-  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
-}
 interface PersonPageDispatch {
-  login: (loginUser: LoginUser) => void
+  toggleEditingCaption: () => void
+}
+interface PersonPageProps extends PersonPageState, PersonPageDispatch {
+  pageContext: PageContext
+  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 const PersonPage: React.FC<PersonPageProps> = ({
   pageContext,
@@ -47,20 +43,28 @@ const PersonPage: React.FC<PersonPageProps> = ({
   editingPortfolio,
   editingStory,
   editingCommunity,
+  toggleEditingCaption,
   dispatch
 }) => {
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
+  const loadPerson = async () => {
+    await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
+  }
+  const updateCaption = async (updatedPerson: Person) => {
+    await PersonService.updateCaption(updatedPerson)
+    await loadPerson()
+  }
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
-    PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
+    loadPerson()
   }, [])
 
   return (
     <PageRoot>
       <Header />
-      <Caption data={person} editingCaption={editingCaption} dispatch={dispatch} />
+      <Caption data={person} editingCaption={editingCaption} toggleEditingCaption={toggleEditingCaption} updateCaption={updateCaption} />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout
         openTab={openTab}
@@ -74,12 +78,16 @@ const PersonPage: React.FC<PersonPageProps> = ({
   )
 }
 
-export default connect<PersonPageState, null, {}, State>(
+export default connect<PersonPageState, PersonPageDispatch, {}, State>(
   state => ({
     editingCaption: state.app.editingCaption,
     editingPortfolio: state.app.editingPortfolio,
     editingStory: state.app.editingStory,
     editingCommunity: state.app.editingCommunity
   }),
-  null
+  dispatch => ({
+    toggleEditingCaption: () => {
+      dispatch(toggleEditCaption())
+    }
+  })
 )(PersonPage)
