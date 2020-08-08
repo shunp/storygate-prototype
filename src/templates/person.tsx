@@ -14,7 +14,7 @@ import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
-import { toggleEditCaption } from 'src/state/app'
+import { toggleEditingCaption, toggleEditingPortfolio, toggleEditingStory } from 'src/state/app'
 
 interface PageContext {
   pageId: string
@@ -32,10 +32,11 @@ interface PersonPageState {
 }
 interface PersonPageDispatch {
   toggleEditingCaption: () => void
+  toggleEditingPortfolio: () => void
+  toggleEditingStory: () => void
 }
 interface PersonPageProps extends PersonPageState, PersonPageDispatch {
   pageContext: PageContext
-  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
 }
 const PersonPage: React.FC<PersonPageProps> = ({
   pageContext,
@@ -44,7 +45,8 @@ const PersonPage: React.FC<PersonPageProps> = ({
   editingStory,
   editingCommunity,
   toggleEditingCaption,
-  dispatch
+  toggleEditingPortfolio,
+  toggleEditingStory
 }) => {
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
@@ -71,7 +73,8 @@ const PersonPage: React.FC<PersonPageProps> = ({
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}
         editingCommunity={editingCommunity}
-        dispatch={dispatch}
+        toggleEditingPortfolio={toggleEditingPortfolio}
+        toggleEditingStory={toggleEditingStory}
       />
       <Footer />
     </PageRoot>
@@ -87,7 +90,13 @@ export default connect<PersonPageState, PersonPageDispatch, {}, State>(
   }),
   dispatch => ({
     toggleEditingCaption: () => {
-      dispatch(toggleEditCaption())
+      dispatch(toggleEditingCaption())
+    },
+    toggleEditingPortfolio: () => {
+      dispatch(toggleEditingPortfolio())
+    },
+    toggleEditingStory: () => {
+      dispatch(toggleEditingStory())
     }
   })
 )(PersonPage)

@@ -36,19 +36,19 @@ export const publishLogout = () => {
   }
 }
 
-export const toggleEditCaption = () => ({
+export const toggleEditingCaption = () => ({
   type: TOGGLE_EDIT_CAPTION
 })
 
-export const toggleEditStory = () => ({
+export const toggleEditingStory = () => ({
   type: TOGGLE_EDIT_STORY
 })
 
-export const toggleEditPortfolio = () => ({
+export const toggleEditingPortfolio = () => ({
   type: TOGGLE_EDIT_PORTFOLIO
 })
 
-export const toggleEditCommunity = () => ({
+export const toggleEditingCommunity = () => ({
   type: TOGGLE_EDIT_COMMUNITY
 })
 

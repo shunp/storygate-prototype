@@ -11,21 +11,29 @@ interface PersonContentLayoutProps {
   editingPortfolio: boolean
   editingStory: boolean
   editingCommunity: boolean
-  dispatch: React.Dispatch<React.SetStateAction<AnyAction>>
+  toggleEditingPortfolio: () => void
+  toggleEditingStory: () => void
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
   editingPortfolio,
   editingStory,
   editingCommunity,
-  dispatch
+  toggleEditingPortfolio,
+  toggleEditingStory
 }) => {
   const size = useWindowSize()
   return (
     <PersonContentWrapper>
-      <PortfolioTabContent index={1} openTab={openTab} size={size.width} editing={editingPortfolio} dispatch={dispatch} />
-      <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} dispatch={dispatch} />
-      <CommunityTabContent index={3} openTab={openTab} size={size.width} editing={editingCommunity} dispatch={dispatch} />
+      <PortfolioTabContent
+        index={1}
+        openTab={openTab}
+        size={size.width}
+        editing={editingPortfolio}
+        toggleEditingPortfolio={toggleEditingPortfolio}
+      />
+      <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} toggleEditingStory={toggleEditingStory} />
+      <CommunityTabContent index={3} openTab={openTab} size={size.width} editing={editingCommunity} />
     </PersonContentWrapper>
   )
 }

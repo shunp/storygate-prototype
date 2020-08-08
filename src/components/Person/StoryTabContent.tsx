@@ -1,9 +1,15 @@
 import * as React from 'react'
-import { toggleEditStory } from 'src/state/app'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { Story, AddStory } from '../Content/Story'
 
-const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
+interface StoryTabContentProps {
+  index: number
+  openTab: number
+  size: number
+  editing: boolean
+  toggleEditingStory: () => void
+}
+const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size, editing, toggleEditingStory }) => {
   const [inputNewMonth, setInputNewMonth] = React.useState('')
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
@@ -66,11 +72,11 @@ const StoryTabContent = ({ index, openTab, size, editing, dispatch }) => {
       return
     }
 
-    dispatch(toggleEditStory())
+    toggleEditingStory()
   }
 
   const resetEditing = () => {
-    dispatch(toggleEditStory())
+    toggleEditingStory()
   }
 
   if (editing) {

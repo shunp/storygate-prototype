@@ -1,10 +1,16 @@
 import * as React from 'react'
-import { toggleEditPortfolio } from 'src/state/app'
 import { OgTag } from 'src/utils/scraper'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
 
-const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
+interface PortfolioTabContentProps {
+  index: number
+  openTab: number
+  size: number
+  editing: boolean
+  toggleEditingPortfolio: () => void
+}
+const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTab, size, editing, toggleEditingPortfolio }) => {
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
@@ -27,11 +33,11 @@ const PortfolioTabContent = ({ index, openTab, size, editing, dispatch }) => {
     const ogTag = new OgTag()
     const tagParam = await ogTag.fetch(inputNewURL)
     console.log('tagParam', tagParam)
-    dispatch(toggleEditPortfolio())
+    toggleEditingPortfolio()
   }
 
   const resetEditing = () => {
-    dispatch(toggleEditPortfolio())
+    toggleEditingPortfolio()
   }
 
   const portfolioData = [

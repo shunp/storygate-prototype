@@ -5,7 +5,7 @@ import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
-import { toggleEditCaption, toggleEditStory, toggleEditPortfolio, toggleEditCommunity } from 'src/state/app'
+import { toggleEditingCaption, toggleEditingStory, toggleEditingPortfolio, toggleEditingCommunity } from 'src/state/app'
 
 const MenuLinkWrapper = ({ title, to, icon }) => {
   return (
@@ -189,9 +189,9 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
 export default connect(
   state => ({}),
   dispatch => ({
-    editCaption: () => dispatch(toggleEditCaption()),
-    editStory: () => dispatch(toggleEditStory()),
-    editPortfolio: () => dispatch(toggleEditPortfolio()),
-    editCommunity: () => dispatch(toggleEditCommunity())
+    editCaption: () => dispatch(toggleEditingCaption()),
+    editStory: () => dispatch(toggleEditingStory()),
+    editPortfolio: () => dispatch(toggleEditingPortfolio()),
+    editCommunity: () => dispatch(toggleEditingCommunity())
   })
 )(TopMenuBase)
