@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { IframeProps } from 'src/services/interfaces/Provider'
-import { asPortfolioContentIFrame, WithPortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
-import { PortfolioContent, WithIFrame } from 'src/services/interfaces/Portfolio'
+import { asPortfolioContentIFrame, PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
+import { WithIFrame } from 'src/services/interfaces/Portfolio'
 
-const Iframe: React.FC<WithPortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
+const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
     <div className="flex justify-center">
       <iframe

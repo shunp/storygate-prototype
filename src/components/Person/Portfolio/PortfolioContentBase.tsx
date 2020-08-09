@@ -2,6 +2,7 @@ import * as React from 'react'
 import { PortfolioContent, WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
 import { BasicTitleLine, ModifiableTitleLine } from 'src/components/TitleLine'
 import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
+import { ModifiableContentLocation, ContentLocation } from 'src/components/ContentLocation'
 
 export interface PortfolioContentWrapperProps<T = {}> {
   content: PortfolioContent<T>
@@ -25,9 +26,29 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     </>
   )
 }
+export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrapperProps<WithPicture>> = ({ children, content, editing }) => {
+  if (editing) {
+    return (
+      <>
+        <ModifiableTitleLine title={content.title} />
+        <div className="flex justify-center">{children}</div>
+        <ModifiableContentExplanation text={content.text} />
+        <ModifiableContentLocation location={content.location} />
+      </>
+    )
+  }
+  return (
+    <>
+      <BasicTitleLine title={content.title} />
+      <div className="flex justify-center">{children}</div>
+      <ContentExplanation text={content.text} />
+      <ContentLocation location={content.location} />
+    </>
+  )
+}
 export type WithPortfolioContentProps<T = {}> = PortfolioContentWrapperProps<T> & PortfolioContentProps<T>
 export type PortfolioContentProps<T = {}> = T & {
-  size: number
+  size?: number
 }
 export const asPortfolioContentIFrame = (ContentComponent: React.FC<PortfolioContentProps<WithIFrame>>) => {
   return ({ content, size, editing }: WithPortfolioContentProps<WithIFrame>) => (
@@ -36,8 +57,10 @@ export const asPortfolioContentIFrame = (ContentComponent: React.FC<PortfolioCon
     </PortfolioContentWrapper>
   )
 }
-export const asPortfolioContentPicture = (ContentComponent: React.FC<WithPortfolioContentProps<WithPicture>>) => {
-  return ({ content, size }: WithPortfolioContentProps<WithPicture>) => (
-    <ContentComponent fullURL={content.fullURL} pic={content.pic} location={content.location} size={size} />
+export const asPortfolioContentPicture = (ContentComponent: React.FC<PortfolioContentProps<WithPicture>>) => {
+  return ({ content, editing }: WithPortfolioContentProps<WithPicture>) => (
+    <PortfolioContentWrapperWithPicture content={content} editing={editing}>
+      <ContentComponent fullURL={content.fullURL} pic={content.pic} />
+    </PortfolioContentWrapperWithPicture>
   )
 }

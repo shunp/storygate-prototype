@@ -1,39 +1,32 @@
 import * as React from 'react'
-import { IframeProps } from 'src/services/interfaces/Provider'
+import { WithPicture, WithIFrame } from 'src/services/interfaces/Portfolio'
+import {
+  asPortfolioContentPicture,
+  PortfolioContentProps,
+  asPortfolioContentIFrame
+} from 'src/components/Person/Portfolio/PortfolioContentBase'
 
-export const GeneralURLIframe: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, iframeKey, text, size }) => {
+const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
-    <>
-      {TitleLine}
-      <div className="flex justify-center">
-        <iframe
-          className="relative z-10"
-          title="otherURL"
-          id="ytplayer"
-          width={size}
-          height={size ? size * 0.6 : 0}
-          src={fullURL}
-          scrolling="no"
-          frameBorder="0"
-        />
-      </div>
-      {Explain}
-      {Location}
-    </>
+    <iframe
+      className="relative z-10"
+      title="otherURL"
+      id="ytplayer"
+      width={size}
+      height={size ? size * 0.6 : 0}
+      src={iframeKey}
+      scrolling="no"
+      frameBorder="0"
+    />
   )
 }
+export const GeneralURLIframe = asPortfolioContentIFrame(Iframe)
 
-export const GeneralURL: React.FC<IframeProps> = ({ TitleLine, Explain, Location, fullURL, pic, iframeKey, text, size }) => {
+const GeneralURL: React.FC<PortfolioContentProps<WithPicture>> = ({ fullURL, pic }) => {
   return (
-    <>
-      {TitleLine}
-      <div className="flex justify-center">
-        <a href={fullURL} className="" aria-label="panel-link">
-          <img alt="GeneralURL" src={pic} className="" />
-        </a>
-      </div>
-      {Explain}
-      {Location}
-    </>
+    <a href={fullURL} className="" aria-label="panel-link">
+      <img alt="GeneralURL" src={pic} className="" />
+    </a>
   )
 }
+export const GeneralURLContent = asPortfolioContentPicture(GeneralURL)

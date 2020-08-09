@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 import { WithIFrame } from 'src/services/interfaces/Portfolio'
-import { WithPortfolioContentProps, asPortfolioContentIFrame } from 'src/components/Person/Portfolio/PortfolioContentBase'
+import { asPortfolioContentIFrame, PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
 
-const Iframe: React.FC<WithPortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
+const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
     <TwitterTweetEmbed
       tweetId={iframeKey}

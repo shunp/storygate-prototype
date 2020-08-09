@@ -95,7 +95,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
           inputNewExplanation={inputNewExplanation}
           setInputNewExplanation={setInputNewExplanation}
         />
-        <ModifiablePortfolioList data={portfolioData} size={size} />
+        <ModifiablePortfolioList portfolio={portfolio} size={size} />
       </div>
     )
   }

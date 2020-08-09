@@ -7,6 +7,7 @@ export interface PortfolioCommonContent {
 export type PortfolioContent<T> = PortfolioCommonContent & T
 export interface WithIFrame {
   iframeKey: string
+  size: number
 }
 export interface WithPicture {
   fullURL: string
