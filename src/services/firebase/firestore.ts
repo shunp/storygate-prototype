@@ -79,11 +79,14 @@ export const addPersonPage = async (pageId: string, ownerUid: string, name: stri
   await firestore
     .collection('v2/proto/personCaptions')
     .doc(pageId)
-    .set({
-      ownerUid,
-      name,
-      img
-    })
+    .set(
+      {
+        ownerUid,
+        name,
+        img
+      },
+      { merge: true }
+    )
     .catch(err => console.error(err))
 }
 
