@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { css } from '@emotion/core'
 import { State } from 'src/state'
-import { publishLogin } from 'src/state/app'
+import { loginAction } from 'src/state/app'
 
 import { Link, navigate } from 'gatsby'
 import { Background, Heading, Logo, RegisterTitleLine } from 'src/components/Auth/top'
@@ -103,6 +103,6 @@ export default connect<HeaderStates, HeaderDispatch, {}, State>(
     loginUser: state.app.loginUser
   }),
   dispatch => ({
-    login: (loginUser: LoginUser) => dispatch(publishLogin(loginUser))
+    login: (loginUser: LoginUser) => dispatch(loginAction(loginUser))
   })
 )(IndexPage)

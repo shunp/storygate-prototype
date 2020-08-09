@@ -14,7 +14,7 @@ import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
-import { toggleEditingCaption, toggleEditingPortfolio, toggleEditingStory } from 'src/state/app'
+import { toggleEditingCaptionAction, toggleEditingPortfolioAction, toggleEditingStoryAction } from 'src/state/app'
 
 interface PageContext {
   pageId: string
@@ -90,13 +90,13 @@ export default connect<PersonPageState, PersonPageDispatch, {}, State>(
   }),
   dispatch => ({
     toggleEditingCaption: () => {
-      dispatch(toggleEditingCaption())
+      dispatch(toggleEditingCaptionAction())
     },
     toggleEditingPortfolio: () => {
-      dispatch(toggleEditingPortfolio())
+      dispatch(toggleEditingPortfolioAction())
     },
     toggleEditingStory: () => {
-      dispatch(toggleEditingStory())
+      dispatch(toggleEditingStoryAction())
     }
   })
 )(PersonPage)
