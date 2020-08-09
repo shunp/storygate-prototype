@@ -2,10 +2,11 @@ import * as React from 'react'
 import { useStaticQuery, graphql, Link } from 'gatsby'
 import Img from 'gatsby-image'
 
-const LoginUserIcon = () => {
+const className = 'w-8 h-8 rounded-full z-20 bg-white'
+const LoginUserIcon = ({ icon }) => {
   const data = useStaticQuery(graphql`
     query {
-      koike: file(relativePath: { eq: "koike.png" }) {
+      guest: file(relativePath: { eq: "guest.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
             ...GatsbyImageSharpFluid
@@ -16,7 +17,7 @@ const LoginUserIcon = () => {
   `)
   return (
     <Link to="/persons/owner">
-      <Img fluid={data.koike.childImageSharp.fluid} className="w-8 h-8 rounded-full z-20 bg-white" />
+      {icon ? <img src={icon} className={className} alt="" /> : <Img fluid={data.guest.childImageSharp.fluid} className={className} />}
     </Link>
   )
 }

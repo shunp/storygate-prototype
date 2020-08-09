@@ -2,6 +2,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { State } from 'src/state'
 import { LoginUser } from 'src/services/interfaces/Auth'
+import { PersonService } from 'src/services/PersonService'
+
 import { loginAction, logoutAction } from 'src/state/app'
 import { AuthService } from 'src/services/AuthService'
 import NavWrapper from './NavWrapper'
@@ -21,16 +23,20 @@ interface HeaderDispatch {
 
 type HeaderProps = HeaderStates & HeaderDispatch
 const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
+  const [icon, setIcon] = React.useState('')
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
     if (storedUser.loggedIn) {
       login(storedUser)
     }
   }
+  if (loginUser.loggedIn) {
+    PersonService.fetchById(loginUser.uid).then(fetchedPerson => setIcon(fetchedPerson.pic))
+  }
   return (
     <>
       <NavWrapper>
-        <LoginUserIcon />
+        <LoginUserIcon icon={icon} />
         <HeaderLogo />
         {loginUser.loggedIn ? (
           <>
