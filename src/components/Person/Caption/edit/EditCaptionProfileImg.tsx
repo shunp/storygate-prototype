@@ -9,7 +9,6 @@ const EditCaptionProfileImg = ({ profileImg, setProfileImg }) => {
   const imgRef = React.useRef(null)
   const [crop, setCrop] = React.useState({ unit: '%', width: 30, aspect: 1 / 1, minWidth: 20, minHeight: 20 })
   const [previewUrl, setPreviewUrl] = React.useState<string>()
-  const [bolb, setBolb] = React.useState()
 
   const onLoad = React.useCallback(img => {
     imgRef.current = img
@@ -35,7 +34,7 @@ const EditCaptionProfileImg = ({ profileImg, setProfileImg }) => {
         if (typeof window !== 'undefined') {
           window.URL.revokeObjectURL(previewUrl)
           setPreviewUrl(window.URL.createObjectURL(b))
-          setBolb(b)
+          setProfileImg(b)
         }
       }, 'image/jpeg')
     })
@@ -50,7 +49,9 @@ const EditCaptionProfileImg = ({ profileImg, setProfileImg }) => {
   const onSelectFile = e => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader()
-      reader.addEventListener('load', () => setUpImg(reader.result))
+      reader.addEventListener('load', () => {
+        setUpImg(reader.result)
+      })
       reader.readAsDataURL(e.target.files[0])
     }
   }

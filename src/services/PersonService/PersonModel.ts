@@ -8,7 +8,7 @@ export class PersonModel implements Person {
     readonly title: string,
     readonly introduction: string,
     readonly location: string,
-    readonly pic: string
+    readonly img: string
   ) {}
 
   static empty(): Person {

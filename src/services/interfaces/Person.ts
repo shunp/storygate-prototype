@@ -3,6 +3,6 @@ export interface Person {
   name: string
   title: string
   location: string
-  pic: string
+  img?: string
   introduction: string
 }

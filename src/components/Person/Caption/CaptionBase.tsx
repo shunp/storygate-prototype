@@ -19,18 +19,18 @@ import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 interface CaptionEditProps {
   original: Person
   toggleEditingCaption: () => void
-  updateCaption: (person: Person) => Promise<void>
+  updateCaption: (person: Person, newImg?: Blob) => Promise<void>
 }
 const CaptionEdit: React.FC<CaptionEditProps> = ({ original, toggleEditingCaption, updateCaption }) => {
   const [name, setName] = React.useState(original.name)
   const [title, setTitle] = React.useState(original.title)
   const [location, setLocation] = React.useState(original.location)
   const [introduction, setIntroduction] = React.useState(original.introduction)
-  const [pic, setPic] = React.useState(original.pic)
+  const [newImg, setNewImg] = React.useState<Blob>()
 
   const doneEditing = async () => {
-    if (!shallowEqualObjects(original, { name, title, introduction, location, pic })) {
-      await updateCaption({ pageId: original.pageId, name, title, introduction, location, pic })
+    if (!shallowEqualObjects(original, { name, title, introduction, location, newImg })) {
+      await updateCaption({ pageId: original.pageId, name, title, introduction, location }, newImg)
     }
     toggleEditingCaption()
   }
@@ -46,7 +46,7 @@ const CaptionEdit: React.FC<CaptionEditProps> = ({ original, toggleEditingCaptio
         className="mt-20"
       />
       <CaptionWrapper>
-        <EditCaptionProfileImg profileImg={pic} setProfileImg={setPic} />
+        <EditCaptionProfileImg profileImg={original.img} setProfileImg={setNewImg} />
         <EditCaptionName name={name} setName={setName} />
         <EditCaptionTitle title={title} setTitle={setTitle} />
         <EditCaptionLocation location={location} setLocation={setLocation} />
@@ -67,7 +67,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
   }
   return (
     <CaptionWrapper>
-      <CaptionMain profileImg={data.pic} />
+      <CaptionMain profileImg={data.img} />
       <CaptionName name={data.name} />
       <CaptionLocation location={data.location} />
       <CaptionTitle title={data.title} />

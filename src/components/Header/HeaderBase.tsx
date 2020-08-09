@@ -31,7 +31,7 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
     }
   }
   if (loginUser.loggedIn) {
-    PersonService.fetchById(loginUser.uid).then(fetchedPerson => setIcon(fetchedPerson.pic))
+    PersonService.fetchById(loginUser.uid).then(fetchedPerson => setIcon(fetchedPerson.img || ''))
   }
   return (
     <>

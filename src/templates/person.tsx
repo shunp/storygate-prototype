@@ -49,9 +49,9 @@ const PersonPage: React.FC<PersonPageProps> = ({
   toggleEditingPortfolio,
   toggleEditingStory
 }) => {
-  const { pageId, name, title, introduction, location } = pageContext
+  const { pageId, ownerUid, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
-  const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
+  const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, ownerUid, name, title, introduction, location))
   const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
   const loadPerson = async () => {
     await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
@@ -59,8 +59,8 @@ const PersonPage: React.FC<PersonPageProps> = ({
   const loadContent = async () => {
     await ContentService.fetchPersonContentById(pageId).then(fetchedContent => setContent(fetchedContent))
   }
-  const updateCaption = async (updatedPerson: Person) => {
-    await PersonService.updateCaption(updatedPerson)
+  const updateCaption = async (updatedPerson: Person, newImg?: Blob) => {
+    await PersonService.updateCaption(updatedPerson, newImg)
     await loadPerson()
   }
   const updateContent = async (updatedContent: Content) => {

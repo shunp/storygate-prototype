@@ -75,11 +75,12 @@ export const addCommunityMember = async (communityId: string, uid: string) => {
   await docRef.update(communityCaption).catch(err => console.error(err))
 }
 
-export const addPersonPage = async (pageId: string, name: string, img: string) => {
+export const addPersonPage = async (pageId: string, ownerUid: string, name: string, img: string) => {
   await firestore
     .collection('v2/proto/personCaptions')
     .doc(pageId)
     .set({
+      ownerUid,
       name,
       img
     })

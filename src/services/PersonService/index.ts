@@ -20,7 +20,10 @@ class Service {
     await addPersonPage(pageId, name, img)
   }
 
-  updateCaption = async (person: Person) => {
+  updateCaption = async (person: Person, newImg?: Blob) => {
+    if (newImg) {
+      person.img = await uploadProfileImg(person.pageId, newImg)
+    }
     await updatePerson(person)
   }
 }
