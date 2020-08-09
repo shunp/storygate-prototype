@@ -36,7 +36,7 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
   return (
     <>
       <NavWrapper>
-        <LoginUserIcon icon={icon} />
+        <LoginUserIcon pageId={loginUser.uid} icon={icon} />
         <HeaderLogo />
         {loginUser.loggedIn ? (
           <>

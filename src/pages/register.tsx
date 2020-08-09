@@ -33,7 +33,7 @@ const invitationSignIn = async (invitationCode: string, login: (loginUser: Login
   login(LoginUserModel.fromUserCredential(user))
   // TODO:
   // navigate(`/persons/${loginUser.uid}`)
-  navigate('/persons/owner')
+  navigate('/persons/baiUK5z4NYhFscfuwpJuT7NTwZs2')
 }
 const InvitationCode = ({ invitation, setInvitation }) => {
   return (

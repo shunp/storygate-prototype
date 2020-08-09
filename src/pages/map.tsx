@@ -85,7 +85,7 @@ const MapPage = ({ google }) => {
 
   const TargetInfo = () => {
     return (
-      <Link to="/persons/owner">
+      <Link to="/persons/baiUK5z4NYhFscfuwpJuT7NTwZs2">
         <div className="flex justify-center items-center flex-col">
           <img src={targetUser.img} alt="" className="w-20" />
           <div className="text-gray-600 mt-1">{targetUser.name}</div>

@@ -72,7 +72,7 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
   console.log('loginUser', loginUser)
   // TODO:
   // navigate(`/persons/${loginUser.uid}`)
-  navigate('/persons/owner')
+  navigate('/persons/baiUK5z4NYhFscfuwpJuT7NTwZs2')
 }
 
 const FacebookLoginButton = ({ login, children }) => {

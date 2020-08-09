@@ -3,7 +3,11 @@ import { useStaticQuery, graphql, Link } from 'gatsby'
 import Img from 'gatsby-image'
 
 const className = 'w-8 h-8 rounded-full z-20 bg-white'
-const LoginUserIcon = ({ icon }) => {
+interface LoginUserIconProps {
+  pageId: string
+  icon: string
+}
+const LoginUserIcon: React.FC<LoginUserIconProps> = ({ pageId, icon }) => {
   const data = useStaticQuery(graphql`
     query {
       guest: file(relativePath: { eq: "guest.png" }) {
@@ -16,7 +20,7 @@ const LoginUserIcon = ({ icon }) => {
     }
   `)
   return (
-    <Link to="/persons/owner">
+    <Link to={`/persons/${pageId}`}>
       {icon ? <img src={icon} className={className} alt="" /> : <Img fluid={data.guest.childImageSharp.fluid} className={className} />}
     </Link>
   )
