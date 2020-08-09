@@ -27,7 +27,12 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
   const [inputNewLocation, setInputNewLocation] = React.useState('')
-
+  const clearState = () => {
+    setInputNewTitle('')
+    setInputNewURL('')
+    setInputNewExplanation('')
+    setInputNewLocation('')
+  }
   const doneEditing = async () => {
     // TODO: firebase
     if (!inputNewTitle) {
@@ -56,10 +61,12 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
     const updated = { ...portfolio }
     updated.contents.unshift(content)
     update(portfolio)
+    clearState()
     toggleEditingPortfolio()
   }
 
   const resetEditing = () => {
+    clearState()
     toggleEditingPortfolio()
   }
 
