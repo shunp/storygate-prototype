@@ -57,9 +57,11 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size })
   return portfolio.contents.map(p => <PortfolioContentComponent content={p} size={size} />)
 }
 
-export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = ({ portfolio, size }) => {
+export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = ({ portfolio, size, update }) => {
   const deletePost = (id: string) => {
-    // delete modal
+    const updated = { ...portfolio }
+    updated.contents = portfolio.contents.filter(content => content.id !== id)
+    update(updated)
   }
   const editPost = (id: string) => {
     togglePostModal(id)
