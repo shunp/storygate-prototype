@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
+import { asPortfolioContentIFrame, WithPortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
+import { PortfolioContent, WithIFrame } from 'src/services/interfaces/Portfolio'
 
-const YouTubeIframe = ({ iframeKey, size }) => {
+const Iframe: React.FC<WithPortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
     <div className="flex justify-center">
       <iframe
@@ -16,13 +18,14 @@ const YouTubeIframe = ({ iframeKey, size }) => {
     </div>
   )
 }
+export const YouTubeIFrame = asPortfolioContentIFrame(Iframe)
 
 export const YouTubePost: React.FC<IframeProps> = ({ TitleLine, Explain, iframeKey, text, size }) => {
   return (
     <>
       {TitleLine}
       <div className="flex justify-center">
-        <YouTubeIframe iframeKey={iframeKey} size={size} />
+        <Iframe iframeKey={iframeKey} size={size} />
       </div>
       {Explain}
     </>

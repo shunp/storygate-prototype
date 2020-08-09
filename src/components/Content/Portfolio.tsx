@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Portfolio, PortfolioContent, isWithIFrame, WithIFrame } from 'src/services/interfaces/Portfolio'
 import { YouTubePost } from '../Provider/YouTube'
 import { TwitterPost } from '../Provider/Twitter'
 import { BasicTitleLine, ModifiableTitleLine } from '../TitleLine'
@@ -8,6 +9,7 @@ import PostModal from './modal/PostModal'
 import { ContentExplanation, ModifiableContentExplanation } from '../ContentExplanation'
 import { GeneralURL } from '../Provider/GeneralURL'
 import { ContentLocation, ModifiableContentLocation } from '../ContentLocation'
+import { PortfolioContentComponent } from '../Person/PortfolioContent'
 
 export const NewPortfolio = ({
   inputNewTitle,
@@ -47,32 +49,16 @@ export const NewPortfolio = ({
   )
 }
 
-export const PortfolioList = ({ data, size }) => {
-  if (!data) {
+interface PortfolioListProps {
+  portfolio: Portfolio
+  size: number
+}
+export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size }) => {
+  if (!portfolio?.contents) {
     return <></>
   }
-  return data.map(p => {
+  return portfolio.contents.map(p => {
     switch (p.type) {
-      case 'YouTubePost':
-        return (
-          <YouTubePost
-            TitleLine={<BasicTitleLine title={p.title} />}
-            Explain={<ContentExplanation text={p.text} />}
-            iframeKey={p.iframeKey}
-            text={p.text}
-            size={size}
-          />
-        )
-      case 'TwitterPost':
-        return (
-          <TwitterPost
-            TitleLine={<BasicTitleLine title={p.title} />}
-            Explain={<ContentExplanation text={p.text} />}
-            iframeKey={p.iframeKey}
-            text={p.text}
-            size={size}
-          />
-        )
       case 'GeneralURL':
         return (
           <GeneralURL
@@ -87,7 +73,7 @@ export const PortfolioList = ({ data, size }) => {
           />
         )
       default:
-        return <></>
+        return <PortfolioContentComponent content={p} size={size} />
     }
   })
 }
@@ -118,13 +104,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
               EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
               className="mt-10"
             />
-            <YouTubePost
-              TitleLine={<BasicTitleLine title={p.title} />}
-              Explain={<ContentExplanation text={p.text} />}
-              iframeKey={p.iframeKey}
-              text={p.text}
-              size={size}
-            />
+            <PortfolioContentComponent content={p} size={size} />
             <PostModal
               id={p.id}
               Post={
@@ -154,13 +134,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
               EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
               className="mt-10"
             />
-            <TwitterPost
-              TitleLine={<BasicTitleLine title={p.title} />}
-              Explain={<ContentExplanation text={p.text} />}
-              iframeKey={p.iframeKey}
-              text={p.text}
-              size={size}
-            />
+            <PortfolioContentComponent content={p} size={size} />
             <PostModal
               id={p.id}
               Post={

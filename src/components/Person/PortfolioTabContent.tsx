@@ -76,6 +76,9 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
     }
   ]
 
+  const portfolio = {
+    contents: portfolioData
+  }
   if (editing) {
     return (
       <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
@@ -98,7 +101,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
   }
   return (
     <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-      <PortfolioList data={portfolioData} size={size} />
+      <PortfolioList portfolio={portfolio} size={size} />
     </div>
   )
 }
