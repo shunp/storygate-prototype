@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { Portfolio, PortfolioContent, isWithIFrame, WithIFrame } from 'src/services/interfaces/Portfolio'
-import { YouTubePost } from '../Provider/YouTube'
-import { TwitterPost } from '../Provider/Twitter'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { BasicTitleLine, ModifiableTitleLine } from '../TitleLine'
 import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { togglePostModal } from './modal/utils'
@@ -97,35 +95,6 @@ export const ModifiablePortfolioList = ({ data, size }) => {
   return data.map(p => {
     switch (p.type) {
       case 'YouTubePost':
-        return (
-          <>
-            <EditingButtonSet
-              DeleteButton={<DeleteButton onClick={() => deletePost(p.id)} />}
-              EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
-              className="mt-10"
-            />
-            <PortfolioContentComponent content={p} size={size} />
-            <PostModal
-              id={p.id}
-              Post={
-                <>
-                  <CompleteButtonSet
-                    ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
-                    DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
-                    className="mt-1"
-                  />
-                  <YouTubePost
-                    TitleLine={<ModifiableTitleLine title={p.title} />}
-                    Explain={<ModifiableContentExplanation text={p.text} />}
-                    iframeKey={p.iframeKey}
-                    text={p.text}
-                    size={size}
-                  />
-                </>
-              }
-            />
-          </>
-        )
       case 'TwitterPost':
         return (
           <>
@@ -144,13 +113,7 @@ export const ModifiablePortfolioList = ({ data, size }) => {
                     DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
                     className="mt-1"
                   />
-                  <TwitterPost
-                    TitleLine={<ModifiableTitleLine title={p.title} />}
-                    Explain={<ModifiableContentExplanation text={p.text} />}
-                    iframeKey={p.iframeKey}
-                    text={p.text}
-                    size={size}
-                  />
+                  <PortfolioContentComponent content={p} size={size} editing />
                 </>
               }
             />

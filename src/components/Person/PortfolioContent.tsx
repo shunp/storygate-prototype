@@ -19,11 +19,12 @@ const PortfolioContentComponentSelector = (type: string): React.FC<PortfolioCont
 export interface PortfolioContentComponentProps<T = {}> {
   content: PortfolioContent<T>
   size: number
+  editing?: boolean
 }
-export const PortfolioContentComponent: React.FC<PortfolioContentComponentProps> = ({ content, size }) => {
+export const PortfolioContentComponent: React.FC<PortfolioContentComponentProps> = ({ content, size, editing }) => {
   const ContentComponent = PortfolioContentComponentSelector(content.type)
   return (
-    <PortfolioContentWrapper content={content}>
+    <PortfolioContentWrapper content={content} editing={editing}>
       <ContentComponent content={content} size={size} />
     </PortfolioContentWrapper>
   )

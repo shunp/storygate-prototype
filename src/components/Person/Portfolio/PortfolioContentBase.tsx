@@ -1,12 +1,22 @@
 import * as React from 'react'
 import { PortfolioContent, WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
-import { BasicTitleLine } from 'src/components/TitleLine'
-import { ContentExplanation } from 'src/components/ContentExplanation'
+import { BasicTitleLine, ModifiableTitleLine } from 'src/components/TitleLine'
+import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
 
 export interface PortfolioContentWrapperProps<T = {}> {
   content: PortfolioContent<T>
+  editing?: boolean
 }
-export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = ({ children, content }) => {
+export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = ({ children, content, editing }) => {
+  if (editing) {
+    return (
+      <>
+        <ModifiableTitleLine title={content.title} />
+        <div className="flex justify-center">{children}</div>
+        <ModifiableContentExplanation text={content.text} />
+      </>
+    )
+  }
   return (
     <>
       <BasicTitleLine title={content.title} />

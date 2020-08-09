@@ -20,18 +20,6 @@ const Iframe: React.FC<WithPortfolioContentProps<WithIFrame>> = ({ iframeKey, si
 }
 export const YouTubeIFrame = asPortfolioContentIFrame(Iframe)
 
-export const YouTubePost: React.FC<IframeProps> = ({ TitleLine, Explain, iframeKey, text, size }) => {
-  return (
-    <>
-      {TitleLine}
-      <div className="flex justify-center">
-        <Iframe iframeKey={iframeKey} size={size} />
-      </div>
-      {Explain}
-    </>
-  )
-}
-
 export const YouTubeChannel = () => {
   return <></>
 }
