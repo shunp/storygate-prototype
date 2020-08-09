@@ -5,6 +5,7 @@ import StoryTabContent from './StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
 import { Content } from 'src/services/interfaces/Content'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 
 interface PersonContentLayoutProps {
   openTab: number
@@ -14,6 +15,7 @@ interface PersonContentLayoutProps {
   editingCommunity: boolean
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
+  updateContent: (updatedContent: Content) => void
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
@@ -22,7 +24,8 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   editingStory,
   editingCommunity,
   toggleEditingPortfolio,
-  toggleEditingStory
+  toggleEditingStory,
+  updateContent
 }) => {
   const size = useWindowSize()
   return (
@@ -34,6 +37,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         size={size.width}
         editing={editingPortfolio}
         toggleEditingPortfolio={toggleEditingPortfolio}
+        update={(portfolio: Portfolio) => updateContent(Object.assign({}, content, { portfolio }))}
       />
       <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} toggleEditingStory={toggleEditingStory} />
       <CommunityTabContent index={3} openTab={openTab} size={size.width} editing={editingCommunity} />

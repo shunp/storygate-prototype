@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { OgTag } from 'src/utils/scraper'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
+import { extractFromUrl } from 'src/utils/ContentsExtractor'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
 
@@ -11,8 +12,17 @@ interface PortfolioTabContentProps {
   size: number
   editing: boolean
   toggleEditingPortfolio: () => void
+  update: (portfolio: Portfolio) => void
 }
-const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTab, portfolio, size, editing, toggleEditingPortfolio }) => {
+const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
+  index,
+  openTab,
+  portfolio,
+  size,
+  editing,
+  toggleEditingPortfolio,
+  update
+}) => {
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
@@ -32,9 +42,20 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
       return
     }
 
-    const ogTag = new OgTag()
-    const tagParam = await ogTag.fetch(inputNewURL)
-    console.log('tagParam', tagParam)
+    // const ogTag = new OgTag()
+    // const tagParam = await ogTag.fetch(inputNewURL)
+    // console.log('tagParam', tagParam)
+    const contentElement = extractFromUrl(inputNewURL)
+    const content = {
+      id: `content#${new Date().getTime()}`,
+      title: inputNewTitle,
+      text: inputNewExplanation,
+      type: contentElement.type,
+      iframeKey: contentElement.key
+    }
+    const updated = { ...portfolio }
+    updated.contents.unshift(content)
+    update(portfolio)
     toggleEditingPortfolio()
   }
 
@@ -58,7 +79,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
           inputNewExplanation={inputNewExplanation}
           setInputNewExplanation={setInputNewExplanation}
         />
-        <ModifiablePortfolioList portfolio={portfolio} size={size} />
+        <ModifiablePortfolioList portfolio={portfolio} size={size} update={update} />
       </div>
     )
   }

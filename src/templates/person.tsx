@@ -52,16 +52,20 @@ const PersonPage: React.FC<PersonPageProps> = ({
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
-  const [content, setContent] = React.useState<Content>({portfolio:{}})
+  const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
   const loadPerson = async () => {
     await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
   }
   const loadContent = async () => {
-    await ContentService.fetchById(pageId).then(fetchedContent => setContent(fetchedContent))
+    await ContentService.fetchPersonContentById(pageId).then(fetchedContent => setContent(fetchedContent))
   }
   const updateCaption = async (updatedPerson: Person) => {
     await PersonService.updateCaption(updatedPerson)
     await loadPerson()
+  }
+  const updateContent = async (updatedContent: Content) => {
+    await ContentService.updatePersonContent(pageId, updatedContent)
+    await loadContent()
   }
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
@@ -82,6 +86,7 @@ const PersonPage: React.FC<PersonPageProps> = ({
         editingCommunity={editingCommunity}
         toggleEditingPortfolio={toggleEditingPortfolio}
         toggleEditingStory={toggleEditingStory}
+        updateContent={updateContent}
       />
       <Footer />
     </PageRoot>

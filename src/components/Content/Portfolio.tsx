@@ -47,6 +47,9 @@ interface PortfolioListProps {
   portfolio: Portfolio
   size: number
 }
+type ModifiablePortfolioListProps = PortfolioListProps & {
+  update: (portfolio: Portfolio) => void
+}
 export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size }) => {
   if (!portfolio?.contents) {
     return <></>
@@ -54,7 +57,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size })
   return portfolio.contents.map(p => <PortfolioContentComponent content={p} size={size} />)
 }
 
-export const ModifiablePortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size }) => {
+export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = ({ portfolio, size }) => {
   const deletePost = (id: string) => {
     // delete modal
   }
