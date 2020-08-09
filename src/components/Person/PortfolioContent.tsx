@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { YouTubeIFrame } from 'src/components/Provider/YouTube'
-import { PortfolioContent } from 'src/services/interfaces/Portfolio'
-import { PortfolioContentWrapper, PortfolioContentProps } from './Portfolio/PortfolioContentBase'
+import { WithPortfolioContentProps } from './Portfolio/PortfolioContentBase'
 import { TwitterIFrame } from '../Provider/Twitter'
 
-const PortfolioContentComponentSelector = (type: string): React.FC<PortfolioContentProps<any>> => {
+const PortfolioContentComponentSelector = (type: string): React.FC<WithPortfolioContentProps<any>> => {
   switch (type) {
     case 'YouTubePost':
       return YouTubeIFrame
@@ -16,16 +15,7 @@ const PortfolioContentComponentSelector = (type: string): React.FC<PortfolioCont
       return <></>
   }
 }
-export interface PortfolioContentComponentProps<T = {}> {
-  content: PortfolioContent<T>
-  size: number
-  editing?: boolean
-}
-export const PortfolioContentComponent: React.FC<PortfolioContentComponentProps> = ({ content, size, editing }) => {
+export const PortfolioContentComponent: React.FC<WithPortfolioContentProps> = ({ content, size, editing }) => {
   const ContentComponent = PortfolioContentComponentSelector(content.type)
-  return (
-    <PortfolioContentWrapper content={content} editing={editing}>
-      <ContentComponent content={content} size={size} />
-    </PortfolioContentWrapper>
-  )
+  return <ContentComponent content={content} size={size} editing={editing} />
 }

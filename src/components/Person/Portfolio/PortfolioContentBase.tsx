@@ -25,18 +25,19 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     </>
   )
 }
-export type WithPortfolioContentProps<T> = T & {
+export type WithPortfolioContentProps<T = {}> = PortfolioContentWrapperProps<T> & PortfolioContentProps<T>
+export type PortfolioContentProps<T = {}> = T & {
   size: number
 }
-export interface PortfolioContentProps<T = {}> {
-  content: T
-  size: number
-}
-export const asPortfolioContentIFrame = (ContentComponent: React.FC<WithPortfolioContentProps<WithIFrame>>) => {
-  return ({ content, size }: PortfolioContentProps<WithIFrame>) => <ContentComponent iframeKey={content.iframeKey} size={size} />
+export const asPortfolioContentIFrame = (ContentComponent: React.FC<PortfolioContentProps<WithIFrame>>) => {
+  return ({ content, size, editing }: WithPortfolioContentProps<WithIFrame>) => (
+    <PortfolioContentWrapper content={content} editing={editing}>
+      <ContentComponent iframeKey={content.iframeKey} size={size} />
+    </PortfolioContentWrapper>
+  )
 }
 export const asPortfolioContentPicture = (ContentComponent: React.FC<WithPortfolioContentProps<WithPicture>>) => {
-  return ({ content, size }: PortfolioContentProps<WithPicture>) => (
+  return ({ content, size }: WithPortfolioContentProps<WithPicture>) => (
     <ContentComponent fullURL={content.fullURL} pic={content.pic} location={content.location} size={size} />
   )
 }
