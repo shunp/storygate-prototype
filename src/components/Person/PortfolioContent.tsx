@@ -12,7 +12,7 @@ const PortfolioContentComponentDictionary: Dictionary = {
   TwitterPost: TwitterIFrame,
   GeneralURL: GeneralURLContent
 }
-export const PortfolioContentComponent: React.FC<WithPortfolioContentProps> = ({ content, size, editing }) => {
+export const PortfolioContentComponent: React.FC<WithPortfolioContentProps> = ({ content, size, editingObj, onChange }) => {
   const ContentComponent = PortfolioContentComponentDictionary[content.type]
-  return <ContentComponent content={content} size={size} editing={editing} />
+  return <ContentComponent content={content} size={size} editingObj={editingObj} onChange={onChange} />
 }

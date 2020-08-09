@@ -11,8 +11,7 @@ export const ContentLocation = ({ location }) => {
   )
 }
 
-export const ModifiableContentLocation = ({ location }) => {
-  const [newInputLocation, setNewInputLocation] = React.useState<string>(location)
+export const ModifiableContentLocation = ({ location, onChange }) => {
   return (
     <div id="modifiable-location" className="flex flex-col w-full mt-2">
       <div className="m-1 text-xs text-white">場所(実店舗の場合のみ)</div>
@@ -20,8 +19,8 @@ export const ModifiableContentLocation = ({ location }) => {
         type="text"
         placeholder="title..."
         className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
-        value={newInputLocation}
-        onChange={e => setNewInputLocation(e.target.value)}
+        value={location}
+        onChange={e => onChange('location', e.target.value)}
       />
     </div>
   )

@@ -52,7 +52,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
     // console.log('tagParam', tagParam)
     const contentElement = extractFromUrl(inputNewURL)
     const content = {
-      id: `content#${new Date().getTime()}`,
+      id: `content${new Date().getTime()}`,
       title: inputNewTitle,
       text: inputNewExplanation,
       type: contentElement.type,

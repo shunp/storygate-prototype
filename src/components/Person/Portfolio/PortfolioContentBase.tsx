@@ -6,15 +6,16 @@ import { ModifiableContentLocation, ContentLocation } from 'src/components/Conte
 
 export interface PortfolioContentWrapperProps<T = {}> {
   content: PortfolioContent<T>
-  editing?: boolean
+  editingObj?: PortfolioContent<T> | {}
+  onChange?: (key: string, value: string) => void
 }
-export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = ({ children, content, editing }) => {
-  if (editing) {
+export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = ({ children, content, editingObj, onChange }) => {
+  if (editingObj) {
     return (
       <>
-        <ModifiableTitleLine title={content.title} />
+        <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
         <div className="flex justify-center">{children}</div>
-        <ModifiableContentExplanation text={content.text} />
+        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
       </>
     )
   }
@@ -26,14 +27,19 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     </>
   )
 }
-export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrapperProps<WithPicture>> = ({ children, content, editing }) => {
-  if (editing) {
+export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrapperProps<WithPicture>> = ({
+  children,
+  content,
+  editingObj,
+  onChange
+}) => {
+  if (editingObj) {
     return (
       <>
-        <ModifiableTitleLine title={content.title} />
+        <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
         <div className="flex justify-center">{children}</div>
-        <ModifiableContentExplanation text={content.text} />
-        <ModifiableContentLocation location={content.location} />
+        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
       </>
     )
   }
@@ -51,15 +57,15 @@ export type PortfolioContentProps<T = {}> = T & {
   size?: number
 }
 export const asPortfolioContentIFrame = (ContentComponent: React.FC<PortfolioContentProps<WithIFrame>>) => {
-  return ({ content, size, editing }: WithPortfolioContentProps<WithIFrame>) => (
-    <PortfolioContentWrapper content={content} editing={editing}>
+  return ({ content, size, editingObj, onChange }: WithPortfolioContentProps<WithIFrame>) => (
+    <PortfolioContentWrapper content={content} editingObj={editingObj} onChange={onChange}>
       <ContentComponent iframeKey={content.iframeKey} size={size} />
     </PortfolioContentWrapper>
   )
 }
 export const asPortfolioContentPicture = (ContentComponent: React.FC<PortfolioContentProps<WithPicture>>) => {
-  return ({ content, editing }: WithPortfolioContentProps<WithPicture>) => (
-    <PortfolioContentWrapperWithPicture content={content} editing={editing}>
+  return ({ content, editingObj, onChange }: WithPortfolioContentProps<WithPicture>) => (
+    <PortfolioContentWrapperWithPicture content={content} editingObj={editingObj} onChange={onChange}>
       <ContentComponent fullURL={content.fullURL} pic={content.pic} />
     </PortfolioContentWrapperWithPicture>
   )

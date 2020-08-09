@@ -58,18 +58,27 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size })
 }
 
 export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = ({ portfolio, size, update }) => {
+  const [editingObj, setEditingObj] = React.useState({})
   const deletePost = (id: string) => {
     const updated = { ...portfolio }
     updated.contents = portfolio.contents.filter(content => content.id !== id)
     update(updated)
   }
   const editPost = (id: string) => {
+    const target = portfolio.contents.find(content => content.id === id) || {}
+    setEditingObj(target)
     togglePostModal(id)
   }
   const clearEditing = (id: string) => {
     togglePostModal(id)
   }
   const doneEditing = (id: string) => {
+    const updated = { ...portfolio }
+    const target = updated.contents.find(content => content.id === id)
+    if (target) {
+      Object.assign(target, editingObj)
+      update(updated)
+    }
     togglePostModal(id)
   }
   if (!portfolio?.contents) {
@@ -93,7 +102,12 @@ export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = (
                 DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
                 className="mt-1"
               />
-              <PortfolioContentComponent content={p} size={size} editing />
+              <PortfolioContentComponent
+                content={p}
+                size={size}
+                editingObj={editingObj}
+                onChange={(key: string, value: string) => setEditingObj({ ...editingObj, [key]: value })}
+              />
             </>
           }
         />
