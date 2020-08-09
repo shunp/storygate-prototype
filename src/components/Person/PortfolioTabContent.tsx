@@ -1,16 +1,18 @@
 import * as React from 'react'
 import { OgTag } from 'src/utils/scraper'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
 
 interface PortfolioTabContentProps {
   index: number
   openTab: number
+  portfolio: Portfolio
   size: number
   editing: boolean
   toggleEditingPortfolio: () => void
 }
-const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTab, size, editing, toggleEditingPortfolio }) => {
+const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTab, portfolio, size, editing, toggleEditingPortfolio }) => {
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
@@ -40,45 +42,6 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ index, openTa
     toggleEditingPortfolio()
   }
 
-  const portfolioData = [
-    {
-      id: '1xxxxxxxx',
-      type: 'YouTubePost',
-      title: 'Best Architecture 2018',
-      iframeKey: 'WlkWTye4mfI',
-      fullURL: 'https://www.youtube.com/watch?v=WlkWTye4mfI',
-      pic: '',
-      text:
-        'AWSが選ぶベストアーキテクチャ2018に僕らのつくった仮想通貨ウォレットシステムが選出されました。日本金融業界からは初選出とのことで嬉しい限りです。',
-      location: ''
-    },
-    {
-      id: '2xxxxxxxx',
-      type: 'TwitterPost',
-      title: '3D WebXR Template',
-      iframeKey: '1279046962025652225',
-      fullURL:
-        'https://twitter.com/shunpei42ba_/status/1279046962025652225?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1279046962025652225%7Ctwgr%5E&ref_url=https%3A%2F%2Fgatsby-three-ts-plus.netlify.app%2Fpersons%2Fowner',
-      pic: '',
-      text: 'GatsbyへThree.js×TypeScriptのテンプレートをコントリビュートさせていただきました。',
-      location: ''
-    },
-    {
-      id: '3xxxxxxxx',
-      type: 'GeneralURL',
-      title: '美容院（店舗表示テスト用）',
-      iframeKey: '',
-      fullURL: 'https://beauty.hotpepper.jp/slnH000105506/?cstt=3',
-      pic: 'https://imgbp.hotp.jp/CSP/IMG_SRC/64/09/B002216409/B002216409_419-314.jpg',
-      text:
-        '友人の美容院です。いつもお世話になっております。※実店舗をお持ちの方はこのように場所とセットでご登録いただくとフレンドマップに表示されます',
-      location: '永福町'
-    }
-  ]
-
-  const portfolio = {
-    contents: portfolioData
-  }
   if (editing) {
     return (
       <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>

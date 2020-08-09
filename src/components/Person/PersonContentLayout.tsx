@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { AnyAction } from 'redux'
 import { useWindowSize } from 'src/utils/useWindowSize'
 import PortfolioTabContent from './PortfolioTabContent'
 import StoryTabContent from './StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
+import { Content } from 'src/services/interfaces/Content'
 
 interface PersonContentLayoutProps {
   openTab: number
+  content: Content
   editingPortfolio: boolean
   editingStory: boolean
   editingCommunity: boolean
@@ -16,6 +17,7 @@ interface PersonContentLayoutProps {
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
+  content,
   editingPortfolio,
   editingStory,
   editingCommunity,
@@ -28,6 +30,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
       <PortfolioTabContent
         index={1}
         openTab={openTab}
+        portfolio={content.portfolio}
         size={size.width}
         editing={editingPortfolio}
         toggleEditingPortfolio={toggleEditingPortfolio}

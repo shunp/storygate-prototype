@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { AnyAction } from 'redux'
 import { connect } from 'react-redux'
 
 import { State } from 'src/state'
 import { PersonService } from 'src/services/PersonService'
+import { ContentService } from 'src/services/ContentService'
 
 import Header from 'src/components/Header/index'
 import Caption from 'src/components/Person/Caption/index'
@@ -15,6 +15,7 @@ import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Person } from 'src/services/interfaces/Person'
 import { toggleEditingCaptionAction, toggleEditingPortfolioAction, toggleEditingStoryAction } from 'src/state/app'
+import { Content } from 'src/services/interfaces/Content'
 
 interface PageContext {
   pageId: string
@@ -51,8 +52,12 @@ const PersonPage: React.FC<PersonPageProps> = ({
   const { pageId, name, title, introduction, location } = pageContext
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.fromContext(pageId, name, title, introduction, location))
+  const [content, setContent] = React.useState<Content>({portfolio:{}})
   const loadPerson = async () => {
     await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
+  }
+  const loadContent = async () => {
+    await ContentService.fetchById(pageId).then(fetchedContent => setContent(fetchedContent))
   }
   const updateCaption = async (updatedPerson: Person) => {
     await PersonService.updateCaption(updatedPerson)
@@ -61,6 +66,7 @@ const PersonPage: React.FC<PersonPageProps> = ({
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
     loadPerson()
+    loadContent()
   }, [])
 
   return (
@@ -70,6 +76,7 @@ const PersonPage: React.FC<PersonPageProps> = ({
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout
         openTab={openTab}
+        content={content}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}
         editingCommunity={editingCommunity}

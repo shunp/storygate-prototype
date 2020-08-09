@@ -1,4 +1,5 @@
 import { Person } from 'src/services/interfaces/Person'
+import { Content } from '../interfaces/Content'
 import { firestore } from './firebase'
 
 export interface PersonCaption {
@@ -89,4 +90,13 @@ export const updatePerson = async (person: Person) => {
   const update = { ...person }
   delete update.pageId
   await docRef.update(update)
+}
+
+export const fetchPersonContent = async (pageId: string): Promise<Content> => {
+  const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
+  const doc = await docRef.get()
+  const personContent = doc.data() || {}
+  return {
+    portfolio: personContent.portfolio
+  }
 }
