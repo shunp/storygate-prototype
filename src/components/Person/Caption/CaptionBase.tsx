@@ -1,24 +1,12 @@
 import * as React from 'react'
 import { Person } from 'src/services/interfaces/Person'
 import { shallowEqualObjects } from 'shallow-equal'
-import {
-  EditCaptionName,
-  EditCaptionTitle,
-  EditCaptionLocation,
-  EditCaptionProfileImg,
-  EditCaptionIntroduction
-} from 'src/components/Person/Caption/edit'
-import { css } from '@emotion/core'
+import { EditCaptionName, EditCaptionLocation, EditCaptionProfileImg, EditCaptionIntroduction } from 'src/components/Person/Caption/edit'
 import { Montserrat } from 'src/components/SGText'
 import VerticalLine from 'src/components/VerticalLine'
 import CaptionWrapper from './CaptionWrapper'
 import CaptionMain from './CaptionMain'
-import CaptionName from './CaptionName'
-import CaptionLocation from './CaptionLocation'
-import CaptionTitle from './CaptionTitle'
-import CaptionIntroduction from './CaptionIntroduction'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
-import ItemBand from './ItemBand'
 
 interface CaptionEditProps {
   original: Person
@@ -50,10 +38,11 @@ const CaptionEdit: React.FC<CaptionEditProps> = ({ original, toggleEditingCaptio
         className="mt-20"
       />
       <CaptionWrapper editing>
-        <EditCaptionProfileImg profileImg={original.img} setProfileImg={setNewImg} />
-        <EditCaptionName name={name} setName={setName} />
-        <EditCaptionTitle title={title} setTitle={setTitle} />
-        <EditCaptionLocation location={location} setLocation={setLocation} />
+        <div className="flex items-center justify-center flex-col">
+          <EditCaptionProfileImg profileImg={original.img} setProfileImg={setNewImg} />
+          <EditCaptionName name={name} setName={setName} />
+          <EditCaptionLocation location={location} setLocation={setLocation} />
+        </div>
       </CaptionWrapper>
       <EditCaptionIntroduction introduction={introduction} setIntroduction={setIntroduction} />
     </>
@@ -73,10 +62,6 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
     <>
       <CaptionWrapper profileImg={data.img}>
         <CaptionMain profileImg={data.img} name={data.name} introduction={data.introduction} />
-        {/* <CaptionName name={data.name} />
-      <CaptionLocation location={data.location} />
-      <CaptionTitle title={data.title} />
-      <CaptionIntroduction introduction={data.introduction} /> */}
       </CaptionWrapper>
       <div className="border-white border-solid border mx-4 mb-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
       <div className="flex justify-between mx-10">
@@ -87,7 +72,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
         <VerticalLine />
         <div>
           <Montserrat className="text-white text-xl font-bold">{data.location}</Montserrat>
-          <Montserrat className="text-white text-xs font-bold opacity-75">Japan</Montserrat>
+          <Montserrat className="text-white text-xs font-bold opacity-75">Living</Montserrat>
         </div>
         <VerticalLine />
         <div className="">
