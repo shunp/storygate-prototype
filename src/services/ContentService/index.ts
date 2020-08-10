@@ -15,8 +15,7 @@ class Service {
   }
 
   fetchPersonContentById = async (id: string): Promise<Content> => {
-    const personContent = await fetchPersonContent(id)
-    return Object.keys(personContent).length ? personContent : this.emptyContent()
+    return fetchPersonContent(id)
   }
 
   updatePersonContent = async (pageId: string, content: Content) => {
