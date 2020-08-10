@@ -38,7 +38,7 @@ const CaptionEdit: React.FC<CaptionEditProps> = ({ original, toggleEditingCaptio
         className="mt-20"
       />
       <CaptionWrapper editing>
-        <div className="flex items-center justify-center flex-col">
+        <div className="flex items-center justify-center flex-col w-full">
           <EditCaptionProfileImg profileImg={original.img} setProfileImg={setNewImg} />
           <EditCaptionName name={name} setName={setName} />
           <EditCaptionLocation location={location} setLocation={setLocation} />
