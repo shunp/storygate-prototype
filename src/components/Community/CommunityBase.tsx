@@ -18,8 +18,8 @@ const Members = ({ members, filterWords }) => {
       }
       const containInName = filterWords.map(f => m.name.toLowerCase().includes(f))
       const containInTitle = filterWords.map(f => m.title.toLowerCase().includes(f))
-      const containInHobby = [false] // TODO: what should be
-      const results = [...containInName, ...containInTitle, ...containInHobby]
+      const containInIntroduction = filterWords.map(f => m.introduction.toLowerCase().includes(f))
+      const results = [...containInName, ...containInTitle, ...containInIntroduction]
       const finalResult = results.some(r => r)
       return finalResult
     })
