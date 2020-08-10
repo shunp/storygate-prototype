@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
+import { Montserrat } from 'src/components/SGText'
 import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { togglePostModal } from './modal/utils'
 import PostModal from './modal/PostModal'
@@ -52,7 +53,11 @@ type ModifiablePortfolioListProps = PortfolioListProps & {
 }
 export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size }) => {
   if (!portfolio?.contents) {
-    return <></>
+    return (
+      <div className="h-screen">
+        <Montserrat className="text-md font-bold text-center">表示できるコンテンツがありません</Montserrat>
+      </div>
+    )
   }
   return portfolio.contents.map(p => <PortfolioContentComponent content={p} size={size} />)
 }

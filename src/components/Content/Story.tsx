@@ -8,6 +8,7 @@ import PostModal from './modal/PostModal'
 import ClearButton from '../ClearButton'
 import DoneButton from '../DeleteButton'
 import { togglePostModal } from './modal/utils'
+import { Montserrat } from '../SGText'
 
 export const AddStory = ({
   inputNewMonth,
@@ -65,7 +66,11 @@ type ModifiableStoryLineProps = StoryLineProps & {
 
 export const StoryLine: React.FC<StoryLineProps> = ({ story, size }) => {
   if (!story?.contents) {
-    return <></>
+    return (
+      <div className="h-screen">
+        <Montserrat className="text-md font-bold text-center">表示できるコンテンツがありません</Montserrat>
+      </div>
+    )
   }
   return (
     <>
