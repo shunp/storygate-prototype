@@ -1,6 +1,8 @@
+import { PostType } from 'src/components/Provider/providers'
+
 export interface PortfolioCommonContent {
   id: string
-  type: string
+  type: PostType
   title: string
   text: string
 }
@@ -15,11 +17,4 @@ export interface WithPicture {
 }
 export interface Portfolio {
   contents: PortfolioContent<WithIFrame | WithPicture>[]
-}
-
-export const isWithIFrame = (portfolioContent: any): portfolioContent is PortfolioContent<WithIFrame> => {
-  return portfolioContent.type === 'YouTubePost'
-}
-export const isWithPicture = (portfolioContent: any): portfolioContent is PortfolioContent<WithPicture> => {
-  return portfolioContent.type === 'GeneralURL'
 }

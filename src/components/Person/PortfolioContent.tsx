@@ -1,18 +1,8 @@
 import * as React from 'react'
-import { YouTubeIFrame } from 'src/components/Provider/YouTube'
 import { WithPortfolioContentProps } from './Portfolio/PortfolioContentBase'
-import { TwitterIFrame } from '../Provider/Twitter'
-import { GeneralURLContent } from '../Provider/GeneralURL'
+import { getContentComponentsByType } from '../Provider/ProviderComponents'
 
-interface Dictionary {
-  [key: string]: React.FC<WithPortfolioContentProps<any>>
-}
-const PortfolioContentComponentDictionary: Dictionary = {
-  YouTubePost: YouTubeIFrame,
-  TwitterPost: TwitterIFrame,
-  GeneralURL: GeneralURLContent
-}
 export const PortfolioContentComponent: React.FC<WithPortfolioContentProps> = ({ content, size, editingObj, onChange }) => {
-  const ContentComponent = PortfolioContentComponentDictionary[content.type]
+  const ContentComponent = getContentComponentsByType(content.type)
   return <ContentComponent content={content} size={size} editingObj={editingObj} onChange={onChange} />
 }

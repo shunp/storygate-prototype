@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { OgTag } from 'src/utils/scraper'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
-import { extractFromUrl } from 'src/utils/ContentsExtractor'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
+import { extractFromUrl } from '../Provider/ContentsExtractor'
 
 interface PortfolioTabContentProps {
   index: number
