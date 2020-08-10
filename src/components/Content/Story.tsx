@@ -1,10 +1,8 @@
 import * as React from 'react'
-import { YouTubePost } from '../Provider/YouTube'
-import { TwitterPost } from '../Provider/Twitter'
-import { FacebookPost } from '../Provider/Facebook'
-import { InstagramPost } from '../Provider/Instagram'
+import { Story } from 'src/services/interfaces/Story'
 import { Text } from '../Provider/FreeText'
 import { BallonTitleLine } from '../TitleLine'
+import { StoryContentComponent } from '../Person/Story/StoryContent'
 
 export const AddStory = ({
   inputNewMonth,
@@ -52,38 +50,20 @@ export const AddStory = ({
     </div>
   )
 }
+interface StoryLinetProps {
+  story: Story
+  size: number
+}
 
-export const Story = ({ data, size }) => {
-  if (!data) {
+export const StoryLine: React.FC<StoryLinetProps> = ({ story, size }) => {
+  if (!story?.contents) {
     return <></>
   }
-  const StoryLine = data.map(p => {
-    switch (p.type) {
-      case 'YouTubePost':
-        return (
-          <YouTubePost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'TwitterPost':
-        return (
-          <TwitterPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'FacebookPost':
-        return (
-          <FacebookPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'InstagramPost':
-        return (
-          <InstagramPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'Text':
-        return <Text TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-      default:
-        return <></>
-    }
-  })
   return (
     <>
-      {StoryLine}
+      {story.contents.map(p => (
+        <StoryContentComponent content={p} size={size} />
+      ))}
       <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continue..." text="" size={size} />
     </>
   )

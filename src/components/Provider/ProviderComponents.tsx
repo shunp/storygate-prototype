@@ -27,3 +27,16 @@ const PortfolioContentComponents: PortfolioContentComponents = {
 
 export const getPortfolioContentComponentsByType = (type: PostType): React.FC<WithPortfolioContentProps<any>> =>
   PortfolioContentComponents[type]
+
+type StoryContentComponents = {
+  [key in PostType]: React.FC<WithStoryContentProps<WithIFrame>> | React.FC<WithStoryContentProps<WithPicture>>
+}
+const StoryContentComponents: StoryContentComponents = {
+  YouTubePost: asStoryContentIFrame(YouTubeIFrame),
+  TwitterPost: asStoryContentIFrame(TwitterIFrame),
+  FacebookPost: asStoryContentIFrame(FacebookIFrame),
+  InstagramPost: asStoryContentIFrame(InstagramIframe),
+  GeneralURL: asStoryContentPicture(GeneralURLContent),
+  Text: asStoryContentIFrame(TextIFrame)
+}
+export const getStoryContentComponentsByType = (type: PostType): React.FC<WithStoryContentProps<any>> => StoryContentComponents[type]
