@@ -4,7 +4,11 @@ interface ContentElement {
   type: PostType
   key: string
 }
-const judgeType = (url: URL): PostType => {
+const judgeType = (urlString: string): PostType => {
+  if (!urlString.startsWith('https://')) {
+    return 'Text'
+  }
+  const url = new URL(urlString)
   const { hostname } = url
   if (hostname.includes('youtube')) {
     return 'YouTubePost'
@@ -45,7 +49,7 @@ const extractKey = (type: string, url: string): string => {
   return url
 }
 export const extractFromUrl = (url: string): ContentElement => {
-  const type = judgeType(new URL(url))
+  const type = judgeType(url)
   const key = extractKey(type, url)
   return { type, key }
 }

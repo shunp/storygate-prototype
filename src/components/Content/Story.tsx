@@ -72,7 +72,7 @@ export const StoryLine: React.FC<StoryLineProps> = ({ story, size }) => {
       {story.contents.map(p => (
         <StoryContentComponent content={p} size={size} />
       ))}
-      <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continue..." text="" size={size} />
+      <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continued..." text="" size={size} />
     </>
   )
 }
