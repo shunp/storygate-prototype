@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { useWindowSize } from 'src/utils/useWindowSize'
+import { Content } from 'src/services/interfaces/Content'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 import PortfolioTabContent from './PortfolioTabContent'
 import StoryTabContent from './StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
-import { Content } from 'src/services/interfaces/Content'
-import { Portfolio } from 'src/services/interfaces/Portfolio'
 
 interface PersonContentLayoutProps {
   openTab: number
@@ -37,7 +37,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         size={size.width}
         editing={editingPortfolio}
         toggleEditingPortfolio={toggleEditingPortfolio}
-        update={(portfolio: Portfolio) => updateContent(Object.assign({}, content, { portfolio }))}
+        update={(portfolio: Portfolio) => updateContent({ ...content, portfolio })}
       />
       <StoryTabContent index={2} openTab={openTab} size={size.width} editing={editingStory} toggleEditingStory={toggleEditingStory} />
       <CommunityTabContent index={3} openTab={openTab} size={size.width} editing={editingCommunity} />
