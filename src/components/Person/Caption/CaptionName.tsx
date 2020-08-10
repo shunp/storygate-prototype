@@ -1,21 +1,13 @@
 import * as React from 'react'
-import { css } from '@emotion/core'
+import { Noto } from 'src/components/SGText'
 
 export interface CaptionNameProps {
   name: string
 }
 const CaptionName: React.FC<CaptionNameProps> = ({ name }) => {
   return (
-    <div id="profile-name" className="mt-2">
-      <span
-        className="font-semibold text-xl"
-        css={css`
-          font-family: noto-sans-cjk-jp, sans-serif;
-          font-style: normal;
-        `}
-      >
-        {name}
-      </span>
+    <div id="profile-name" className="mx-2 mt-1">
+      <Noto className="text-xl text-white">{name}</Noto>
     </div>
   )
 }

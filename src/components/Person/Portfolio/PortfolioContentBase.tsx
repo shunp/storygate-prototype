@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { PortfolioContent, WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
-import { BasicTitleLine, ModifiableTitleLine } from 'src/components/TitleLine'
+import { PortfolioTitle, ModifiableTitleLine } from 'src/components/TitleLine'
 import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
 import { ModifiableContentLocation, ContentLocation } from 'src/components/ContentLocation'
 
@@ -21,7 +21,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
   }
   return (
     <>
-      <BasicTitleLine title={content.title} />
+      <PortfolioTitle title={content.title} />
       <div className="flex justify-center">{children}</div>
       <ContentExplanation text={content.text} />
     </>
@@ -45,7 +45,7 @@ export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrappe
   }
   return (
     <>
-      <BasicTitleLine title={content.title} />
+      <PortfolioTitle title={content.title} />
       <div className="flex justify-center">{children}</div>
       <ContentExplanation text={content.text} />
       <ContentLocation location={content.location} />

@@ -18,9 +18,9 @@ const CaptionProfileImg: React.FC<CaptionProfileImgProps> = ({ profileImg }) => 
     }
   `)
   if (profileImg) {
-    return <img src={profileImg} className="w-24 h-24 rounded-full bg-white border-4 border-primary" alt="" />
+    return <img src={profileImg} className="w-12 h-12 rounded-full" alt="" />
   }
-  return <Img fluid={data.guest.childImageSharp.fluid} className="w-24 h-24 rounded-full bg-white border-4 border-primary" />
+  return <Img fluid={data.guest.childImageSharp.fluid} className="w-12 h-12 rounded-full bg-white border-4 border-primary" />
 }
 
 export default CaptionProfileImg

@@ -7,7 +7,7 @@ import { loginAction } from 'src/state/app'
 import { Link, navigate } from 'gatsby'
 import { Background, Heading, Logo, RegisterTitleLine } from 'src/components/Auth/top'
 import PageRoot from 'src/components/Root/PageRoot'
-import SGText from 'src/components/SGText'
+import { Noto } from 'src/components/SGText'
 import { AccountService } from 'src/services/AccountService'
 import { AuthService } from 'src/services/AuthService'
 import { LoginUser } from 'src/services/interfaces/Auth'
@@ -57,7 +57,7 @@ const InvitationCode = ({ invitation, setInvitation }) => {
 const FacebookSignupButton = ({ onClick }) => {
   return (
     <button type="button" className="rounded-full bg-blue-800 py-2 px-10 m-2 w-full" onClick={onClick}>
-      <SGText className="text-white ">Facebookで登録</SGText>
+      <Noto className="text-white ">Facebookで登録</Noto>
     </button>
   )
 }
@@ -69,7 +69,7 @@ const IndexPage = ({ login }) => {
       <Background>
         <div className="absolute w-full h-full">
           <RegisterTitleLine>
-            <SGText className="text-white">Create Account</SGText>
+            <Noto className="text-white">Create Account</Noto>
           </RegisterTitleLine>
           <div className="mt-10 mx-6">
             <Heading>世界初のオンラインコミュニティ</Heading>
@@ -86,9 +86,9 @@ const IndexPage = ({ login }) => {
           </div>
           <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
           <div className="flex justify-center mt-10">
-            <SGText className="text-white">アカウントをお持ちですか？</SGText>
+            <Noto className="text-white">アカウントをお持ちですか？</Noto>
             <Link to="/">
-              <SGText className="text-white underline">ログイン</SGText>
+              <Noto className="text-white underline">ログイン</Noto>
             </Link>
           </div>
         </div>

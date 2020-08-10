@@ -1,10 +1,21 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
+import { Montserrat } from './SGText'
 
 interface TitleLineProps {
   title: string
   time?: string
   Icon?: any
+}
+
+export const PortfolioTitle: React.FC<TitleLineProps> = ({ title }) => {
+  return (
+    <div id="line-title" className="flex flex-col w-full">
+      <div className="bg-white shadow-xl">
+        <Montserrat className="font-semibold text-white bg-primary text-center py-2 text-lg">{title}</Montserrat>
+      </div>
+    </div>
+  )
 }
 
 export const BasicTitleLine: React.FC<TitleLineProps> = ({ title, Icon }) => {

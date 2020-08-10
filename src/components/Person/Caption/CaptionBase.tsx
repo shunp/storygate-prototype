@@ -8,6 +8,9 @@ import {
   EditCaptionProfileImg,
   EditCaptionIntroduction
 } from 'src/components/Person/Caption/edit'
+import { css } from '@emotion/core'
+import { Montserrat } from 'src/components/SGText'
+import VerticalLine from 'src/components/VerticalLine'
 import CaptionWrapper from './CaptionWrapper'
 import CaptionMain from './CaptionMain'
 import CaptionName from './CaptionName'
@@ -15,6 +18,7 @@ import CaptionLocation from './CaptionLocation'
 import CaptionTitle from './CaptionTitle'
 import CaptionIntroduction from './CaptionIntroduction'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
+import ItemBand from './ItemBand'
 
 interface CaptionEditProps {
   original: Person
@@ -45,7 +49,7 @@ const CaptionEdit: React.FC<CaptionEditProps> = ({ original, toggleEditingCaptio
         DoneButton={<DoneButton onClick={doneEditing} />}
         className="mt-20"
       />
-      <CaptionWrapper>
+      <CaptionWrapper editing>
         <EditCaptionProfileImg profileImg={original.img} setProfileImg={setNewImg} />
         <EditCaptionName name={name} setName={setName} />
         <EditCaptionTitle title={title} setTitle={setTitle} />
@@ -66,13 +70,32 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
     return <CaptionEdit original={data} toggleEditingCaption={toggleEditingCaption} updateCaption={updateCaption} />
   }
   return (
-    <CaptionWrapper>
-      <CaptionMain profileImg={data.img} />
-      <CaptionName name={data.name} />
+    <>
+      <CaptionWrapper profileImg={data.img}>
+        <CaptionMain profileImg={data.img} name={data.name} introduction={data.introduction} />
+        {/* <CaptionName name={data.name} />
       <CaptionLocation location={data.location} />
       <CaptionTitle title={data.title} />
-      <CaptionIntroduction introduction={data.introduction} />
-    </CaptionWrapper>
+      <CaptionIntroduction introduction={data.introduction} /> */}
+      </CaptionWrapper>
+      <div className="border-white border-solid border mx-4 mb-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
+      <div className="flex justify-between mx-10">
+        <div>
+          <Montserrat className="text-white text-xl font-bold">0</Montserrat>
+          <Montserrat className="text-white text-xs font-bold opacity-75">Points</Montserrat>
+        </div>
+        <VerticalLine />
+        <div>
+          <Montserrat className="text-white text-xl font-bold">{data.location}</Montserrat>
+          <Montserrat className="text-white text-xs font-bold opacity-75">Japan</Montserrat>
+        </div>
+        <VerticalLine />
+        <div className="">
+          <Montserrat className="text-white text-xl font-bold">3時間前</Montserrat>
+          <Montserrat className="text-white text-xs font-bold opacity-75">Login</Montserrat>
+        </div>
+      </div>
+    </>
   )
 }
 

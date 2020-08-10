@@ -14,4 +14,30 @@ const SGText = ({ children, className }) => {
   )
 }
 
+export const Noto = ({ children, className }) => {
+  return (
+    <div
+      className={className}
+      css={css`
+        font-family: noto-sans-cjk-jp, sans-serif;
+      `}
+    >
+      {children}
+    </div>
+  )
+}
+
+export const Montserrat = ({ children, className }) => {
+  return (
+    <div
+      className={className}
+      css={css`
+        font-family: Montserrat;
+      `}
+    >
+      {children}
+    </div>
+  )
+}
+
 export default SGText
