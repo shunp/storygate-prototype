@@ -37,6 +37,7 @@ const PageRoot = ({ children, loading = true }) => (
         >
           <html lang="en" />
           <link rel="stylesheet" href="https://use.typekit.net/ajn0goi.css" />
+          <link rel="stylesheet" href="https://use.typekit.net/pey6zyl.css" />
         </Helmet>
         {loading && <PageLoader />}
         {/* <FooterMessage /> */}

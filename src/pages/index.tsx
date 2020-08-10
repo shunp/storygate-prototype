@@ -9,7 +9,7 @@ import { LoginUser } from 'src/services/interfaces/Auth'
 import { connect } from 'react-redux'
 import { loginAction } from 'src/state/app'
 import PageRoot from 'src/components/Root/PageRoot'
-import SGText from 'src/components/SGText'
+import { Noto } from 'src/components/SGText'
 
 interface HeaderStates {
   loginUser: LoginUser
@@ -88,7 +88,7 @@ const IndexPage = ({ login }) => {
       <Background>
         <div className="absolute w-full h-full">
           <LoginTitleLine>
-            <SGText className="text-white">Login</SGText>
+            <Noto className="text-white">Login</Noto>
           </LoginTitleLine>
           <div className="mt-10 mx-6">
             <Heading>世界初のオンラインコミュニティ</Heading>
@@ -102,21 +102,21 @@ const IndexPage = ({ login }) => {
           <div className="flex justify-center flex-col">
             <div className="flex justify-center">
               <MailLoginButton emailAddress={emailAddress} password={password}>
-                <SGText className="text-purple-c1">ログイン</SGText>
+                <Noto className="text-purple-c1">ログイン</Noto>
               </MailLoginButton>
             </div>
             <div className="flex justify-center text-white">または</div>
             <div className="flex justify-center">
               <FacebookLoginButton login={login}>
-                <SGText className="text-white ">Facebookでログイン</SGText>
+                <Noto className="text-white ">Facebookでログイン</Noto>
               </FacebookLoginButton>
             </div>
           </div>
           <div className="border-white border-solid border-2 mx-4 mt-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
           <div className="flex justify-center mt-10">
-            <SGText className="text-white">アカウントをお持ちでないですか？</SGText>
+            <Noto className="text-white">アカウントをお持ちでないですか？</Noto>
             <Link to="/register">
-              <SGText className="text-white underline">新規登録</SGText>
+              <Noto className="text-white underline">新規登録</Noto>
             </Link>
           </div>
         </div>

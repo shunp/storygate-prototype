@@ -3,7 +3,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from 'google-maps-
 import Geocode from 'react-geocode'
 import Header from 'src/components/Header/index'
 import { Link } from 'gatsby'
-import SGText from 'src/components/SGText'
+import { Noto } from 'src/components/SGText'
 import { LatLngModel } from 'src/services/MapService/LatLngModel'
 
 Geocode.setApiKey(process.env.GATSBY_MAP_API_KEY)
@@ -153,10 +153,10 @@ const MapPage = ({ google }) => {
           onChange={e => setSearchWorld(e.target.value)}
         />
         <button type="button" className="p-2 bg-orange-500 rounded-lg" onClick={searchLocation}>
-          <SGText className="text-white text-xs">検索</SGText>
+          <Noto className="text-white text-xs">検索</Noto>
         </button>
         <button type="button" className="p-2 m-2 bg-blue-500 rounded-lg" onClick={fetchCurrentLocation}>
-          <SGText className="text-white text-xs">現在地へ</SGText>
+          <Noto className="text-white text-xs">現在地へ</Noto>
         </button>
       </div>
     </>

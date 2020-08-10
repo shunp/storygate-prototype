@@ -37,10 +37,10 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
     <>
       <NavWrapper>
         <LoginUserIcon pageId={loginUser.uid} icon={icon} />
-        <HeaderLogo />
+        {/* <HeaderLogo /> */}
         {loginUser.loggedIn ? (
           <>
-            <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-black border-white border rounded">
+            <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-white text-lg border-none border rounded">
               ...
             </button>
             <TopMenuBase logout={logout} />

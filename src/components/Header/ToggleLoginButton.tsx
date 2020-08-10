@@ -6,7 +6,7 @@ const ToggleLoginButton: React.FC = () => {
     <button
       data-cy="login"
       type="submit"
-      className="modal-open inline-block text-xs px-2 py-2 leading-none text-black border-black border rounded"
+      className="modal-open inline-block text-xs px-2 py-2 leading-none text-white border-white border rounded"
       onClick={() => {
         toggleLoginModal()
       }}

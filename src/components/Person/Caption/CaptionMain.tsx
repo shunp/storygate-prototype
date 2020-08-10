@@ -1,13 +1,19 @@
 import * as React from 'react'
 import CaptionProfileImg from './CaptionProfileImg'
 import ItemBand from './ItemBand'
+import CaptionName from './CaptionName'
+import CaptionIntroduction from './CaptionIntroduction'
 
-const CaptionMain = ({ profileImg }) => {
+const CaptionMain = ({ profileImg, name, introduction }) => {
   return (
-    <div id="profile-image" className="flex items-center justify-between flex-wrap w-1/2">
+    <>
       <CaptionProfileImg profileImg={profileImg} />
+      <div>
+        <CaptionName name={name} />
+        <CaptionIntroduction introduction={introduction} />
+      </div>
       <ItemBand />
-    </div>
+    </>
   )
 }
 
