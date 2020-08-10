@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 import { WithIFrame } from 'src/services/interfaces/Portfolio'
-import { asPortfolioContentIFrame, PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
+import { PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
 
-const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
+export const TwitterIFrame: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
     <TwitterTweetEmbed
       tweetId={iframeKey}
@@ -20,7 +20,6 @@ const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }
     />
   )
 }
-export const TwitterIFrame = asPortfolioContentIFrame(Iframe)
 
 export const TwitterChannel = () => {
   return <></>

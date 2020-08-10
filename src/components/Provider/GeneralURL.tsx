@@ -22,11 +22,10 @@ const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }
 }
 export const GeneralURLIframe = asPortfolioContentIFrame(Iframe)
 
-const GeneralURL: React.FC<PortfolioContentProps<WithPicture>> = ({ fullURL, pic }) => {
+export const GeneralURLContent: React.FC<PortfolioContentProps<WithPicture>> = ({ fullURL, pic }) => {
   return (
     <a href={fullURL} className="" aria-label="panel-link">
       <img alt="GeneralURL" src={pic} className="" />
     </a>
   )
 }
-export const GeneralURLContent = asPortfolioContentPicture(GeneralURL)

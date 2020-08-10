@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { WithPortfolioContentProps } from './Portfolio/PortfolioContentBase'
-import { getContentComponentsByType } from '../Provider/ProviderComponents'
+import { getPortfolioContentComponentsByType } from 'src/components/Provider/ProviderComponents'
+import { WithPortfolioContentProps } from './PortfolioContentBase'
 
 export const PortfolioContentComponent: React.FC<WithPortfolioContentProps> = ({ content, size, editingObj, onChange }) => {
-  const ContentComponent = getContentComponentsByType(content.type)
+  const ContentComponent = getPortfolioContentComponentsByType(content.type)
   return <ContentComponent content={content} size={size} editingObj={editingObj} onChange={onChange} />
 }

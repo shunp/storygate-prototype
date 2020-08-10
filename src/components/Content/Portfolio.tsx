@@ -3,7 +3,7 @@ import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { togglePostModal } from './modal/utils'
 import PostModal from './modal/PostModal'
-import { PortfolioContentComponent } from '../Person/PortfolioContent'
+import { PortfolioContentComponent } from '../Person/Portfolio/PortfolioContent'
 
 export const NewPortfolio = ({
   inputNewTitle,
