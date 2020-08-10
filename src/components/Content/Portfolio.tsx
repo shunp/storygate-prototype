@@ -52,7 +52,7 @@ type ModifiablePortfolioListProps = PortfolioListProps & {
   update: (portfolio: Portfolio) => void
 }
 export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size }) => {
-  if (!portfolio?.contents) {
+  if (!portfolio?.contents.length) {
     return (
       <div className="h-screen">
         <Montserrat className="text-md font-bold text-center">表示できるコンテンツがありません</Montserrat>

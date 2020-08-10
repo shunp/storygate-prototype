@@ -65,7 +65,7 @@ type ModifiableStoryLineProps = StoryLineProps & {
 }
 
 export const StoryLine: React.FC<StoryLineProps> = ({ story, size }) => {
-  if (!story?.contents) {
+  if (!story?.contents.length) {
     return (
       <div className="h-screen">
         <Montserrat className="text-md font-bold text-center">表示できるコンテンツがありません</Montserrat>
