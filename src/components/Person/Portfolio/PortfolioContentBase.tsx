@@ -14,7 +14,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     return (
       <>
         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
-        <div className="flex justify-center">{children}</div>
+        <div className="flex justify-center overflow-hidden">{children}</div>
         <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
       </>
     )
