@@ -90,6 +90,10 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/persons/*`] }
+    },
+    {
       resolve: 'gatsby-source-firestore',
       options: {
         credential: JSON.parse(process.env.FIREBASE_CREDENTIAL),
