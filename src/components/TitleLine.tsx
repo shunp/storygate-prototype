@@ -23,6 +23,20 @@ export const BasicTitleLine: React.FC<TitleLineProps> = ({ title, Icon }) => {
   )
 }
 
+export const ModifiableTitleLine = ({ title, onChange }) => {
+  return (
+    <div id="line-title" className="flex flex-col w-full mt-2">
+      <div className="m-1 text-xs text-white">タイトル</div>
+      <input
+        type="text"
+        placeholder="title..."
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
+        value={title}
+        onChange={e => onChange('title', e.target.value)}
+      />
+    </div>
+  )
+}
 export const BallonTitleLine: React.FC<TitleLineProps> = ({ title, time }) => {
   return (
     <div id="ballon-title" className="flex flex-col w-full mt-2">
@@ -50,10 +64,17 @@ export const BallonTitleLine: React.FC<TitleLineProps> = ({ title, time }) => {
     </div>
   )
 }
-
-export const ModifiableTitleLine = ({ title, onChange }) => {
+export const ModifiableBallonTitleLine: React.FC<TitleLineProps> = ({ title, time, onChange }) => {
   return (
-    <div id="line-title" className="flex flex-col w-full mt-2">
+    <div id="ballon-title" className="flex flex-col w-full mt-2">
+      <div className="m-1 text-xs text-white">時期</div>
+      <input
+        type="text"
+        placeholder="title..."
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
+        value={time}
+        onChange={e => onChange('time', e.target.value)}
+      />
       <div className="m-1 text-xs text-white">タイトル</div>
       <input
         type="text"

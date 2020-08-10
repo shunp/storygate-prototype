@@ -2,10 +2,10 @@ import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import InstagramEmbed from 'react-instagram-embed'
 import { WithIFrame } from 'src/services/interfaces/Portfolio'
+import { PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
 import { ContentExplanation } from '../ContentExplanation'
-import { PortfolioContentProps, asPortfolioContentIFrame } from '../Person/Portfolio/PortfolioContentBase'
 
-const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
+export const InstagramIframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
     <InstagramEmbed
       url={`https://www.instagram.com/p/${iframeKey}/`}
@@ -20,7 +20,6 @@ const Iframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }
     />
   )
 }
-export const InstagramIFrame = asPortfolioContentIFrame(Iframe)
 
 export const InstagramPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text, size }) => {
   return (

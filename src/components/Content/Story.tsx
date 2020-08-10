@@ -1,10 +1,13 @@
 import * as React from 'react'
-import { YouTubePost } from '../Provider/YouTube'
-import { TwitterPost } from '../Provider/Twitter'
-import { FacebookPost } from '../Provider/Facebook'
-import { InstagramPost } from '../Provider/Instagram'
+import { Story } from 'src/services/interfaces/Story'
 import { Text } from '../Provider/FreeText'
 import { BallonTitleLine } from '../TitleLine'
+import { StoryContentComponent } from '../Person/Story/StoryContent'
+import { EditingButtonSet, DeleteButton, EditingButton, CompleteButtonSet } from '../EditButton'
+import PostModal from './modal/PostModal'
+import ClearButton from '../ClearButton'
+import DoneButton from '../DeleteButton'
+import { togglePostModal } from './modal/utils'
 
 export const AddStory = ({
   inputNewMonth,
@@ -30,7 +33,7 @@ export const AddStory = ({
       <input
         type="text"
         className="border-2 bordeer-gray-300 focus:outline-none bg-white w-full h-10 px-5 rounded-lg"
-        value={inputNewURL}
+        value={inputNewTitle}
         placeholder="Title..."
         onChange={e => setInputNewTitle(e.target.value)}
       />
@@ -38,7 +41,7 @@ export const AddStory = ({
       <input
         type="text"
         className="border-2 bordeer-gray-300 focus:outline-none bg-white w-full h-10 px-5 rounded-lg"
-        value={inputNewTitle}
+        value={inputNewURL}
         placeholder="URL..."
         onChange={e => setInputNewURL(e.target.value)}
       />
@@ -52,39 +55,83 @@ export const AddStory = ({
     </div>
   )
 }
+interface StoryLineProps {
+  story: Story
+  size: number
+}
+type ModifiableStoryLineProps = StoryLineProps & {
+  update: (story: Story) => void
+}
 
-export const Story = ({ data, size }) => {
-  if (!data) {
+export const StoryLine: React.FC<StoryLineProps> = ({ story, size }) => {
+  if (!story?.contents) {
     return <></>
   }
-  const StoryLine = data.map(p => {
-    switch (p.type) {
-      case 'YouTubePost':
-        return (
-          <YouTubePost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'TwitterPost':
-        return (
-          <TwitterPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'FacebookPost':
-        return (
-          <FacebookPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'InstagramPost':
-        return (
-          <InstagramPost TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-        )
-      case 'Text':
-        return <Text TitleLine={<BallonTitleLine title={p.title} time={p.time} />} iframeKey={p.iframeKey} text={p.text} size={size} />
-      default:
-        return <></>
-    }
-  })
   return (
     <>
-      {StoryLine}
-      <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continue..." text="" size={size} />
+      {story.contents.map(p => (
+        <StoryContentComponent content={p} size={size} />
+      ))}
+      <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continued..." text="" size={size} />
     </>
   )
+}
+
+export const ModifiableStoryLine: React.FC<ModifiableStoryLineProps> = ({ story, size, update }) => {
+  const [editingObj, setEditingObj] = React.useState({})
+  const deletePost = (id: string) => {
+    const updated = { ...story }
+    updated.contents = story.contents.filter(content => content.id !== id)
+    update(updated)
+  }
+  const editPost = (id: string) => {
+    const target = story.contents.find(content => content.id === id) || {}
+    setEditingObj(target)
+    togglePostModal(id)
+  }
+  const clearEditing = (id: string) => {
+    togglePostModal(id)
+  }
+  const doneEditing = (id: string) => {
+    const updated = { ...story }
+    const target = updated.contents.find(content => content.id === id)
+    if (target) {
+      Object.assign(target, editingObj)
+      update(updated)
+    }
+    togglePostModal(id)
+  }
+  if (!story?.contents) {
+    return <></>
+  }
+  return story.contents.map(p => {
+    return (
+      <>
+        <EditingButtonSet
+          DeleteButton={<DeleteButton onClick={() => deletePost(p.id)} />}
+          EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
+          className="mt-10"
+        />
+        <StoryContentComponent content={p} size={size} />
+        <PostModal
+          id={p.id}
+          Post={
+            <>
+              <CompleteButtonSet
+                ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
+                DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
+                className="mt-1"
+              />
+              <StoryContentComponent
+                content={p}
+                size={size}
+                editingObj={editingObj}
+                onChange={(key: string, value: string) => setEditingObj({ ...editingObj, [key]: value })}
+              />
+            </>
+          }
+        />
+      </>
+    )
+  })
 }

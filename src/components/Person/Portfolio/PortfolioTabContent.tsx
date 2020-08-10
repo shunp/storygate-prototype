@@ -1,10 +1,31 @@
 import * as React from 'react'
-import { OgTag } from 'src/utils/scraper'
-import { Portfolio } from 'src/services/interfaces/Portfolio'
-import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
-import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
-import { extractFromUrl } from '../Provider/ContentsExtractor'
+import { Portfolio, WithIFrame, WithPicture, PortfolioContent } from 'src/services/interfaces/Portfolio'
+import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
+import { findOpenGraph } from 'src/services/firebase/functions'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
+import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../../Content/Portfolio'
 
+const createContent = async (title: string, url: string, explanation: string): Promise<PortfolioContent<WithIFrame | WithPicture>> => {
+  const contentElement = extractFromUrl(url)
+  if (contentElement.type === 'GeneralURL') {
+    const result = await findOpenGraph(url)
+    return {
+      id: `content${new Date().getTime()}`,
+      title,
+      text: explanation,
+      type: contentElement.type,
+      fullURL: contentElement.key,
+      pic: result.ogImg
+    }
+  }
+  return {
+    id: `content${new Date().getTime()}`,
+    title,
+    text: explanation,
+    type: contentElement.type,
+    iframeKey: contentElement.key
+  }
+}
 interface PortfolioTabContentProps {
   index: number
   openTab: number
@@ -46,20 +67,8 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
       console.log('inputNewURL', inputNewURL)
       return
     }
-
-    // const ogTag = new OgTag()
-    // const tagParam = await ogTag.fetch(inputNewURL)
-    // console.log('tagParam', tagParam)
-    const contentElement = extractFromUrl(inputNewURL)
-    const content = {
-      id: `content${new Date().getTime()}`,
-      title: inputNewTitle,
-      text: inputNewExplanation,
-      type: contentElement.type,
-      iframeKey: contentElement.key
-    }
     const updated = { ...portfolio }
-    updated.contents.unshift(content)
+    updated.contents.push(await createContent(inputNewTitle, inputNewURL, inputNewExplanation))
     update(portfolio)
     clearState()
     toggleEditingPortfolio()

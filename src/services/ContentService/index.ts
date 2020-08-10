@@ -7,13 +7,16 @@ class Service {
     return {
       portfolio: {
         contents: []
+      },
+      story: {
+        contents: []
       }
     }
   }
 
   fetchPersonContentById = async (id: string): Promise<Content> => {
     const personContent = await fetchPersonContent(id)
-    return personContent.portfolio ? personContent : this.emptyContent()
+    return Object.keys(personContent).length ? personContent : this.emptyContent()
   }
 
   updatePersonContent = async (pageId: string, content: Content) => {

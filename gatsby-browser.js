@@ -8,6 +8,7 @@
 import './src/styles/global.css'
 import 'firebase/storage'
 import 'firebase/firestore'
+import 'firebase/functions'
 import 'firebase/auth'
 
 export { default as wrapRootElement } from 'src/state/ReduxWrapper'
