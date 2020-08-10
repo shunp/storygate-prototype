@@ -1,6 +1,9 @@
 import * as React from 'react'
 
 export const ContentExplanation = ({ text }) => {
+  if (!text) {
+    return <></>
+  }
   return <div className="text-gray-500 p-4">{text}</div>
 }
 

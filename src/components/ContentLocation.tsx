@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 export const ContentLocation = ({ location }) => {
+  if (!location) {
+    return <></>
+  }
   return (
     <div id="content-location" className="flex justify-center items-center w-full mb-1">
       <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" className="text-gray-500" />
