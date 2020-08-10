@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Portfolio, WithIFrame, WithPicture, PortfolioContent } from 'src/services/interfaces/Portfolio'
 import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
 import { findOpenGraph } from 'src/services/firebase/functions'
-import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
-import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../Content/Portfolio'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
+import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../../Content/Portfolio'
 
 const createContent = async (title: string, url: string, explanation: string): Promise<PortfolioContent<WithIFrame | WithPicture>> => {
   const contentElement = extractFromUrl(url)
@@ -68,7 +68,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
       return
     }
     const updated = { ...portfolio }
-    updated.contents.unshift(await createContent(inputNewTitle, inputNewURL, inputNewExplanation))
+    updated.contents.push(await createContent(inputNewTitle, inputNewURL, inputNewExplanation))
     update(portfolio)
     clearState()
     toggleEditingPortfolio()

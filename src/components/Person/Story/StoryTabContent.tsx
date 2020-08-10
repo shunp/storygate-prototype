@@ -1,20 +1,49 @@
 import * as React from 'react'
-import { CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
-import { StoryLine, AddStory } from '../Content/Story'
+import { Story, StoryContent } from 'src/services/interfaces/Story'
+import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
+import { findOpenGraph } from 'src/services/firebase/functions'
+import { WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
+import { StoryLine, AddStory, ModifiableStoryLine } from '../../Content/Story'
+import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 
+const createContent = async (
+  time: string,
+  title: string,
+  url: string,
+  explanation: string
+): Promise<StoryContent<WithIFrame | WithPicture>> => {
+  const contentElement = extractFromUrl(url)
+  if (contentElement.type === 'GeneralURL') {
+    const result = await findOpenGraph(url)
+    return {
+      id: `content${new Date().getTime()}`,
+      time,
+      title,
+      text: explanation,
+      type: contentElement.type,
+      fullURL: contentElement.key,
+      pic: result.ogImg
+    }
+  }
+  return {
+    id: `content${new Date().getTime()}`,
+    time,
+    title,
+    text: explanation,
+    type: contentElement.type,
+    iframeKey: contentElement.key
+  }
+}
 interface StoryTabContentProps {
   index: number
   openTab: number
+  story: Story
   size: number
   editing: boolean
   toggleEditingStory: () => void
+  update: (story: Story) => void
 }
-const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size, editing, toggleEditingStory }) => {
-  const [inputNewMonth, setInputNewMonth] = React.useState('')
-  const [inputNewTitle, setInputNewTitle] = React.useState('')
-  const [inputNewURL, setInputNewURL] = React.useState('')
-  const [inputNewExplanation, setInputNewExplanation] = React.useState('')
-
+const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, story, size, editing, toggleEditingStory, update }) => {
   const storyData = {
     contents: [
       {
@@ -59,9 +88,25 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size,
       }
     ]
   }
-
-  const doneEditing = () => {
+  const [inputNewTime, setInputNewTime] = React.useState('')
+  const [inputNewTitle, setInputNewTitle] = React.useState('')
+  const [inputNewURL, setInputNewURL] = React.useState('')
+  const [inputNewExplanation, setInputNewExplanation] = React.useState('')
+  const [inputNewLocation, setInputNewLocation] = React.useState('')
+  const clearState = () => {
+    setInputNewTime('')
+    setInputNewTitle('')
+    setInputNewURL('')
+    setInputNewExplanation('')
+    setInputNewLocation('')
+  }
+  const doneEditing = async () => {
     // TODO: firebase
+    if (!inputNewTime) {
+      // TODO: validate
+      console.log('inputNewTime', inputNewTime)
+      return
+    }
     if (!inputNewTitle) {
       // TODO: validate
       console.log('inputNewTitle', inputNewTitle)
@@ -73,11 +118,15 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size,
       console.log('inputNewURL', inputNewURL)
       return
     }
-
+    const updated = { ...story }
+    updated.contents.push(await createContent(inputNewTime, inputNewTitle, inputNewURL, inputNewExplanation))
+    update(story)
+    clearState()
     toggleEditingStory()
   }
 
   const resetEditing = () => {
+    clearState()
     toggleEditingStory()
   }
 
@@ -90,8 +139,8 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size,
           className="mt-1"
         />
         <AddStory
-          inputNewMonth={inputNewMonth}
-          setInputNewMonth={setInputNewMonth}
+          inputNewMonth={inputNewTime}
+          setInputNewMonth={setInputNewTime}
           inputNewTitle={inputNewTitle}
           setInputNewTitle={setInputNewTitle}
           inputNewURL={inputNewURL}
@@ -99,13 +148,13 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, size,
           inputNewExplanation={inputNewExplanation}
           setInputNewExplanation={setInputNewExplanation}
         />
-        <StoryLine story={storyData} size={size} />
+        <ModifiableStoryLine story={story} size={size} update={update} />
       </div>
     )
   }
   return (
     <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-      <StoryLine story={storyData} size={size} />
+      <StoryLine story={story} size={size} />
     </div>
   )
 }

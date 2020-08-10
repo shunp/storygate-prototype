@@ -2,7 +2,7 @@ import * as React from 'react'
 import { WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
 import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
 import { StoryContent } from 'src/services/interfaces/Story'
-import { BallonTitleLine, BasicTitleLine, ModifiableTitleLine } from 'src/components/TitleLine'
+import { BallonTitleLine, ModifiableBallonTitleLine } from 'src/components/TitleLine'
 import { ContentLocation, ModifiableContentLocation } from 'src/components/ContentLocation'
 
 export interface StoryContentWrapperProps<T = {}> {
@@ -11,15 +11,15 @@ export interface StoryContentWrapperProps<T = {}> {
   onChange?: (key: string, value: string) => void
 }
 export const StoryContentWrapper: React.FC<StoryContentWrapperProps> = ({ children, content, editingObj, onChange }) => {
-  //   if (editingObj) {
-  //     return (
-  //       <>
-  //         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
-  //         <div className="flex justify-center">{children}</div>
-  //         <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
-  //       </>
-  //     )
-  //   }
+  if (editingObj) {
+    return (
+      <>
+        <ModifiableBallonTitleLine title={editingObj.title} time={editingObj.time} onChange={onChange} />
+        <div className="flex justify-center">{children}</div>
+        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+      </>
+    )
+  }
   return (
     <>
       <BallonTitleLine title={content.title} time={content.time} />
@@ -34,16 +34,16 @@ export const StoryContentWrapperWithPicture: React.FC<StoryContentWrapperProps<W
   editingObj,
   onChange
 }) => {
-  // if (editingObj) {
-  //   return (
-  //     <>
-  //       <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
-  //       <div className="flex justify-center">{children}</div>
-  //       <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
-  //       <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
-  //     </>
-  //   )
-  // }
+  if (editingObj) {
+    return (
+      <>
+        <ModifiableBallonTitleLine title={editingObj.title} time={editingObj.time} onChange={onChange} />
+        <div className="flex justify-center">{children}</div>
+        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
+      </>
+    )
+  }
   return (
     <>
       <BallonTitleLine title={content.title} time={content.time} />
