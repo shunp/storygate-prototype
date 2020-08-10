@@ -102,8 +102,8 @@ export const fetchPersonContent = async (pageId: string): Promise<Content> => {
   const doc = await docRef.get()
   const personContent = doc.data() || {}
   return {
-    portfolio: personContent.portfolio || [],
-    story: personContent.story || []
+    portfolio: personContent.portfolio || { contents: [] },
+    story: personContent.story || { contents: [] }
   }
 }
 export const updatePersonContent = async (pageId: string, personContent: Content) => {
