@@ -24,11 +24,11 @@ const TOGGLE_EDIT_STORY = 'TOGGLE_EDIT_STORY'
 const TOGGLE_EDIT_PORTFOLIO = 'TOGGLE_EDIT_PORTFOLIO'
 const TOGGLE_EDIT_COMMUNITY = 'TOGGLE_EDIT_COMMUNITY'
 
-export const publishLogin = (loginUser: LoginUser) => ({
+export const loginAction = (loginUser: LoginUser) => ({
   type: SET_LOGIN_USER,
   loginUser
 })
-export const publishLogout = () => {
+export const logoutAction = () => {
   AuthService.logout()
   return {
     type: SET_LOGIN_USER,
@@ -36,19 +36,19 @@ export const publishLogout = () => {
   }
 }
 
-export const toggleEditCaption = () => ({
+export const toggleEditingCaptionAction = () => ({
   type: TOGGLE_EDIT_CAPTION
 })
 
-export const toggleEditStory = () => ({
+export const toggleEditingStoryAction = () => ({
   type: TOGGLE_EDIT_STORY
 })
 
-export const toggleEditPortfolio = () => ({
+export const toggleEditingPortfolioAction = () => ({
   type: TOGGLE_EDIT_PORTFOLIO
 })
 
-export const toggleEditCommunity = () => ({
+export const toggleEditingCommunityAction = () => ({
   type: TOGGLE_EDIT_COMMUNITY
 })
 

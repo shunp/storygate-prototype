@@ -2,7 +2,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { State } from 'src/state'
 import { LoginUser } from 'src/services/interfaces/Auth'
-import { publishLogin, publishLogout } from 'src/state/app'
+import { PersonService } from 'src/services/PersonService'
+
+import { loginAction, logoutAction } from 'src/state/app'
 import { AuthService } from 'src/services/AuthService'
 import NavWrapper from './NavWrapper'
 import LoginUserIcon from './LoginUserIcon'
@@ -21,16 +23,20 @@ interface HeaderDispatch {
 
 type HeaderProps = HeaderStates & HeaderDispatch
 const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
+  const [icon, setIcon] = React.useState('')
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
     if (storedUser.loggedIn) {
       login(storedUser)
     }
   }
+  if (loginUser.loggedIn) {
+    PersonService.fetchById(loginUser.uid).then(fetchedPerson => setIcon(fetchedPerson.img || ''))
+  }
   return (
     <>
       <NavWrapper>
-        <LoginUserIcon />
+        <LoginUserIcon pageId={loginUser.uid} icon={icon} />
         <HeaderLogo />
         {loginUser.loggedIn ? (
           <>
@@ -53,7 +59,7 @@ export default connect<HeaderStates, HeaderDispatch, {}, State>(
     loginUser: state.app.loginUser
   }),
   dispatch => ({
-    login: (loginUser: LoginUser) => dispatch(publishLogin(loginUser)),
-    logout: () => dispatch(publishLogout())
+    login: (loginUser: LoginUser) => dispatch(loginAction(loginUser)),
+    logout: () => dispatch(logoutAction())
   })
 )(HeaderBase)

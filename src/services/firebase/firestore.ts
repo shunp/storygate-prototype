@@ -1,4 +1,5 @@
 import { Person } from 'src/services/interfaces/Person'
+import { Content } from '../interfaces/Content'
 import { firestore } from './firebase'
 
 export interface PersonCaption {
@@ -71,22 +72,40 @@ export const addCommunityMember = async (communityId: string, uid: string) => {
   const doc = await docRef.get()
   const communityCaption = doc.data() || {}
   communityCaption.members.push(uid)
-  await docRef.update(communityCaption)
+  await docRef.update(communityCaption).catch(err => console.error(err))
 }
 
-export const addPersonPage = async (pageId: string, name: string, img: string) => {
+export const addPersonPage = async (pageId: string, ownerUid: string, name: string, img: string) => {
   await firestore
     .collection('v2/proto/personCaptions')
     .doc(pageId)
-    .set({
-      name,
-      img
-    })
+    .set(
+      {
+        ownerUid,
+        name,
+        img
+      },
+      { merge: true }
+    )
+    .catch(err => console.error(err))
 }
 
 export const updatePerson = async (person: Person) => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(person.pageId)
   const update = { ...person }
   delete update.pageId
-  await docRef.update(update)
+  await docRef.update(update).catch(err => console.error(err))
+}
+
+export const fetchPersonContent = async (pageId: string): Promise<Content> => {
+  const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
+  const doc = await docRef.get()
+  const personContent = doc.data() || {}
+  return {
+    portfolio: personContent.portfolio
+  }
+}
+export const updatePersonContent = async (pageId: string, personContent: Content) => {
+  const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
+  await docRef.set(personContent, { merge: true }).catch(err => console.error(err))
 }

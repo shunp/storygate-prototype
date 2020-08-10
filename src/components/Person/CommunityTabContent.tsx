@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { AnyAction } from 'redux'
 import { CommunityList } from '../Content/Community'
 
-const CommunityTabContent = ({ index, openTab, size, editing, dispatch }) => {
+const CommunityTabContent = ({ index, openTab, size, editing }) => {
   // TODO: DB
   // show: can see the content if the login user is one of the members of the community
   const communityData = [

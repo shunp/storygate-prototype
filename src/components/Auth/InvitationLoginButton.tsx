@@ -15,7 +15,7 @@ const invitationSignIn = async (invitationCode: string, login: (loginUser: Login
   // FIXME move to cloud functions
   const invitation = await AccountService.acceptInvitation(invitationCode)
   await CommunityService.join(invitation.hostCommunity, user.uid)
-  await PersonService.addPage(user.uid, user.name, user.img)
+  await PersonService.addPage(user.uid, user.uid, user.name, user.img)
   login(LoginUserModel.fromUserCredential(user))
   location.reload()
   toggleLoginModal()

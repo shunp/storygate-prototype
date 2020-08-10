@@ -31,7 +31,7 @@ const MapPage = ({ google }) => {
       {
         id: '1',
         name: '小池 駿平',
-        link: 'owner',
+        link: 'baiUK5z4NYhFscfuwpJuT7NTwZs2',
         img:
           'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/1sLl53hRd7Z0LDksz9iB%2Fprofile.jpg?alt=media&token=2e5eda6a-07c8-4fd4-bbc1-1a5a30f455f4',
         lat: '35.6804',
@@ -40,7 +40,7 @@ const MapPage = ({ google }) => {
       {
         id: '2',
         name: '小池 駿平',
-        link: 'owner',
+        link: 'baiUK5z4NYhFscfuwpJuT7NTwZs2',
         img:
           'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/443502378%2Fprofile.jpg?alt=media&token=bc87f7be-760d-4f9a-92e1-c6b2abc0eba4',
         lat: '35.6904',
@@ -49,7 +49,7 @@ const MapPage = ({ google }) => {
       {
         id: '3',
         name: '小池 駿平',
-        link: 'owner',
+        link: 'baiUK5z4NYhFscfuwpJuT7NTwZs2',
         img:
           'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/1sLl53hRd7Z0LDksz9iB%2Fprofile.jpg?alt=media&token=2e5eda6a-07c8-4fd4-bbc1-1a5a30f455f4',
         lat: '35.6814',

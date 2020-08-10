@@ -1,8 +1,9 @@
 export interface Person {
   readonly pageId: string
+  readonly ownerUid: string
   name: string
   title: string
   location: string
-  pic: string
+  img?: string
   introduction: string
 }

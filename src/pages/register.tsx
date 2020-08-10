@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { css } from '@emotion/core'
 import { State } from 'src/state'
-import { publishLogin } from 'src/state/app'
+import { loginAction } from 'src/state/app'
 
 import { Link, navigate } from 'gatsby'
 import { Background, Heading, Logo, RegisterTitleLine } from 'src/components/Auth/top'
@@ -29,11 +29,10 @@ const invitationSignIn = async (invitationCode: string, login: (loginUser: Login
   // FIXME move to cloud functions
   const invitation = await AccountService.acceptInvitation(invitationCode)
   await CommunityService.join(invitation.hostCommunity, user.uid)
-  await PersonService.addPage(user.uid, user.name, user.img)
-  login(LoginUserModel.fromUserCredential(user))
-  // TODO:
-  // navigate(`/persons/${loginUser.uid}`)
-  navigate('/persons/owner')
+  await PersonService.addPage(user.uid, user.uid, user.name, user.img)
+  const loginUser = LoginUserModel.fromUserCredential(user)
+  login(loginUser)
+  navigate(`/persons/${loginUser.uid}`)
 }
 const InvitationCode = ({ invitation, setInvitation }) => {
   return (
@@ -103,6 +102,6 @@ export default connect<HeaderStates, HeaderDispatch, {}, State>(
     loginUser: state.app.loginUser
   }),
   dispatch => ({
-    login: (loginUser: LoginUser) => dispatch(publishLogin(loginUser))
+    login: (loginUser: LoginUser) => dispatch(loginAction(loginUser))
   })
 )(IndexPage)

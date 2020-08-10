@@ -24,15 +24,15 @@ const Members = ({ members, filterWords }) => {
       return finalResult
     })
     .map(member => {
-      return <Member id={member.id} name={member.name} title={member.title} pageId={member.pageId} pic={member.pic} />
+      return <Member id={member.id} name={member.name} title={member.title} pageId={member.pageId} img={member.img} />
     })
 }
 
-const Member = ({ id, name, title, pageId, pic }) => {
+const Member = ({ id, name, title, pageId, img }) => {
   return (
     <div className="p-3 w-1/3">
-      <Link to="/persons/owner" className="flex flex-col items-center">
-        <img src={pic} width={140} className="w-24 h-24 rounded-full" />
+      <Link to={`/persons/${pageId}`} className="flex flex-col items-center">
+        <img src={img} width={140} className="w-24 h-24 rounded-full" />
         <div>{name}</div>
       </Link>
     </div>

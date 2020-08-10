@@ -1,3 +1,4 @@
+import { uploadProfileImg } from 'src/services/firebase/storage'
 import { Person } from 'src/services/interfaces/Person'
 import { fetchPersonCaption, addPersonPage, updatePerson } from 'src/services/firebase/firestore'
 import { PersonModel } from './PersonModel'
@@ -7,8 +8,8 @@ class Service {
     return PersonModel.empty()
   }
 
-  fromContext = (pageId: string, name: string, title: string, introduction: string, location: string): Person => {
-    return PersonModel.fromContext(pageId, name, title, introduction, location)
+  fromContext = (pageId: string, ownerUid: string, name: string, title: string, introduction: string, location: string): Person => {
+    return PersonModel.fromContext(pageId, ownerUid, name, title, introduction, location)
   }
 
   fetchById = async (id: string): Promise<Person> => {
@@ -16,11 +17,14 @@ class Service {
     return PersonModel.fromCaption(personCaption)
   }
 
-  addPage = async (pageId: string, name: string, img: string) => {
-    await addPersonPage(pageId, name, img)
+  addPage = async (pageId: string, ownerUid: string, name: string, img: string) => {
+    await addPersonPage(pageId, ownerUid, name, img)
   }
 
-  updateCaption = async (person: Person) => {
+  updateCaption = async (person: Person, newImg?: Blob) => {
+    if (newImg) {
+      person.img = await uploadProfileImg(person.pageId, newImg)
+    }
     await updatePerson(person)
   }
 }

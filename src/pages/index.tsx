@@ -7,7 +7,7 @@ import { Background, LoginTitleLine, Heading, Logo } from 'src/components/Auth/t
 import { AuthService } from 'src/services/AuthService'
 import { LoginUser } from 'src/services/interfaces/Auth'
 import { connect } from 'react-redux'
-import { publishLogin } from 'src/state/app'
+import { loginAction } from 'src/state/app'
 import PageRoot from 'src/components/Root/PageRoot'
 import SGText from 'src/components/SGText'
 
@@ -69,10 +69,7 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
     return
   }
   login(loginUser)
-  console.log('loginUser', loginUser)
-  // TODO:
-  // navigate(`/persons/${loginUser.uid}`)
-  navigate('/persons/owner')
+  navigate(`/persons/${loginUser.uid}`)
 }
 
 const FacebookLoginButton = ({ login, children }) => {
@@ -133,6 +130,6 @@ export default connect<HeaderStates, HeaderDispatch, {}, State>(
     loginUser: state.app.loginUser
   }),
   dispatch => ({
-    login: (loginUser: LoginUser) => dispatch(publishLogin(loginUser))
+    login: (loginUser: LoginUser) => dispatch(loginAction(loginUser))
   })
 )(IndexPage)
