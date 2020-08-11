@@ -12,7 +12,7 @@ export const PortfolioTitle: React.FC<TitleLineProps> = ({ title }) => {
   return (
     <div id="line-title" className="flex flex-col w-full">
       <div className="bg-white shadow-xl">
-        <Montserrat className="font-semibold text-white bg-primary text-center py-2 text-lg">{title}</Montserrat>
+        <Montserrat className="font-semibold text-white bg-gradient-b-blue-pink-purple text-center py-2 text-lg">{title}</Montserrat>
       </div>
     </div>
   )

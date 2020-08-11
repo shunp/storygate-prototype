@@ -135,6 +135,15 @@ module.exports = {
           '/**/*.css': ['cache-control: public, max-age=31536000, immutable']
         }
       }
+    },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        // Setting a color is optional.
+        color: `tomato`,
+        // Disable the loading spinner.
+        showSpinner: false
+      }
     }
   ]
 }

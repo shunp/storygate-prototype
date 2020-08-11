@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 
-const Logo = ({ children }) => {
+const Logo = ({ children, className }) => {
   return (
     <div
-      className="h-full text-white text-5xl my-2"
+      className={className}
       css={css`
         font-family: 'livermore-script-atf', sans-serif;
         font-style: normal;

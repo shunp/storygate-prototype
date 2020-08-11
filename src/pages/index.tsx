@@ -93,7 +93,7 @@ const IndexPage = ({ login }) => {
           <div className="mt-10 mx-6">
             <Heading>世界初のオンラインコミュニティ</Heading>
             <Heading>特化型ソーシャルメディア</Heading>
-            <Logo>StoryGate</Logo>
+            <Logo className="h-full text-white text-5xl my-2">StoryGate</Logo>
           </div>
           <div className="mx-6 mt-10">
             <MailAddress emailAddress={emailAddress} setEmailAddress={setEmailAddress} />
