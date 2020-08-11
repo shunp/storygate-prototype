@@ -36,6 +36,6 @@ export class PersonModel implements Person {
   }
 
   get lastLoginFromNow() {
-    return fromNow(this.lastLogin)
+    return this.lastLogin ? fromNow(this.lastLogin) : ''
   }
 }
