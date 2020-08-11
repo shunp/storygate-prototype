@@ -76,7 +76,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
         </div>
         <VerticalLine />
         <div className="">
-          <Montserrat className="text-white text-xl font-bold">3時間前</Montserrat>
+          <Montserrat className="text-white text-xl font-bold">{data.lastLoginFromNow}</Montserrat>
           <Montserrat className="text-white text-xs font-bold opacity-75">Login</Montserrat>
         </div>
       </div>

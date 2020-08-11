@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { https } from 'firebase-functions'
 import { JSDOM } from 'jsdom'
 

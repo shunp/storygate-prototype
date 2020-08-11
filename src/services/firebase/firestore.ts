@@ -94,6 +94,7 @@ export const updatePerson = async (person: Person) => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(person.pageId)
   const update = { ...person }
   delete update.pageId
+  delete update.lastLogin
   await docRef.update(update).catch(err => console.error(err))
 }
 
