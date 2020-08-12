@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 import { Link, navigate } from 'gatsby'
-import { redirectTo } from '@reach/router'
 import { State } from 'src/state'
 
 import { Background, LoginTitleLine, Heading, Logo } from 'src/components/Auth/top'
@@ -71,7 +70,7 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
     return
   }
   login(loginUser)
-  navigate(`/persons/${loginUser.uid}`)
+  navigate(`persons/${loginUser.uid}`)
 }
 
 const FacebookLoginButton = ({ login, children }) => {
@@ -92,7 +91,7 @@ const IndexPage: React.FC<IndexProps> = ({ loginUser, login }) => {
     }
   }
   if (loginUser.loggedIn) {
-    window.location.replace(`persons/${loginUser.uid}`)
+    navigate(`persons/${loginUser.uid}`)
     return <></>
   }
   return (
