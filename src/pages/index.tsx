@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 import { Link, navigate } from 'gatsby'
+import { redirectTo } from '@reach/router'
 import { State } from 'src/state'
 
 import { Background, LoginTitleLine, Heading, Logo } from 'src/components/Auth/top'
@@ -11,12 +12,13 @@ import { loginAction } from 'src/state/app'
 import PageRoot from 'src/components/Root/PageRoot'
 import { Noto } from 'src/components/SGText'
 
-interface HeaderStates {
+interface IndexStates {
   loginUser: LoginUser
 }
-interface HeaderDispatch {
+interface IndexDispatch {
   login: (logingUser: LoginUser) => void
 }
+type IndexProps = IndexStates & IndexDispatch
 
 const MailAddress = ({ emailAddress, setEmailAddress }) => {
   return (
@@ -80,9 +82,19 @@ const FacebookLoginButton = ({ login, children }) => {
   )
 }
 
-const IndexPage = ({ login }) => {
+const IndexPage: React.FC<IndexProps> = ({ loginUser, login }) => {
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
+  if (!loginUser.loggedIn) {
+    const storedUser = AuthService.loadStoredUser()
+    if (storedUser.loggedIn) {
+      login(storedUser)
+    }
+  }
+  if (loginUser.loggedIn) {
+    window.location.replace(`persons/${loginUser.uid}`)
+    return <></>
+  }
   return (
     <PageRoot loading={false}>
       <Background>
@@ -125,7 +137,7 @@ const IndexPage = ({ login }) => {
   )
 }
 
-export default connect<HeaderStates, HeaderDispatch, {}, State>(
+export default connect<IndexStates, IndexDispatch, {}, State>(
   state => ({
     loginUser: state.app.loginUser
   }),
