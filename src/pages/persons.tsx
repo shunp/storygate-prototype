@@ -6,13 +6,12 @@ import Footer from 'src/components/Footer'
 import PageRoot from 'src/components/Root/PageRoot'
 import PersonPageLayout from 'src/components/Person/PersonPageLayout'
 
-const PersonPage: React.FC = ({
-}) => {
+const PersonPage: React.FC = () => {
   return (
     <PageRoot>
       <Header />
-      <Router >
-        <PersonPageLayout path="persons/:pageId" pageId=""/>
+      <Router>
+        <PersonPageLayout path="persons/:pageId" pageId="" />
       </Router>
       <Footer />
     </PageRoot>
