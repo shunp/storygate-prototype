@@ -23,6 +23,7 @@ const TOGGLE_EDIT_CAPTION = 'TOGGLE_EDIT_CAPTION'
 const TOGGLE_EDIT_STORY = 'TOGGLE_EDIT_STORY'
 const TOGGLE_EDIT_PORTFOLIO = 'TOGGLE_EDIT_PORTFOLIO'
 const TOGGLE_EDIT_COMMUNITY = 'TOGGLE_EDIT_COMMUNITY'
+const CLEAR_EDITING_STATE = 'CLEAR_EDITING_STATE'
 
 export const loginAction = (loginUser: LoginUser) => ({
   type: SET_LOGIN_USER,
@@ -36,6 +37,9 @@ export const logoutAction = () => {
   }
 }
 
+export const clearEditingStateAction = () => ({
+  type: CLEAR_EDITING_STATE
+})
 export const toggleEditingCaptionAction = () => ({
   type: TOGGLE_EDIT_CAPTION
 })
@@ -64,6 +68,8 @@ export default (state = initialState, action: AnyAction) => {
       return { ...state, editingPortfolio: !state.editingPortfolio }
     case TOGGLE_EDIT_COMMUNITY:
       return { ...state, editingCommunity: !state.editingCommunity }
+    case CLEAR_EDITING_STATE:
+      return { ...state, editingCaption: false, editingStory: false, editingPortfolio: false, editingCommunity: false }
     default:
       return state
   }
