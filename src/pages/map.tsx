@@ -1,10 +1,46 @@
 import * as React from 'react'
+import { css } from '@emotion/core'
+
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react'
 import Geocode from 'react-geocode'
-import Header from 'src/components/Header/index'
 import { Link } from 'gatsby'
-import { Noto } from 'src/components/SGText'
+import { Noto, Montserrat } from 'src/components/SGText'
 import { LatLngModel } from 'src/services/MapService/LatLngModel'
+import PageRoot from 'src/components/Root/PageRoot'
+import MapHeader from 'src/components/Map/Header'
+import 'src/styles/map-footer.css'
+
+const MapFooter = ({ searchWord, setSearchWord, searchLocation }) => {
+  return (
+    <>
+      <div className="absolute w-full h-48 bg-white z-20 bottom-0" />
+      <div className="absolute w-full h-48 bg-gradient-b-blue-pink-purple z-20 bottom-0 opacity-85" />
+      <div className="absolute z-20 flex justify-center bottom-0 w-full mb-24">
+        <input
+          type="text"
+          placeholder="キーワードを入力する"
+          className="border-2 border-gray-300 bg-white text-pink-c1 h-12 w-56 pl-5 mx-3 rounded-full text-sm focus:outline-none"
+          value={searchWord}
+          onChange={e => setSearchWord(e.target.value)}
+          css={css`
+            &::placeholder {
+              color: #cc2cb7;
+              opacity: 50%;
+            }
+          `}
+        />
+        <button type="button" className="py-2 px-6 mx-2 bg-purple-c1 rounded-full" onClick={searchLocation}>
+          <Noto className="text-white text-lg">検索</Noto>
+        </button>
+      </div>
+      <div className="absolute z-20 flex justify-center w-full bottom-0 mb-6">
+        <Montserrat className="text-white mx-10 text-sm">
+          ヒント：地名・駅名・建物名などを入力すると周辺のメンバーやお店が見つかります。
+        </Montserrat>
+      </div>
+    </>
+  )
+}
 
 Geocode.setApiKey(process.env.GATSBY_MAP_API_KEY)
 
@@ -16,7 +52,7 @@ const MapPage = ({ google }) => {
   const [targetUser, setTargetUser] = React.useState<User>({ id: '', name: '', link: '', img: '', lat: 0, lng: 0 })
   const [markerList, setMarkerList] = React.useState([])
   const [currentPos, setCurrentPos] = React.useState<LatLngModel>(new LatLngModel(35.6804, 139.769))
-  const [searchWorld, setSearchWorld] = React.useState('')
+  const [searchWord, setSearchWord] = React.useState('')
 
   const onMarkerClick = (props, marker, e, user: User) => {
     console.log('onMarketClick', marker)
@@ -96,7 +132,7 @@ const MapPage = ({ google }) => {
   }
 
   const searchLocation = () => {
-    Geocode.fromAddress(searchWorld).then(
+    Geocode.fromAddress(searchWord).then(
       response => {
         const { lat, lng } = response.results[0].geometry.location
         console.log(lat, lng)
@@ -120,8 +156,8 @@ const MapPage = ({ google }) => {
   }
 
   return (
-    <>
-      <Header />
+    <PageRoot>
+      <MapHeader />
       <div>
         <Map
           google={google}
@@ -145,21 +181,9 @@ const MapPage = ({ google }) => {
         </Map>
       </div>
       <div id="map-footer" className="absolute z-10 bottom-0 w-full flex justify-start items-center">
-        <input
-          type="text"
-          placeholder="keywords..."
-          className="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none"
-          value={searchWorld}
-          onChange={e => setSearchWorld(e.target.value)}
-        />
-        <button type="button" className="p-2 bg-orange-500 rounded-lg" onClick={searchLocation}>
-          <Noto className="text-white text-xs">検索</Noto>
-        </button>
-        <button type="button" className="p-2 m-2 bg-blue-500 rounded-lg" onClick={fetchCurrentLocation}>
-          <Noto className="text-white text-xs">現在地へ</Noto>
-        </button>
+        <MapFooter searchWord={searchWord} setSearchWord={setSearchWord} searchLocation={searchLocation} />
       </div>
-    </>
+    </PageRoot>
   )
 }
 export default GoogleApiWrapper({
