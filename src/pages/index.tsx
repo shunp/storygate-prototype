@@ -84,13 +84,16 @@ const FacebookLoginButton = ({ login, children }) => {
 const IndexPage: React.FC<IndexProps> = ({ loginUser, login }) => {
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
+  console.log(loginUser)
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
+    console.log(storedUser)
     if (storedUser.loggedIn) {
       login(storedUser)
     }
   }
   if (loginUser.loggedIn) {
+    console.log(loginUser)
     navigate(`persons/${loginUser.uid}`)
     return <></>
   }
