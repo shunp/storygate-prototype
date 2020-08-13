@@ -7,6 +7,7 @@ export class PersonModel implements Person {
     readonly pageId: string,
     readonly ownerUid: string,
     readonly lastLogin: string,
+    readonly points: number,
     readonly name: string,
     readonly title: string,
     readonly introduction: string,
@@ -15,7 +16,7 @@ export class PersonModel implements Person {
   ) {}
 
   static empty(): Person {
-    return new PersonModel('', '', '', '', '', '', '', '')
+    return new PersonModel('', '', '', 0, '', '', '', '', '')
   }
 
   static fromContext(
@@ -27,12 +28,12 @@ export class PersonModel implements Person {
     introduction: string,
     location: string
   ): Person {
-    return new PersonModel(pageId, ownerUid, lastLogin, name, title, introduction, location, '')
+    return new PersonModel(pageId, ownerUid, lastLogin, 0, name, title, introduction, location, '')
   }
 
-  static fromCaption(caption: PersonCaption, lastLogin = ''): Person {
+  static fromCaption(caption: PersonCaption, lastLogin = '', points = 0): Person {
     const { pageId, ownerUid, name, title, introduction, location, img } = caption
-    return new PersonModel(pageId, ownerUid, lastLogin, name, title, introduction, location, img)
+    return new PersonModel(pageId, ownerUid, lastLogin, points, name, title, introduction, location, img)
   }
 
   get lastLoginFromNow() {

@@ -1,3 +1,4 @@
+import { PersonService } from 'src/services/PersonService'
 import { AnyAction } from 'redux'
 import { LoginUser } from 'src/services/interfaces/Auth'
 import { LoginUserModel } from 'src/services/AuthService/LoginUserModel'
@@ -25,10 +26,13 @@ const TOGGLE_EDIT_PORTFOLIO = 'TOGGLE_EDIT_PORTFOLIO'
 const TOGGLE_EDIT_COMMUNITY = 'TOGGLE_EDIT_COMMUNITY'
 const CLEAR_EDITING_STATE = 'CLEAR_EDITING_STATE'
 
-export const loginAction = (loginUser: LoginUser) => ({
-  type: SET_LOGIN_USER,
-  loginUser
-})
+export const loginAction = (loginUser: LoginUser) => {
+  PersonService.incrementLoginCount(loginUser.uid)
+  return {
+    type: SET_LOGIN_USER,
+    loginUser
+  }
+}
 export const logoutAction = () => {
   AuthService.logout()
   return {
