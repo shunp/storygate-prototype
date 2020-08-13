@@ -99,17 +99,6 @@ module.exports = {
         credential: JSON.parse(process.env.FIREBASE_CREDENTIAL),
         types: [
           {
-            type: 'PersonCaption',
-            collection: 'v2/proto/personCaptions',
-            map: doc => ({
-              ownerUid: doc.ownerUid,
-              name: doc.name,
-              title: doc.title,
-              introduction: doc.introduction,
-              location: doc.location
-            })
-          },
-          {
             type: 'CommunityCaption',
             collection: 'v2/proto/communityCaptions',
             map: doc => ({

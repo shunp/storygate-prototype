@@ -9,5 +9,5 @@ export const findOpenGraph = async (url: string) => {
 export const lastLogin = async (uid: string) => {
   const lastLoginFn = functions.httpsCallable('lastLogin')
   const result = await lastLoginFn({ uid })
-  return result.data
+  return result.data.lastLogin
 }

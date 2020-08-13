@@ -19,4 +19,6 @@ export class LoginUserModel implements LoginUser {
   get loggedIn(): boolean {
     return !!this._uid
   }
+
+  editablePage = (path = '') => path.startsWith(`/persons/${this.uid}`)
 }

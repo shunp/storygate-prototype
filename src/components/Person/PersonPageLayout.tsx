@@ -11,7 +11,7 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import PersonTabLayout from 'src/components/Person/PersonTabLayout'
 import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import { Person } from 'src/services/interfaces/Person'
-import { toggleEditingCaptionAction, toggleEditingPortfolioAction, toggleEditingStoryAction } from 'src/state/app'
+import { toggleEditingCaptionAction, toggleEditingPortfolioAction, toggleEditingStoryAction, clearEditingStateAction } from 'src/state/app'
 import { Content } from 'src/services/interfaces/Content'
 
 interface PersonPageState {
@@ -24,6 +24,7 @@ interface PersonPageDispatch {
   toggleEditingCaption: () => void
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
+  clearEditingState: () => void
 }
 interface PersonPageLayoutOwnProps {
   path: string
@@ -39,7 +40,8 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   editingCommunity,
   toggleEditingCaption,
   toggleEditingPortfolio,
-  toggleEditingStory
+  toggleEditingStory,
+  clearEditingState
 }) => {
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
@@ -62,6 +64,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
     if (!pageId) {
       return
     }
+    clearEditingState()
     applyTheme(DEFAULT_THEME, themes)
     loadPerson()
     loadContent()
@@ -103,6 +106,9 @@ export default connect<PersonPageState, PersonPageDispatch, PersonPageLayoutOwnP
     },
     toggleEditingStory: () => {
       dispatch(toggleEditingStoryAction())
+    },
+    clearEditingState: () => {
+      dispatch(clearEditingStateAction())
     }
   })
 )(PersonPageLayout)
