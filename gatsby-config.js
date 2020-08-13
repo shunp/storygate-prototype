@@ -6,7 +6,7 @@ dotenv.config({ path: `env/.secrets` })
 
 module.exports = {
   siteMetadata: {
-    title: 'gatsby-three-ts-plus',
+    title: 'Story Gate',
     description: '3D web starter kit with Three.js and TypeScript.',
     keywords: 'three.js, typescript, gatsbyjs, gatsby, emotion, tailwindcss',
     siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
