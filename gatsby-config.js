@@ -2,10 +2,11 @@ const dotenv = require('dotenv')
 const path = require('path')
 
 dotenv.config({ path: `env/.${process.env.BRANCH === 'master' ? 'master' : 'master'}` })
+dotenv.config({ path: `env/.secrets` })
 
 module.exports = {
   siteMetadata: {
-    title: 'gatsby-three-ts-plus',
+    title: 'Story Gate',
     description: '3D web starter kit with Three.js and TypeScript.',
     keywords: 'three.js, typescript, gatsbyjs, gatsby, emotion, tailwindcss',
     siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',

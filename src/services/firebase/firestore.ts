@@ -1,4 +1,6 @@
+import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
+import dayjs from 'dayjs'
 import { Content } from '../interfaces/Content'
 import { firestore } from './firebase'
 
@@ -21,6 +23,10 @@ export interface CommunityCaption {
 export interface Invitation {
   id: string
   hostCommunity: string
+}
+export interface LoginCount {
+  count: number
+  lastUpdate: firebase.firestore.Timestamp
 }
 
 export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
@@ -110,4 +116,25 @@ export const fetchPersonContent = async (pageId: string): Promise<Content> => {
 export const updatePersonContent = async (pageId: string, personContent: Content) => {
   const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
   await docRef.set(personContent, { merge: true }).catch(err => console.error(err))
+}
+
+export const fetchPoints = async (uid: string) => {
+  const docRef = firestore.collection('v2/proto/metrics/persons/loginCount').doc(uid)
+  const doc = await docRef.get()
+  const loginCount = doc.data() as LoginCount | undefined
+  return loginCount?.count || 0
+}
+export const updateLoginCount = async (uid: string) => {
+  const docRef = firestore.collection('v2/proto/metrics/persons/loginCount').doc(uid)
+  const doc = await docRef.get()
+  const loginCount = doc.data() as LoginCount | undefined
+  if (loginCount) {
+    if (dayjs().day() === dayjs(loginCount.lastUpdate.toDate()).day()) {
+      return
+    }
+  }
+  await docRef.set({
+    count: firebase.firestore.FieldValue.increment(1),
+    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+  })
 }

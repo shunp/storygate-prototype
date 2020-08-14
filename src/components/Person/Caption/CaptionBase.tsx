@@ -66,7 +66,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
       <div className="border-white border-solid border mx-4 mb-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
       <div className="flex justify-between mx-10">
         <div>
-          <Montserrat className="text-white text-xl font-bold">0</Montserrat>
+          <Montserrat className="text-white text-xl font-bold">{data.points}</Montserrat>
           <Montserrat className="text-white text-xs font-bold opacity-75">Points</Montserrat>
         </div>
         <VerticalLine />
