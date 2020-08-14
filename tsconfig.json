@@ -25,10 +25,14 @@
       ],
       "assets": [
         "assets"
+      ],
+      "test": [
+        "test"
       ]
     }
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "./test/**/*"
   ]
 }
