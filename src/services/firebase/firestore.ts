@@ -148,6 +148,14 @@ export const addCommunityMember = async (communityId: string, uid: string) => {
   communityCaption.members.push(uid)
   await docRef.update(communityCaption).catch(err => console.error(err))
 }
+export const addGroupMember = async (groupId: string, uid: string) => {
+  await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(groupId)
+    .update({
+      members: firebase.firestore.FieldValue.arrayUnion(uid)
+    })
+}
 
 export const addPersonPage = async (pageId: string, ownerUid: string, name: string, img: string) => {
   await firestore
