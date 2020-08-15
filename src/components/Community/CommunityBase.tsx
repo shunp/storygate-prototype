@@ -18,7 +18,7 @@ interface CommunityBaseProps {
   number: number
   members: Person[]
   groups: GroupReference[]
-  createNewGroup: (name: string, backgroundImg?: Blob) => Promise<void>
+  createNewGroup: (name: string, introduction: string, backgroundImg?: Blob) => Promise<void>
 }
 const CommunityBase: React.FC<CommunityBaseProps> = ({ name, img, number, members, groups, createNewGroup }) => {
   React.useEffect(() => {

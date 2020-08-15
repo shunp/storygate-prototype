@@ -10,16 +10,17 @@ import GroupProfileImg from './GroupProfileImg'
 
 const MODAL_ID = 'NewGroup'
 interface CreateGroupIconProps {
-  createNewGroup: (name: string, backgroundImg?: Blob) => Promise<void>
+  createNewGroup: (name: string, introduction: string, backgroundImg?: Blob) => Promise<void>
 }
 export const CreateGroupIcon: React.FC<CreateGroupIconProps> = ({ createNewGroup }) => {
   const [name, setName] = React.useState('')
+  const [introduction, setIntroduction] = React.useState('')
   const [backgroundImg, setBackgroundImg] = React.useState<Blob>()
   const clearEditing = () => {
     togglePostModal(MODAL_ID)
   }
   const doneEditing = async () => {
-    await createNewGroup(name, backgroundImg)
+    await createNewGroup(name, introduction, backgroundImg)
     togglePostModal(MODAL_ID)
   }
   return (
@@ -53,6 +54,16 @@ export const CreateGroupIcon: React.FC<CreateGroupIconProps> = ({ createNewGroup
                 className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
                 value={name}
                 onChange={e => setName(e.target.value)}
+              />
+            </div>
+            <div id="line-title" className="flex flex-col w-full mt-2">
+              <div className="m-1 text-xs text-white">グループ説明</div>
+              <input
+                type="text"
+                placeholder="Group Name..."
+                className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
+                value={introduction}
+                onChange={e => setIntroduction(e.target.value)}
               />
             </div>
             <div id="line-title" className="flex flex-col w-full mt-2">

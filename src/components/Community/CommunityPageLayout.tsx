@@ -18,8 +18,8 @@ type CommunityPageLayoutProps = CommunityPageLayoutState & CommunityPageLayoutOw
 const CommunityPageLayout: React.FC<CommunityPageLayoutProps> = ({ loginUser, communityId }) => {
   const [community, setCommunity] = React.useState<Community>(CommunityService.emptyCommunity())
   const reloadCommunity = () => CommunityService.fetchById(communityId).then(fetched => setCommunity(fetched))
-  const createNewGroup = async (name: string, backgroundImg?: Blob) => {
-    await CommunityService.createNewGroup(communityId, loginUser.uid, name, backgroundImg)
+  const createNewGroup = async (name: string, introduction: string, backgroundImg?: Blob) => {
+    await CommunityService.createNewGroup(communityId, loginUser.uid, name, introduction, backgroundImg)
     reloadCommunity()
   }
   React.useEffect(() => {

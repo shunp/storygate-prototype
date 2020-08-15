@@ -62,7 +62,7 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, community, loggedIn, joine
     <>
       <div className="flex justify-center items-center flex-col mt-16">
         <GroupBackground img={group.backgroundImg} />
-        <GroupCaption name={group.name} num={group.numOfMembers} />
+        <GroupCaption name={group.name} introduction={group.introduction} num={group.numOfMembers} />
         <JoinGroupButton loggedIn={loggedIn} joined={joined} joinGroup={joinGroup} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />

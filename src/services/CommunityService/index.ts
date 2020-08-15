@@ -33,13 +33,13 @@ class Service {
     await addCommunityMember(id, uid)
   }
 
-  createNewGroup = async (id: string, uid: string, name: string, backgroundImg?: Blob) => {
-    const groupId = await createNewGroupInCommunity(id, uid, name)
+  createNewGroup = async (id: string, uid: string, name: string, introduction: string, backgroundImg?: Blob) => {
+    const groupId = await createNewGroupInCommunity(id, uid, name, introduction)
     if (!backgroundImg) {
       return
     }
     const imgUrl = await uploadGroupImg(groupId, backgroundImg)
-    await updateGroup(groupId, name, imgUrl)
+    await updateGroup(groupId, name, introduction, imgUrl)
   }
 }
 
