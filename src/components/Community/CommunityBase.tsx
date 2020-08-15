@@ -18,8 +18,9 @@ interface CommunityBaseProps {
   number: number
   members: Person[]
   groups: GroupReference[]
+  createNewGroup: (name: string, backgroundImg?: Blob) => Promise<void>
 }
-const CommunityBase: React.FC<CommunityBaseProps> = ({ name, img, number, members, groups }) => {
+const CommunityBase: React.FC<CommunityBaseProps> = ({ name, img, number, members, groups, createNewGroup }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -48,7 +49,7 @@ const CommunityBase: React.FC<CommunityBaseProps> = ({ name, img, number, member
         </div>
         <BasicTitleLine title="Group List" />
         <div className="flex flex-wrap w-full">
-          <Groups groups={groups} />
+          <Groups groups={groups} createNewGroup={createNewGroup} />
         </div>
       </div>
     </>

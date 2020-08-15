@@ -2,7 +2,11 @@ import * as React from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
-const GroupProfileImg = ({ profileImg, setProfileImg }) => {
+interface ImgProps {
+  imgUrl?: string
+  setImg: (img: Blob) => void
+}
+const GroupProfileImg: React.FC<ImgProps> = ({ setImg }) => {
   const [upImg, setUpImg] = React.useState()
   const imgRef = React.useRef(null)
   const [crop, setCrop] = React.useState({ unit: '%', width: 30, aspect: 1 / 1, minWidth: 20, minHeight: 20 })
@@ -32,7 +36,7 @@ const GroupProfileImg = ({ profileImg, setProfileImg }) => {
         if (typeof window !== 'undefined') {
           window.URL.revokeObjectURL(previewUrl)
           setPreviewUrl(window.URL.createObjectURL(b))
-          setProfileImg(b)
+          setImg(b)
         }
       }, 'image/jpeg')
     })
@@ -59,10 +63,10 @@ const GroupProfileImg = ({ profileImg, setProfileImg }) => {
       <div className="flex flex-col">
         <ReactCrop src={upImg} onImageLoaded={onLoad} crop={crop} onChange={setCrop} onComplete={makeClientCrop} />
         <div className="flex items-center justify-center bg-grey-lighter ">
-          <div className="p-1 w-32 flex flex-col items-center border-2 bordeer-gray-300 focus:outline-none bg-white rounded-lg">
+          <label className="p-1 w-32 flex flex-col items-center border-2 bordeer-gray-300 focus:outline-none bg-white rounded-lg">
             <span className="text-primary leading-normal text-xs">Upload Image</span>
             <input type="file" className="hidden" onChange={onSelectFile} />
-          </div>
+          </label>
         </div>
       </div>
     </>

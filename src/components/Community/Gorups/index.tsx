@@ -20,14 +20,15 @@ const GroupView: React.FC<GroupProps> = ({ name, pageId, img }) => {
 }
 interface GroupsProps {
   groups: GroupReference[]
+  createNewGroup: (name: string, backgroundImg?: Blob) => Promise<void>
 }
-export const Groups: React.FC<GroupsProps> = ({ groups }) => {
+export const Groups: React.FC<GroupsProps> = ({ groups, createNewGroup }) => {
   const GroupComponents = groups.map(group => {
     return <GroupView name={group.name} pageId={group.pageId} img={group.backgroundImg} />
   })
   return (
     <>
-      <CreateGroupIcon />
+      <CreateGroupIcon createNewGroup={createNewGroup} />
       {GroupComponents}
     </>
   )

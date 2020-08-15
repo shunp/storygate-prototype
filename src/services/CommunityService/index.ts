@@ -1,6 +1,14 @@
 import { Community } from 'src/services/interfaces/Community'
-import { fetchCommunityCaption, addCommunityMember, fetchFromGroupRef, fetchFromMemberRef } from 'src/services/firebase/firestore'
+import {
+  fetchCommunityCaption,
+  addCommunityMember,
+  fetchFromGroupRef,
+  fetchFromMemberRef,
+  createNewGroupInCommunity,
+  updateGroup
+} from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
+import { uploadGroupImg } from '../firebase/storage'
 
 import { CommunityModel } from './CommunityModel'
 import { GroupReferenceModel } from '../GroupService/GroupReferenceModel'
@@ -23,6 +31,15 @@ class Service {
 
   join = async (id: string, uid: string) => {
     await addCommunityMember(id, uid)
+  }
+
+  createNewGroup = async (id: string, uid: string, name: string, backgroundImg?: Blob) => {
+    const groupId = await createNewGroupInCommunity(id, uid, name)
+    if (!backgroundImg) {
+      return
+    }
+    const imgUrl = await uploadGroupImg(groupId, backgroundImg)
+    await updateGroup(groupId, name, imgUrl)
   }
 }
 

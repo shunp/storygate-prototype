@@ -105,7 +105,29 @@ export const queryCommunityCaptionByPerson = async (personId: string): Promise<C
   })
   return communityCaptions
 }
-
+export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string) => {
+  const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
+    commmunity: communityId,
+    ownerUid,
+    name,
+    members: [ownerUid]
+  })
+  const docRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
+  await docRef.update({
+    groups: firebase.firestore.FieldValue.arrayUnion(groupRef.id)
+  })
+  return groupRef.id
+}
+export const updateGroup = async (id: string, name: string, backgroundImg: string) => {
+  await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(id)
+    .update({
+      name,
+      backgroundImg
+    })
+    .catch(err => console.error(err))
+}
 export const fetchInvitation = async (invitationId: string): Promise<Invitation> => {
   const docRef = firestore.collection('v2/proto/invitations').doc(invitationId)
   const doc = await docRef.get()
