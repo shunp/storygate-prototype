@@ -1,0 +1,13 @@
+:root {
+  --primary-color: rgba(13, 110, 139, 0.75);
+  --overlay-color: transparent linear-gradient(0deg, rgba(199, 43, 185, 0.85) 0%, rgba(77, 55, 237, 0.85) 100%) 0% 0% no-repeat padding-box;
+  --menu-speed: 0.75s;
+}
+.rcw-conversation-container > .rcw-header, .rcw-close-button {
+  background: var(--overlay-color);
+}
+
+.rcw-message > .rcw-response {
+  background-color: black;
+  color: white;
+}

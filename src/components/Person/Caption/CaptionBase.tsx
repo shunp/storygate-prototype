@@ -61,7 +61,7 @@ const CaptionBase: React.FC<CaptionBaseProps> = ({ data, editingCaption, toggleE
   return (
     <>
       <CaptionWrapper profileImg={data.img}>
-        <CaptionMain profileImg={data.img} name={data.name} introduction={data.introduction} />
+        <CaptionMain uid={data.ownerUid} profileImg={data.img} name={data.name} introduction={data.introduction} />
       </CaptionWrapper>
       <div className="border-white border-solid border mx-4 mb-4 opacity-50 lg:max-w-3xl lg:mx-auto" />
       <div className="flex justify-between mx-10">

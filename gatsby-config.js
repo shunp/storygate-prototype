@@ -92,7 +92,7 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-create-client-paths`,
-      options: { prefixes: ['/persons/*', '/communities/*', '/groups/*'] }
+      options: { prefixes: ['/persons/*', '/communities/*', '/groups/*', '/chats/*'] }
     },
     {
       resolve: `gatsby-plugin-netlify`,

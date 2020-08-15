@@ -13,6 +13,7 @@ import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 import ToggleLoginButton from './ToggleLoginButton'
 import LoginModal from '../Auth/modal/LoginModal'
+import ChatButton from './ChatButton'
 
 interface HeaderMenuProps {
   loggedIn: boolean
