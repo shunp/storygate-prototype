@@ -109,7 +109,7 @@ export const queryCommunityCaptionByPerson = async (personId: string): Promise<C
 }
 export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string) => {
   const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
-    commmunity: communityId,
+    community: communityId,
     ownerUid,
     name,
     members: [ownerUid]
