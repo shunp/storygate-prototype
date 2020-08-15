@@ -12,10 +12,11 @@ import { Members } from './Members'
 
 interface GroupBaseProps {
   name: string
+  img: string
   number: number
   members: Person[]
 }
-const GroupBase: React.FC<GroupBaseProps> = ({ name, number, members }) => {
+const GroupBase: React.FC<GroupBaseProps> = ({ name, img, number, members }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -35,7 +36,7 @@ const GroupBase: React.FC<GroupBaseProps> = ({ name, number, members }) => {
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-16">
-        <GroupBackground />
+        <GroupBackground img={img} />
         <GroupCaption name={name} num={number} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />

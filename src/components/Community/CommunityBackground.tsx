@@ -1,23 +1,12 @@
 import * as React from 'react'
-import Img from 'gatsby-image'
-import { useStaticQuery, graphql } from 'gatsby'
 
-const CommunityBackground = () => {
-  // TODO: DB
-  const data = useStaticQuery(graphql`
-    query {
-      background: file(relativePath: { eq: "nishinosalon_background.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1000) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
+interface CommunityBackgroundProps {
+  img: string
+}
+const CommunityBackground: React.FC<CommunityBackgroundProps> = ({ img }) => {
   return (
     <div className="flex items-center justify-center w-full">
-      <Img fluid={data.background.childImageSharp.fluid} className="w-full" />
+      <img src={img} alt="" />
     </div>
   )
 }

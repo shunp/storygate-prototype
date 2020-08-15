@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
 import { GroupReference } from 'src/services/interfaces/GroupCaption'
+import { CreateGroupIcon } from './CreateNewGroup'
 
 interface GroupProps {
   name: string
@@ -24,5 +25,10 @@ export const Groups: React.FC<GroupsProps> = ({ groups }) => {
   const GroupComponents = groups.map(group => {
     return <GroupView name={group.name} pageId={group.pageId} img={group.backgroundImg} />
   })
-  return <>{GroupComponents}</>
+  return (
+    <>
+      <CreateGroupIcon />
+      {GroupComponents}
+    </>
+  )
 }

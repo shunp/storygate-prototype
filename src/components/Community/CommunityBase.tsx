@@ -10,15 +10,16 @@ import CommunityCaption from './CommunityCaption'
 import SearchBar from '../SearchBar'
 import { BasicTitleLine } from '../TitleLine'
 import { Members } from './Members'
-import { Groups } from './Groups'
+import { Groups } from './Gorups'
 
 interface CommunityBaseProps {
   name: string
+  img: string
   number: number
   members: Person[]
   groups: GroupReference[]
 }
-const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, groups }) => {
+const CommunityBase: React.FC<CommunityBaseProps> = ({ name, img, number, members, groups }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -38,7 +39,7 @@ const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, gr
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-16">
-        <CommunityBackground />
+        <CommunityBackground img={img} />
         <CommunityCaption name={name} num={number} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />

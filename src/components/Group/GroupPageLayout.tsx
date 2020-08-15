@@ -18,7 +18,7 @@ const GroupPageLayout: React.FC<GroupPageLayoutProps> = ({ groupId }) => {
     GroupService.fetchById(groupId).then(fetched => setGroup(fetched))
   }, [groupId])
 
-  return <GroupPage name={group.name} number={group.numOfMembers} members={group.members} />
+  return <GroupPage name={group.name} img={group.backgroundImg} number={group.numOfMembers} members={group.members} />
 }
 
 export default GroupPageLayout
