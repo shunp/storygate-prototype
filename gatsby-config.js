@@ -92,23 +92,7 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-create-client-paths`,
-      options: { prefixes: [`/persons/*`] }
-    },
-    {
-      resolve: 'gatsby-source-firestore',
-      options: {
-        credential: JSON.parse(process.env.FIREBASE_CREDENTIAL),
-        types: [
-          {
-            type: 'CommunityCaption',
-            collection: 'v2/proto/communityCaptions',
-            map: doc => ({
-              name: doc.name,
-              introduction: doc.introduction
-            })
-          }
-        ]
-      }
+      options: { prefixes: ['/persons/*', '/communities/*'] }
     },
     {
       resolve: `gatsby-plugin-netlify`,
