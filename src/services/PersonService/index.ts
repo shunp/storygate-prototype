@@ -1,7 +1,16 @@
 import { uploadProfileImg } from 'src/services/firebase/storage'
 import { Person } from 'src/services/interfaces/Person'
-import { fetchPersonCaption, addPersonPage, updatePerson, updateLoginCount, fetchPoints } from 'src/services/firebase/firestore'
+import {
+  fetchPersonCaption,
+  addPersonPage,
+  updatePerson,
+  updateLoginCount,
+  fetchPoints,
+  queryCommunityCaptionByPerson
+} from 'src/services/firebase/firestore'
 import { lastLogin } from 'src/services/firebase/functions'
+import { CommunityReferenceModel } from 'src/services/CommunityService/CommunityReferenceModel'
+
 import { PersonModel } from './PersonModel'
 
 class Service {
@@ -9,13 +18,15 @@ class Service {
     return PersonModel.empty()
   }
 
-  fromContext = (pageId: string, ownerUid: string, name: string, title: string, introduction: string, location: string): Person => {
-    return PersonModel.fromContext(pageId, ownerUid, '', name, title, introduction, location)
-  }
-
   fetchById = async (id: string): Promise<Person> => {
     const personCaption = await fetchPersonCaption(id)
-    return PersonModel.fromCaption(personCaption, await lastLogin(id), await fetchPoints(id))
+    const communities = await queryCommunityCaptionByPerson(id)
+    return PersonModel.fromCaption(
+      personCaption,
+      await lastLogin(id),
+      await fetchPoints(id),
+      communities.map(community => CommunityReferenceModel.fromCaption(community))
+    )
   }
 
   addPage = async (pageId: string, ownerUid: string, name: string, img: string) => {

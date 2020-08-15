@@ -1,9 +1,10 @@
+import { Group } from './Group'
 import { Person } from './Person'
+import { CommunityCaption } from './CommunityCaption'
+import { GroupReference } from './GroupCaption'
 
-export interface Community {
-  readonly name: string
-  readonly introduction: string
+export type Community = CommunityCaption & {
   readonly members: Person[]
-  readonly backgroundImg: string
+  readonly groups: GroupReference[]
   readonly numOfMembers: number
 }

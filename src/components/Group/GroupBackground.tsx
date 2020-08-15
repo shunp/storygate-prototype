@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-interface CommunityBackgroundProps {
+interface GroupBackgroundProps {
   img: string
 }
-const CommunityBackground: React.FC<CommunityBackgroundProps> = ({ img }) => {
+const GroupBackground: React.FC<GroupBackgroundProps> = ({ img }) => {
   return (
     <div className="flex items-center justify-center w-full">
       <img src={img} alt="" />
@@ -11,4 +11,4 @@ const CommunityBackground: React.FC<CommunityBackgroundProps> = ({ img }) => {
   )
 }
 
-export default CommunityBackground
+export default GroupBackground

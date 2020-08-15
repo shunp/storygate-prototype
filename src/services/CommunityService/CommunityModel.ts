@@ -1,30 +1,32 @@
+import { Group } from 'src/services/interfaces/Group'
 import { Community } from 'src/services/interfaces/Community'
 import { Person } from 'src/services/interfaces/Person'
+import { CommunityCaptionModel } from './CommunityCaptionModel'
+import { CommunityCaptionData } from '../firebase/firestore'
+import { GroupReference } from '../interfaces/GroupCaption'
 
-export class CommunityModel implements Community {
-  constructor(private _name: string, private _introduction: string, private _members: Person[], private _backgroundImg: string) {}
+export class CommunityModel extends CommunityCaptionModel implements Community {
+  constructor(
+    readonly pageId: string,
+    readonly name: string,
+    readonly introduction: string,
+    readonly backgroundImg: string,
+    readonly members: Person[],
+    readonly groups: GroupReference[]
+  ) {
+    super(pageId, name, introduction, backgroundImg)
+  }
 
   static empty(): Community {
-    return new CommunityModel('', '', [], '')
+    return new CommunityModel('', '', '', '', [], [])
   }
 
-  get name(): string {
-    return this._name
-  }
-
-  get introduction(): string {
-    return this._introduction
-  }
-
-  get members(): Person[] {
-    return this._members
-  }
-
-  get backgroundImg(): string {
-    return this._backgroundImg
+  static fromCaption(caption: CommunityCaptionData, members: Person[] = [], groups: GroupReference[] = []): Community {
+    const { pageId, name, introduction, backgroundImg } = caption
+    return new CommunityModel(pageId, name, introduction, backgroundImg, members, groups)
   }
 
   get numOfMembers(): number {
-    return this._members.length
+    return this.members.length
   }
 }

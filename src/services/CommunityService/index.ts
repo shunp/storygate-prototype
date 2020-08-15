@@ -1,30 +1,45 @@
 import { Community } from 'src/services/interfaces/Community'
-import { fetchCommunityCaption, addCommunityMember } from 'src/services/firebase/firestore'
+import {
+  fetchCommunityCaption,
+  addCommunityMember,
+  fetchFromGroupRef,
+  fetchFromMemberRef,
+  createNewGroupInCommunity,
+  updateGroup
+} from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
+import { uploadGroupImg } from '../firebase/storage'
+
 import { CommunityModel } from './CommunityModel'
+import { GroupReferenceModel } from '../GroupService/GroupReferenceModel'
 
 class Service {
   emptyCommunity = (): Community => {
     return CommunityModel.empty()
   }
 
-  fromContext = (name: string, introduction: string): Community => {
-    return new CommunityModel(name, introduction, [], '')
-  }
-
   fetchById = async (id: string): Promise<Community> => {
-    const CommunityCaption = await fetchCommunityCaption(id)
-    const { name, introduction, members, backgroundImg } = CommunityCaption
-    return new CommunityModel(
-      name,
-      introduction,
+    const communityCaption = await fetchCommunityCaption(id)
+    const members = await fetchFromMemberRef(communityCaption.members)
+    const groups = await fetchFromGroupRef(communityCaption.groups)
+    return CommunityModel.fromCaption(
+      communityCaption,
       members.map(member => PersonModel.fromCaption(member)),
-      backgroundImg
+      groups.map(group => GroupReferenceModel.fromCaption(group))
     )
   }
 
   join = async (id: string, uid: string) => {
     await addCommunityMember(id, uid)
+  }
+
+  createNewGroup = async (id: string, uid: string, name: string, introduction: string, backgroundImg?: Blob) => {
+    const groupId = await createNewGroupInCommunity(id, uid, name, introduction)
+    if (!backgroundImg) {
+      return
+    }
+    const imgUrl = await uploadGroupImg(groupId, backgroundImg)
+    await updateGroup(groupId, name, introduction, imgUrl)
   }
 }
 

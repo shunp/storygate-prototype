@@ -1,6 +1,6 @@
 import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
-import dayjs from 'dayjs'
+import { equalsDay } from 'src/utils/date'
 import { Content } from '../interfaces/Content'
 import { firestore } from './firebase'
 
@@ -13,12 +13,21 @@ export interface PersonCaption {
   location: string
   img: string
 }
-export interface CommunityCaption {
+export interface CommunityCaptionData {
   pageId: string
   name: string
-  members: PersonCaption[]
   introduction: string
   backgroundImg: string
+  members: string[]
+  groups: string[]
+}
+export interface GroupCaptionData {
+  pageId: string
+  name: string
+  introduction: string
+  backgroundImg: string
+  community?: string
+  members: string[]
 }
 export interface Invitation {
   id: string
@@ -28,6 +37,11 @@ export interface LoginCount {
   count: number
   lastUpdate: firebase.firestore.Timestamp
 }
+
+const LOGIN_COUNTER = () => ({
+  count: firebase.firestore.FieldValue.increment(1),
+  lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+})
 
 export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(pageId)
@@ -43,23 +57,81 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     img: personCaption.img || ''
   }
 }
-const fetchFromMemberRef = (members: string[]): Promise<PersonCaption[]> => {
+export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
+  const docRef = firestore.collection('v2/proto/groupCaptions').doc(pageId)
+  const doc = await docRef.get()
+  const groupCaption = doc.data() || {}
+  return {
+    pageId: doc.id || '',
+    name: groupCaption.name || '',
+    introduction: groupCaption.introduction || '',
+    backgroundImg: groupCaption.backgroundImg || '',
+    members: groupCaption.members || [],
+    community: groupCaption.community || ''
+  }
+}
+
+export const fetchFromMemberRef = (members: string[]): Promise<PersonCaption[]> => {
   return Promise.all(members.map(async memberId => fetchPersonCaption(memberId)))
 }
-export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaption> => {
+export const fetchFromGroupRef = (groups: string[]): Promise<GroupCaptionData[]> => {
+  return Promise.all(groups.map(async groupId => fetchGroupCaption(groupId)))
+}
+export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaptionData> => {
   const docRef = firestore.collection('v2/proto/communityCaptions').doc(pageId)
   const doc = await docRef.get()
   const communityCaption = doc.data() || {}
-  const members = await fetchFromMemberRef(communityCaption.members)
   return {
     pageId: doc.id || '',
     name: communityCaption.name || '',
     introduction: communityCaption.introduction || '',
-    members,
-    backgroundImg: communityCaption.backgroundImg || ''
+    backgroundImg: communityCaption.backgroundImg || '',
+    members: communityCaption.members || [],
+    groups: communityCaption.groups || []
   }
 }
-
+export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
+  const collectionRef = firestore.collection('v2/proto/communityCaptions')
+  const communities = await collectionRef.where('members', 'array-contains', personId).get()
+  const communityCaptions: CommunityCaptionData[] = []
+  communities.forEach(community => {
+    const communityCaption = community.data()
+    communityCaptions.push({
+      pageId: community.id || '',
+      name: communityCaption.name || '',
+      introduction: communityCaption.introduction || '',
+      backgroundImg: communityCaption.backgroundImg || '',
+      members: communityCaption.members || [],
+      groups: communityCaption.groups || []
+    })
+  })
+  return communityCaptions
+}
+export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string, introduction: string) => {
+  const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
+    community: communityId,
+    ownerUid,
+    name,
+    introduction,
+    members: [ownerUid]
+  })
+  const docRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
+  await docRef.update({
+    groups: firebase.firestore.FieldValue.arrayUnion(groupRef.id)
+  })
+  return groupRef.id
+}
+export const updateGroup = async (id: string, name: string, introduction: string, backgroundImg: string) => {
+  await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(id)
+    .update({
+      name,
+      introduction,
+      backgroundImg
+    })
+    .catch(err => console.error(err))
+}
 export const fetchInvitation = async (invitationId: string): Promise<Invitation> => {
   const docRef = firestore.collection('v2/proto/invitations').doc(invitationId)
   const doc = await docRef.get()
@@ -79,6 +151,14 @@ export const addCommunityMember = async (communityId: string, uid: string) => {
   const communityCaption = doc.data() || {}
   communityCaption.members.push(uid)
   await docRef.update(communityCaption).catch(err => console.error(err))
+}
+export const addGroupMember = async (groupId: string, uid: string) => {
+  await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(groupId)
+    .update({
+      members: firebase.firestore.FieldValue.arrayUnion(uid)
+    })
 }
 
 export const addPersonPage = async (pageId: string, ownerUid: string, name: string, img: string) => {
@@ -128,13 +208,12 @@ export const updateLoginCount = async (uid: string) => {
   const docRef = firestore.collection('v2/proto/metrics/persons/loginCount').doc(uid)
   const doc = await docRef.get()
   const loginCount = doc.data() as LoginCount | undefined
-  if (loginCount) {
-    if (dayjs().day() === dayjs(loginCount.lastUpdate.toDate()).day()) {
-      return
-    }
+  if (!loginCount) {
+    await docRef.set(LOGIN_COUNTER())
+    return
   }
-  await docRef.set({
-    count: firebase.firestore.FieldValue.increment(1),
-    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-  })
+  if (equalsDay(loginCount.lastUpdate.toDate())) {
+    return
+  }
+  await docRef.update(LOGIN_COUNTER())
 }
