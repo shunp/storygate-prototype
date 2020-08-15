@@ -36,10 +36,11 @@ export interface LoginCount {
   count: number
   lastUpdate: firebase.firestore.Timestamp
 }
-const LOGIN_COUNTER = {
+
+const LOGIN_COUNTER = () => ({
   count: firebase.firestore.FieldValue.increment(1),
   lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-}
+})
 
 export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
   const docRef = firestore.collection('v2/proto/personCaptions').doc(pageId)
@@ -174,11 +175,11 @@ export const updateLoginCount = async (uid: string) => {
   const doc = await docRef.get()
   const loginCount = doc.data() as LoginCount | undefined
   if (!loginCount) {
-    await docRef.set(LOGIN_COUNTER)
+    await docRef.set(LOGIN_COUNTER())
     return
   }
   if (equalsDay(loginCount.lastUpdate.toDate())) {
     return
   }
-  await docRef.update(LOGIN_COUNTER)
+  await docRef.update(LOGIN_COUNTER())
 }
