@@ -77,6 +77,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
       <PersonContentLayout
         openTab={openTab}
         content={content}
+        communities={person.communities}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}
         editingCommunity={editingCommunity}

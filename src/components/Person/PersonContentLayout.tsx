@@ -3,6 +3,7 @@ import { useWindowSize } from 'src/utils/useWindowSize'
 import { Content } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
+import { CommunityReference } from 'src/services/interfaces/Community'
 import PortfolioTabContent from './Portfolio/PortfolioTabContent'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
@@ -11,6 +12,7 @@ import PersonContentWrapper from './PersonContentWrapper'
 interface PersonContentLayoutProps {
   openTab: number
   content: Content
+  communities: CommunityReference[]
   editingPortfolio: boolean
   editingStory: boolean
   editingCommunity: boolean
@@ -21,6 +23,7 @@ interface PersonContentLayoutProps {
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
   content,
+  communities,
   editingPortfolio,
   editingStory,
   editingCommunity,
@@ -49,7 +52,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         toggleEditingStory={toggleEditingStory}
         update={(story: Story) => updateContent({ ...content, story })}
       />
-      <CommunityTabContent index={3} openTab={openTab} size={size.width} editing={editingCommunity} />
+      <CommunityTabContent index={3} openTab={openTab} communities={communities} size={size.width} editing={editingCommunity} />
     </PersonContentWrapper>
   )
 }

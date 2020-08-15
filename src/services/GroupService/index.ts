@@ -7,14 +7,10 @@ class Service {
     return GroupModel.empty()
   }
 
-  fromContext = (name: string, introduction: string): Group => {
-    return new GroupModel(name, introduction, [], '')
-  }
-
   fetchById = async (id: string): Promise<Group> => {
     const GroupCaption = await fetchGroupCaption(id)
-    const { name, introduction, backgroundImg } = GroupCaption
-    return new GroupModel(name, introduction, backgroundImg)
+    const { pageId, name, introduction, backgroundImg } = GroupCaption
+    return new GroupModel(pageId, name, introduction, backgroundImg)
   }
 }
 

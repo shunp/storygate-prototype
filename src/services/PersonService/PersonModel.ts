@@ -1,6 +1,7 @@
 import { Person } from 'src/services/interfaces/Person'
+import { PersonCaption } from 'src/services/firebase/firestore'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import { fromNow } from 'src/utils/date'
-import { PersonCaption } from '../firebase/firestore'
 
 export class PersonModel implements Person {
   constructor(
@@ -12,28 +13,17 @@ export class PersonModel implements Person {
     readonly title: string,
     readonly introduction: string,
     readonly location: string,
-    readonly img: string
+    readonly img: string,
+    readonly communities: CommunityReference[] = []
   ) {}
 
   static empty(): Person {
     return new PersonModel('', '', '', 0, '', '', '', '', '')
   }
 
-  static fromContext(
-    pageId: string,
-    ownerUid: string,
-    lastLogin: string,
-    name: string,
-    title: string,
-    introduction: string,
-    location: string
-  ): Person {
-    return new PersonModel(pageId, ownerUid, lastLogin, 0, name, title, introduction, location, '')
-  }
-
-  static fromCaption(caption: PersonCaption, lastLogin = '', points = 0): Person {
+  static fromCaption(caption: PersonCaption, lastLogin = '', points = 0, communities: CommunityReference[] = []): Person {
     const { pageId, ownerUid, name, title, introduction, location, img } = caption
-    return new PersonModel(pageId, ownerUid, lastLogin, points, name, title, introduction, location, img)
+    return new PersonModel(pageId, ownerUid, lastLogin, points, name, title, introduction, location, img, communities)
   }
 
   get lastLoginFromNow() {

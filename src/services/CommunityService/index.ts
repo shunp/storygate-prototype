@@ -1,7 +1,8 @@
 import { Community } from 'src/services/interfaces/Community'
-import { fetchCommunityCaption, addCommunityMember } from 'src/services/firebase/firestore'
+import { fetchCommunityCaption, addCommunityMember, fetchFromGroupRef, fetchFromMemberRef } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
 import { GroupModel } from 'src/services/GroupService/GroupModel'
+
 import { CommunityModel } from './CommunityModel'
 
 class Service {
@@ -11,8 +12,9 @@ class Service {
 
   fetchById = async (id: string): Promise<Community> => {
     const communityCaption = await fetchCommunityCaption(id)
-    const { members, groups } = communityCaption
-    return CommunityModel.frompCaption(
+    const members = await fetchFromMemberRef(communityCaption.members)
+    const groups = await fetchFromGroupRef(communityCaption.groups)
+    return CommunityModel.fromCaption(
       communityCaption,
       members.map(member => PersonModel.fromCaption(member)),
       groups.map(group => GroupModel.fromCaption(group))
