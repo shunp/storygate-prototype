@@ -17,8 +17,16 @@ export interface CommunityCaption {
   pageId: string
   name: string
   members: PersonCaption[]
+  groups: GroupCaption[]
   introduction: string
   backgroundImg: string
+}
+export interface GroupCaption {
+  pageId: string
+  name: string
+  introduction: string
+  backgroundImg: string
+  members?: PersonCaption[]
 }
 export interface Invitation {
   id: string
@@ -43,20 +51,37 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     img: personCaption.img || ''
   }
 }
+export const fetchGroupCaption = async (pageId: string): Promise<GroupCaption> => {
+  const docRef = firestore.collection('v2/proto/groupCaptions').doc(pageId)
+  const doc = await docRef.get()
+  const groupCaption = doc.data() || {}
+  return {
+    pageId: doc.id || '',
+    name: groupCaption.name || '',
+    introduction: groupCaption.introduction || '',
+    backgroundImg: groupCaption.backgroundImg || ''
+  }
+}
+
 const fetchFromMemberRef = (members: string[]): Promise<PersonCaption[]> => {
   return Promise.all(members.map(async memberId => fetchPersonCaption(memberId)))
+}
+const fetchFromGroupRef = (groups: string[]): Promise<GroupCaption[]> => {
+  return Promise.all(groups.map(async groupId => fetchGroupCaption(groupId)))
 }
 export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaption> => {
   const docRef = firestore.collection('v2/proto/communityCaptions').doc(pageId)
   const doc = await docRef.get()
   const communityCaption = doc.data() || {}
   const members = await fetchFromMemberRef(communityCaption.members)
+  const groups = await fetchFromGroupRef(communityCaption.groups || [])
   return {
     pageId: doc.id || '',
     name: communityCaption.name || '',
     introduction: communityCaption.introduction || '',
+    backgroundImg: communityCaption.backgroundImg || '',
     members,
-    backgroundImg: communityCaption.backgroundImg || ''
+    groups
   }
 }
 

@@ -15,7 +15,7 @@ const CommunityPageLayout: React.FC<CommunityPageLayoutProps> = ({ communityId }
     CommunityService.fetchById(communityId).then(fetched => setCommunity(fetched))
   }, [communityId])
 
-  return <CommunityPage name={community.name} number={community.numOfMembers} members={community.members} />
+  return <CommunityPage name={community.name} number={community.numOfMembers} members={community.members} groups={community.groups} />
 }
 
 export default CommunityPageLayout

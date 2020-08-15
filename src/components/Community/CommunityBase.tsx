@@ -4,18 +4,21 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Person } from 'src/services/interfaces/Person'
+import { Group } from 'src/services/interfaces/Group'
 import CommunityBackground from './CommunityBackground'
 import CommunityCaption from './CommunityCaption'
 import SearchBar from '../SearchBar'
 import { BasicTitleLine } from '../TitleLine'
 import { Members } from './Members'
+import { Groups } from './Groups'
 
 interface CommunityBaseProps {
   name: string
   number: number
   members: Person[]
+  groups: Group[]
 }
-const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members }) => {
+const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, groups }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -42,11 +45,8 @@ const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members }) 
         <div id="search-result" className="flex flex-wrap w-full">
           <Members members={members} filterWords={filterWords} />
         </div>
-        <BasicTitleLine title="Group Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
-        <SearchBar searchWord={searchWord} filter={filter} />
-        <div id="search-result" className="flex flex-wrap w-full">
-          <Members members={members} filterWords={filterWords} />
-        </div>
+        <BasicTitleLine title="Group List" />
+        <Groups groups={groups} />
       </div>
     </>
   )

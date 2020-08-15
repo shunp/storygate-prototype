@@ -1,11 +1,10 @@
-import { Group } from './Group'
 import { Person } from './Person'
 
-export interface Community {
+export interface Group {
+  readonly pageId: string
   readonly name: string
   readonly introduction: string
-  readonly members: Person[]
-  readonly groups: Group[]
+  readonly members?: Person[]
   readonly backgroundImg: string
   readonly numOfMembers: number
 }

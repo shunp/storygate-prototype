@@ -1,6 +1,7 @@
 import { Community } from 'src/services/interfaces/Community'
 import { fetchCommunityCaption, addCommunityMember } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
+import { GroupModel } from 'src/services/GroupService/GroupModel'
 import { CommunityModel } from './CommunityModel'
 
 class Service {
@@ -8,18 +9,13 @@ class Service {
     return CommunityModel.empty()
   }
 
-  fromContext = (name: string, introduction: string): Community => {
-    return new CommunityModel(name, introduction, [], '')
-  }
-
   fetchById = async (id: string): Promise<Community> => {
-    const CommunityCaption = await fetchCommunityCaption(id)
-    const { name, introduction, members, backgroundImg } = CommunityCaption
-    return new CommunityModel(
-      name,
-      introduction,
+    const communityCaption = await fetchCommunityCaption(id)
+    const { members, groups } = communityCaption
+    return CommunityModel.frompCaption(
+      communityCaption,
       members.map(member => PersonModel.fromCaption(member)),
-      backgroundImg
+      groups.map(group => GroupModel.fromCaption(group))
     )
   }
 
