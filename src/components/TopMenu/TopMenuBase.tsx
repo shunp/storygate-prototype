@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { css } from '@emotion/core'
 import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
 import {
   toggleEditingCaptionAction,
@@ -11,13 +11,14 @@ import {
   toggleEditingPortfolioAction,
   toggleEditingCommunityAction
 } from 'src/state/app'
+// TODO: import { CSSTransition } from 'react-transition-group'
 import { Montserrat } from '../SGText'
 
 const MenuLinkWrapper = ({ title, to }) => {
   return (
-    <div className="m-2">
+    <div className="m-2 w-full px-10">
       <Link to={`/${to}`}>
-        <Montserrat className="text-white font-bold text-2xl">{title}</Montserrat>
+        <Montserrat className="text-left text-white font-bold text-2xl">{title}</Montserrat>
       </Link>
     </div>
   )
@@ -27,117 +28,73 @@ const MenuButtonWrapper = ({ title, onClick }) => {
   return (
     <div className="m-2">
       <button type="button" className="focus:outline-none" onClick={onClick}>
-        <Montserrat className="text-white font-bold text-2xl">{title}</Montserrat>
+        <Montserrat className="text-left text-purple-c2 bg-white font-bold text-2xl pl-2 w-48">{title}</Montserrat>
       </button>
     </div>
   )
 }
 
-// const MapMenuButton = () => {
-//   return (
-//     <>
-//       <MenuLinkWrapper title="フレンドマップ" to="map" icon={<FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />} />
-//       <div className="text-white text-xs">
-//         グループ内の友達を地図上から検索できます。近くにある店舗や待ち合わせ場所を決める際に便利です。
-//       </div>
-//     </>
-//   )
-// }
+const EditCaptionButton = ({ editCaption }) => {
+  const startEditingCaption = () => {
+    editCaption()
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <>
+      <MenuButtonWrapper title="Profile" onClick={startEditingCaption} />
+    </>
+  )
+}
 
-// const SearchMenuButton = () => {
-//   return (
-//     <>
-//       <MenuLinkWrapper title="キーワード検索" to="list" icon={<FontAwesomeIcon icon={faSearch} size="sm" className="mr-2" />} />
-//       <div className="text-white text-xs">キーワードで友達を検索できます。仕事の依頼や共通の趣味を持つ人を見つけることができます。</div>
-//     </>
-//   )
-// }
+const EditPortfolioButton = ({ editPortfolio }) => {
+  const startEditingPortfolio = () => {
+    editPortfolio()
+    // TODO: open portfolio tab
+    // setOpenTab(1)
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <>
+      <MenuButtonWrapper title="Portfolio" onClick={startEditingPortfolio} />
+    </>
+  )
+}
 
-// const EditCaptionButton = ({ editCaption }) => {
-//   const startEditingCaption = () => {
-//     editCaption()
-//     if (document.getElementById('top-menu-toggle')) {
-//       document.getElementById('top-menu-toggle').checked = false
-//     }
-//   }
-//   return (
-//     <>
-//       <MenuButtonWrapper
-//         title="プロフィール編集"
-//         icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-//         onClick={startEditingCaption}
-//       />
-//       <div className="text-white text-xs">
-//         自分のプロフィールを変更できます。検索でヒットしてもらいやすいようなわかりやすいプロフィールを心がけましょう。
-//       </div>
-//     </>
-//   )
-// }
+const EditStoryButton = ({ editStory }) => {
+  const startEditingStory = () => {
+    editStory()
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <>
+      <MenuButtonWrapper title="Story" onClick={startEditingStory} />
+    </>
+  )
+}
 
-// const EditPortfolioButton = ({ editPortfolio }) => {
-//   const startEditingPortfolio = () => {
-//     editPortfolio()
-//     // TODO: open portfolio tab
-//     // setOpenTab(1)
-//     if (document.getElementById('top-menu-toggle')) {
-//       document.getElementById('top-menu-toggle').checked = false
-//     }
-//   }
-//   return (
-//     <>
-//       <MenuButtonWrapper
-//         title="ポートフォリオ編集"
-//         icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-//         onClick={startEditingPortfolio}
-//       />
-//       <div className="text-white text-xs">
-//         自分のポートフォリオを修正できます。最近の活動内容や自身の強みを記載してGiveできる項目をまとめてみましょう。
-//       </div>
-//     </>
-//   )
-// }
-
-// const EditStoryButton = ({ editStory }) => {
-//   const startEditingStory = () => {
-//     editStory()
-//     if (document.getElementById('top-menu-toggle')) {
-//       document.getElementById('top-menu-toggle').checked = false
-//     }
-//   }
-//   return (
-//     <>
-//       <MenuButtonWrapper
-//         title="ストーリー編集"
-//         icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-//         onClick={startEditingStory}
-//       />
-//       <div className="text-white text-xs">
-//         自分のストーリーを修正できます。苦い経験や達成した出来事を過去から順に綴ったあなたの物語は、きっと共感者や応援してくれる仲間を呼ぶことに繋がるでしょう。
-//       </div>
-//     </>
-//   )
-// }
-
-// const EditCommunityButton = ({ editCommunity }) => {
-//   const startEditingCommunity = () => {
-//     editCommunity()
-//     if (document.getElementById('top-menu-toggle')) {
-//       document.getElementById('top-menu-toggle').checked = false
-//     }
-//   }
-//   return (
-//     <>
-//       <MenuButtonWrapper
-//         title="コミュニティ編集"
-//         icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-//         onClick={startEditingCommunity}
-//       />
-//       <div className="text-white text-xs">自分のコミュニティを修正できます。所属先を増やして新たな仲間を見つけましょう。</div>
-//     </>
-//   )
-// }
+const EditCommunityButton = ({ editCommunity }) => {
+  const startEditingCommunity = () => {
+    editCommunity()
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
+  return (
+    <>
+      <MenuButtonWrapper title="Community" onClick={startEditingCommunity} />
+    </>
+  )
+}
 
 const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommunity }) => {
+  const [editingMode, setEditingmode] = React.useState<boolean>(false)
+
   return (
     <div className="menu-wrap">
       <input id="top-menu-toggle" type="checkbox" className="toggler" />
@@ -147,26 +104,29 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
       <div className="menu">
         <div className="flex-col">
           <MenuLinkWrapper title="Map" to="map" />
-          <div className="m-2">
-            <button type="button" className="bg-transparent focus:outline-none" id="options-menu" aria-haspopup="true" aria-expanded="true">
-              <Montserrat className="text-white font-bold text-2xl">Edit</Montserrat>
+          <div className="relative m-2 w-full px-8">
+            <button
+              type="button"
+              className="float-left w-48 pl-2 bg-transparent focus:outline-none focus:bg-gradient-t-blue-pink-purple border border-none hover:border-blue-500 "
+              onClick={() => setEditingmode(!editingMode)}
+            >
+              <Montserrat className="text-left text-white font-bold text-2xl">Edit</Montserrat>
             </button>
-            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-              <Montserrat className="text-white font-bold text-2xl">Portfolio</Montserrat>
-            </div>
-          </div>
 
+            {editingMode && (
+              <div className="right-0 mt-2 py-2 w-48 rounded-lg shadow-xl text-left">
+                <EditCaptionButton editCaption={editCaption} />
+                <EditPortfolioButton editPortfolio={editPortfolio} />
+                <EditStoryButton editStory={editStory} />
+                <EditCommunityButton editCommunity={editCommunity} />
+              </div>
+            )}
+          </div>
           <div className="mt-20" />
+
           <MenuLinkWrapper title="About" to="about" />
           <MenuLinkWrapper title="Company" to="company" />
           <MenuLinkWrapper title="FAQ" to="faq" />
-
-          {/* <MapMenuButton />
-          <SearchMenuButton />
-          <EditCaptionButton editCaption={editCaption} />
-          <EditPortfolioButton editPortfolio={editPortfolio} />
-          <EditStoryButton editStory={editStory} />
-          <EditCommunityButton editCommunity={editCommunity} /> */}
           <div className="text-sm text-gray-300 mt-10 p-2" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1" />
             Logout

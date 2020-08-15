@@ -763,8 +763,8 @@ module.exports = {
   },
   variants: {
     // background
-    backgroundImage: ['responsive'], // this is for the "bg-none" utility
-    linearGradients: ['responsive'],
+    backgroundImage: ['responsive', 'hover', 'focus'], // this is for the "bg-none" utility
+    linearGradients: ['responsive', 'hover', 'focus'],
     radialGradients: ['responsive'],
     conicGradients: ['responsive'],
     repeatingLinearGradients: ['responsive'],
