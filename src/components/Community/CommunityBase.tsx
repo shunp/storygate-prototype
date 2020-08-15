@@ -46,7 +46,9 @@ const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, gr
           <Members members={members} filterWords={filterWords} />
         </div>
         <BasicTitleLine title="Group List" />
-        <Groups groups={groups} />
+        <div className="flex flex-wrap w-full">
+          <Groups groups={groups} />
+        </div>
       </div>
     </>
   )
