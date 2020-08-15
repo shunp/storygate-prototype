@@ -1,6 +1,6 @@
 import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
-import dayjs from 'dayjs'
+import { equalsDay } from 'src/utils/date'
 import { Content } from '../interfaces/Content'
 import { firestore } from './firebase'
 
@@ -35,6 +35,10 @@ export interface Invitation {
 export interface LoginCount {
   count: number
   lastUpdate: firebase.firestore.Timestamp
+}
+const LOGIN_COUNTER = {
+  count: firebase.firestore.FieldValue.increment(1),
+  lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
 }
 
 export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
@@ -169,13 +173,12 @@ export const updateLoginCount = async (uid: string) => {
   const docRef = firestore.collection('v2/proto/metrics/persons/loginCount').doc(uid)
   const doc = await docRef.get()
   const loginCount = doc.data() as LoginCount | undefined
-  if (loginCount) {
-    if (dayjs().day() === dayjs(loginCount.lastUpdate.toDate()).day()) {
-      return
-    }
+  if (!loginCount) {
+    await docRef.set(LOGIN_COUNTER)
+    return
   }
-  await docRef.set({
-    count: firebase.firestore.FieldValue.increment(1),
-    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-  })
+  if (equalsDay(loginCount.lastUpdate.toDate())) {
+    return
+  }
+  await docRef.update(LOGIN_COUNTER)
 }
