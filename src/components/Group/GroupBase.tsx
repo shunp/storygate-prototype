@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Group } from 'src/services/interfaces/Group'
 import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
+import { Link } from 'gatsby'
 import GroupBackground from './GroupBackground'
 import GroupCaption from './GroupCaption'
 import SearchBar from '../SearchBar'
@@ -71,7 +72,9 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, community, loggedIn, joine
         {community ? (
           <>
             <BasicTitleLine title="Community" />
-            <CommunityBackground img={community.backgroundImg} />
+            <Link to={`/communities/${community.pageId}`}>
+              <CommunityBackground img={community.backgroundImg} />
+            </Link>
             <CommunityCaption name={community.name} num={community.numOfMembers} />
           </>
         ) : (
