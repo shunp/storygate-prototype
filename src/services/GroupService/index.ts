@@ -1,5 +1,7 @@
+import { PersonModel } from 'src/services/PersonService/PersonModel'
 import { Group } from 'src/services/interfaces/Group'
-import { fetchGroupCaption } from 'src/services/firebase/firestore'
+import { fetchGroupCaption, fetchFromMemberRef } from 'src/services/firebase/firestore'
+
 import { GroupModel } from './GroupModel'
 
 class Service {
@@ -8,9 +10,16 @@ class Service {
   }
 
   fetchById = async (id: string): Promise<Group> => {
-    const GroupCaption = await fetchGroupCaption(id)
-    const { pageId, name, introduction, backgroundImg } = GroupCaption
-    return new GroupModel(pageId, name, introduction, backgroundImg)
+    const groupCaption = await fetchGroupCaption(id)
+    const { pageId, name, introduction, backgroundImg } = groupCaption
+    const members = await fetchFromMemberRef(groupCaption.members)
+    return new GroupModel(
+      pageId,
+      name,
+      introduction,
+      backgroundImg,
+      members.map(member => PersonModel.fromCaption(member))
+    )
   }
 }
 

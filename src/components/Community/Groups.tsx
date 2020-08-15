@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Group } from 'src/services/interfaces/Group'
+import { Link } from 'gatsby'
+import { GroupReference } from 'src/services/interfaces/GroupCaption'
 
 interface GroupProps {
   name: string
@@ -9,13 +10,15 @@ interface GroupProps {
 const GroupView: React.FC<GroupProps> = ({ name, pageId, img }) => {
   return (
     <div className="p-3 w-1/3">
-      <img src={img} width={140} alt="" className="w-24 h-24 rounded-full" />
-      <div>{name}</div>
+      <Link to={`/groups/${pageId}`} className="flex flex-col items-center">
+        <img src={img} width={140} alt="" className="w-24 h-24 rounded-full" />
+        <div>{name}</div>
+      </Link>
     </div>
   )
 }
 interface GroupsProps {
-  groups: Group[]
+  groups: GroupReference[]
 }
 export const Groups: React.FC<GroupsProps> = ({ groups }) => {
   const GroupComponents = groups.map(group => {

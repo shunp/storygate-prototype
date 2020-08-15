@@ -1,9 +1,9 @@
 import { Community } from 'src/services/interfaces/Community'
 import { fetchCommunityCaption, addCommunityMember, fetchFromGroupRef, fetchFromMemberRef } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
-import { GroupModel } from 'src/services/GroupService/GroupModel'
 
 import { CommunityModel } from './CommunityModel'
+import { GroupReferenceModel } from '../GroupService/GroupReferenceModel'
 
 class Service {
   emptyCommunity = (): Community => {
@@ -17,7 +17,7 @@ class Service {
     return CommunityModel.fromCaption(
       communityCaption,
       members.map(member => PersonModel.fromCaption(member)),
-      groups.map(group => GroupModel.fromCaption(group))
+      groups.map(group => GroupReferenceModel.fromCaption(group))
     )
   }
 

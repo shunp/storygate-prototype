@@ -4,21 +4,18 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Person } from 'src/services/interfaces/Person'
-import { GroupReference } from 'src/services/interfaces/GroupCaption'
-import CommunityBackground from './CommunityBackground'
-import CommunityCaption from './CommunityCaption'
+import GroupBackground from './GroupBackground'
+import GroupCaption from './GroupCaption'
 import SearchBar from '../SearchBar'
 import { BasicTitleLine } from '../TitleLine'
 import { Members } from './Members'
-import { Groups } from './Groups'
 
-interface CommunityBaseProps {
+interface GroupBaseProps {
   name: string
   number: number
   members: Person[]
-  groups: GroupReference[]
 }
-const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, groups }) => {
+const GroupBase: React.FC<GroupBaseProps> = ({ name, number, members }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -38,20 +35,16 @@ const CommunityBase: React.FC<CommunityBaseProps> = ({ name, number, members, gr
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-16">
-        <CommunityBackground />
-        <CommunityCaption name={name} num={number} />
+        <GroupBackground />
+        <GroupCaption name={name} num={number} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />
         <div id="search-result" className="flex flex-wrap w-full">
           <Members members={members} filterWords={filterWords} />
-        </div>
-        <BasicTitleLine title="Group List" />
-        <div className="flex flex-wrap w-full">
-          <Groups groups={groups} />
         </div>
       </div>
     </>
   )
 }
 
-export default CommunityBase
+export default GroupBase

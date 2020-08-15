@@ -3,6 +3,7 @@ import { Community } from 'src/services/interfaces/Community'
 import { Person } from 'src/services/interfaces/Person'
 import { CommunityCaptionModel } from './CommunityCaptionModel'
 import { CommunityCaptionData } from '../firebase/firestore'
+import { GroupReference } from '../interfaces/GroupCaption'
 
 export class CommunityModel extends CommunityCaptionModel implements Community {
   constructor(
@@ -11,7 +12,7 @@ export class CommunityModel extends CommunityCaptionModel implements Community {
     readonly introduction: string,
     readonly backgroundImg: string,
     readonly members: Person[],
-    readonly groups: Group[]
+    readonly groups: GroupReference[]
   ) {
     super(pageId, name, introduction, backgroundImg)
   }
@@ -20,7 +21,7 @@ export class CommunityModel extends CommunityCaptionModel implements Community {
     return new CommunityModel('', '', '', '', [], [])
   }
 
-  static fromCaption(caption: CommunityCaptionData, members: Person[] = [], groups: Group[] = []): Community {
+  static fromCaption(caption: CommunityCaptionData, members: Person[] = [], groups: GroupReference[] = []): Community {
     const { pageId, name, introduction, backgroundImg } = caption
     return new CommunityModel(pageId, name, introduction, backgroundImg, members, groups)
   }

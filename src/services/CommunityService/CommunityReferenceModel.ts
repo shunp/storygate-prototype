@@ -1,4 +1,4 @@
-import { CommunityReference } from 'src/services/interfaces/Community'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import { CommunityCaptionModel } from './CommunityCaptionModel'
 import { CommunityCaptionData } from '../firebase/firestore'
 
