@@ -3,6 +3,7 @@ export interface GroupCaption {
   readonly name: string
   readonly introduction: string
   readonly backgroundImg: string
+  readonly joined: (uid: string) => boolean
 }
 
 export type GroupReference = GroupCaption & {

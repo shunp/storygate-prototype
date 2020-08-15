@@ -3,17 +3,25 @@ import { applyTheme } from 'src/themes/utils'
 import { themes, DEFAULT_THEME } from 'src/themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { Person } from 'src/services/interfaces/Person'
+import { Group } from 'src/services/interfaces/Group'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import GroupBackground from './GroupBackground'
 import GroupCaption from './GroupCaption'
 import SearchBar from '../SearchBar'
 import { BasicTitleLine } from '../TitleLine'
 import { Members } from './Members'
+import CommunityBackground from '../Community/CommunityBackground'
+import CommunityCaption from '../Community/CommunityCaption'
 
 interface JoinGroupButtonProps {
   joinGroup: () => Promise<void>
+  loggedIn: boolean
+  joined: boolean
 }
-const JoinGroupButton: React.FC<JoinGroupButtonProps> = ({ joinGroup }) => {
+const JoinGroupButton: React.FC<JoinGroupButtonProps> = ({ loggedIn, joined, joinGroup }) => {
+  if (!loggedIn || joined) {
+    return <></>
+  }
   return (
     <button
       type="button"
@@ -26,13 +34,13 @@ const JoinGroupButton: React.FC<JoinGroupButtonProps> = ({ joinGroup }) => {
 }
 
 interface GroupBaseProps {
-  name: string
-  img: string
-  number: number
-  members: Person[]
+  group: Group
+  community?: CommunityReference
+  loggedIn: boolean
+  joined: boolean
   joinGroup: () => Promise<void>
 }
-const GroupBase: React.FC<GroupBaseProps> = ({ name, img, number, members, joinGroup }) => {
+const GroupBase: React.FC<GroupBaseProps> = ({ group, community, loggedIn, joined, joinGroup }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -52,14 +60,23 @@ const GroupBase: React.FC<GroupBaseProps> = ({ name, img, number, members, joinG
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-16">
-        <GroupBackground img={img} />
-        <GroupCaption name={name} num={number} />
-        <JoinGroupButton joinGroup={joinGroup} />
+        <GroupBackground img={group.backgroundImg} />
+        <GroupCaption name={group.name} num={group.numOfMembers} />
+        <JoinGroupButton loggedIn={loggedIn} joined={joined} joinGroup={joinGroup} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />
         <div id="search-result" className="flex flex-wrap w-full">
-          <Members members={members} filterWords={filterWords} />
+          <Members members={group.members} filterWords={filterWords} />
         </div>
+        {community ? (
+          <>
+            <BasicTitleLine title="Community" />
+            <CommunityBackground img={community.backgroundImg} />
+            <CommunityCaption name={community.name} num={community.numOfMembers} />
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </>
   )

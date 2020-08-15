@@ -25,4 +25,6 @@ export class GroupReferenceModel extends GroupCaptionModel implements GroupRefer
   get numOfMembers(): number {
     return this.members.length
   }
+
+  joined = (uid: string) => this.members.some(memberId => memberId === uid)
 }

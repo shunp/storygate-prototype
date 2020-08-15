@@ -26,6 +26,7 @@ export interface GroupCaptionData {
   name: string
   introduction: string
   backgroundImg: string
+  community?: string
   members: string[]
 }
 export interface Invitation {
@@ -65,7 +66,8 @@ export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionDat
     name: groupCaption.name || '',
     introduction: groupCaption.introduction || '',
     backgroundImg: groupCaption.backgroundImg || '',
-    members: groupCaption.members || []
+    members: groupCaption.members || [],
+    community: groupCaption.community || ''
   }
 }
 
