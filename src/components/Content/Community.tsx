@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
-import { CommunityReference } from 'src/services/interfaces/Community'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 
 interface CommunityPanelProps {
   pageId: string

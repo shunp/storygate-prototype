@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CommunityReference } from 'src/services/interfaces/Community'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import { CommunityList } from '../Content/Community'
 
 interface CommunityTabProps {
