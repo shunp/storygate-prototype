@@ -869,5 +869,5 @@ module.exports = {
     transitionDelay: ['responsive']
   },
   corePlugins: {},
-  plugins: [require('tailwindcss-gradients')]
+  plugins: [require('tailwindcss-gradients'), require('@tailwindcss/ui')]
 }
