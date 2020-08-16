@@ -70,7 +70,7 @@ const onClickLogin = async (login: (loginUser: LoginUser) => void) => {
     return
   }
   login(loginUser)
-  navigate(`persons/${loginUser.uid}`)
+  navigate(`/recruit`)
 }
 
 const FacebookLoginButton = ({ login, children }) => {
@@ -94,7 +94,7 @@ const IndexPage: React.FC<IndexProps> = ({ loginUser, login }) => {
   }
   if (loginUser.loggedIn) {
     console.log(loginUser)
-    navigate(`persons/${loginUser.uid}`)
+    navigate(`/persons/${loginUser.uid}`)
     return <></>
   }
   return (

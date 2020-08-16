@@ -2,8 +2,27 @@ import * as React from 'react'
 import { Montserrat } from 'src/components/SGText'
 import { css } from '@emotion/core'
 import PageRoot from 'src/components/Root/PageRoot'
+import { connect } from 'react-redux'
+import { navigate } from 'gatsby'
 
-const Recruit = () => {
+const Recruit = ({ loginUser }) => {
+  const onApply = () => {
+    if (loginUser.uid === '') {
+      navigate('/')
+      return
+    }
+    // TODO: save to DB
+    // TODO: popup massage
+    navigate(`/persons/${loginUser.uid}`)
+  }
+  const onSkip = () => {
+    if (loginUser.uid === '') {
+      navigate('/')
+      return
+    }
+    // TODO: save to DB
+    navigate(`/persons/${loginUser.uid}`)
+  }
   return (
     <PageRoot>
       <div
@@ -31,8 +50,23 @@ const Recruit = () => {
         </div>
         <div className="flex justify-center flex-col mt-10">
           <div className="flex justify-center">
-            <button type="button" className="rounded-full bg-gradient-t-blue-pink-purple py-2 px-10 m-2 w-full text-white">
+            <button
+              type="button"
+              className="rounded-full bg-gradient-t-blue-pink-purple py-2 px-10 m-2 w-full text-white focus:outline-none"
+              onClick={onApply}
+            >
               参加したい
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-center flex-col">
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="rounded-full bg-transparent border-2 border-purple-c1 py-2 px-10 m-2 w-full text-purple-c1 focus:outline-none"
+              onClick={onSkip}
+            >
+              興味がない
             </button>
           </div>
         </div>
@@ -40,4 +74,9 @@ const Recruit = () => {
     </PageRoot>
   )
 }
-export default Recruit
+export default connect(
+  state => ({
+    loginUser: state.app.loginUser
+  }),
+  dispatch => ({})
+)(Recruit)
