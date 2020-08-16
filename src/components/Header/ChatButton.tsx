@@ -3,9 +3,8 @@ import { css } from '@emotion/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { valueToHash } from 'src/utils/hash'
 import { faCommentDots, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import 'src/styles/chat.css'
-import { useWindowSize } from 'src/utils/useWindowSize'
 import { Montserrat } from '../SGText'
+import 'src/styles/chat.css'
 
 interface ChatButtonProps {
   from: string
@@ -25,6 +24,70 @@ const SubmitChatButton = ({ onClick }) => {
     <button type="button" className="mx-2" onClick={onClick}>
       <FontAwesomeIcon icon={faPaperPlane} size="lg" className="text-white mt-2" />
     </button>
+  )
+}
+
+const CloseChatButton = ({ onClick }) => {
+  return (
+    <div className="absolute w-2/3 h-screen">
+      <div className="float-top m-2">
+        <button type="button" className="text-white" onClick={onClick}>
+          <Montserrat className="text-white font-bold">
+            <span className="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" enableBackground="new 0 0 40 40">
+                <line x1="15" y1="15" x2="25" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
+                <line x1="25" y1="15" x2="15" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
+                <circle
+                  className="circle"
+                  cx="20"
+                  cy="20"
+                  r="19"
+                  opacity="0"
+                  stroke="#000"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  fill="none"
+                />
+                <path
+                  d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
+                  className="progress"
+                  stroke="#fff"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            Close
+          </Montserrat>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+const TextInputArea = ({ newMessage, setNewMessage, onClick }) => {
+  return (
+    <div className="absolute w-2/3 h-screen">
+      <div
+        className="z-30 w-full"
+        css={css`
+          position: absolute;
+          bottom: 10px;
+        `}
+      >
+        <input
+          type="text"
+          placeholder="message..."
+          className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
+          value={newMessage}
+          onChange={e => setNewMessage(e.target.value)}
+        />
+        <SubmitChatButton onClick={onClick} />
+      </div>
+    </div>
   )
 }
 
@@ -67,9 +130,6 @@ const ChatMessage = ({ mine = false, children }) => {
 }
 
 const ChatButton: React.FC<ChatButtonProps> = ({ from, to }) => {
-  const size = useWindowSize()
-  const { height } = size
-
   const [newMessage, setNewMessage] = React.useState('')
 
   const openChatBox = (_from: string, _to: string) => {
@@ -104,67 +164,14 @@ const ChatButton: React.FC<ChatButtonProps> = ({ from, to }) => {
     <>
       <OpenChatButton onClick={() => openChatBox(from, to)} />
       <div className="chat-box-wrap">
-        <input id="chat-box-toggle" type="checkbox" className="toggler" />
+        <input id="chat-box-toggle" type="checkbox" className="toggler hidden" />
         <div className="hamburger">
           <div />
         </div>
         <div className="chat-box">
           <div className="flex-col">
-            <div className="absolute w-2/3 h-screen">
-              <div
-                className="z-30 w-full"
-                css={css`
-                  position: absolute;
-                  bottom: 10px;
-                `}
-              >
-                <input
-                  type="text"
-                  placeholder="message..."
-                  className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
-                  value={newMessage}
-                  onChange={e => setNewMessage(e.target.value)}
-                />
-                <SubmitChatButton onClick={submitMessage} />
-              </div>
-            </div>
-
-            <div className="absolute w-2/3 h-screen">
-              <div className="float-top m-2">
-                <button type="button" className="text-white" onClick={closeChatBox}>
-                  <Montserrat className="text-white font-bold">
-                    <span className="">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" enableBackground="new 0 0 40 40">
-                        <line x1="15" y1="15" x2="25" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
-                        <line x1="25" y1="15" x2="15" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
-                        <circle
-                          className="circle"
-                          cx="20"
-                          cy="20"
-                          r="19"
-                          opacity="0"
-                          stroke="#000"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeMiterlimit="10"
-                          fill="none"
-                        />
-                        <path
-                          d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
-                          className="progress"
-                          stroke="#fff"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeMiterlimit="10"
-                          fill="none"
-                        />
-                      </svg>
-                    </span>
-                    Close
-                  </Montserrat>
-                </button>
-              </div>
-            </div>
+            <TextInputArea newMessage={newMessage} setNewMessage={setNewMessage} onClick={submitMessage} />
+            <CloseChatButton onClick={closeChatBox} />
             <div className="w-2/3 h-screen mt-40">
               <div className="">
                 <ChatMessage mine>こんにちは</ChatMessage>
