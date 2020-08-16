@@ -1,9 +1,11 @@
+import firebase from 'gatsby-plugin-firebase'
+import { Content } from 'src/services/interfaces/Content'
 import { Story } from 'src/services/interfaces/Story'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
-import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
 import { equalsDay } from 'src/utils/date'
-import { Content } from '../interfaces/Content'
+import { toSequenceString } from 'src/utils/sequnce'
+
 import { firestore } from './firebase'
 
 export interface PersonCaption {
@@ -47,6 +49,23 @@ export interface Invitation {
 export interface LoginCount {
   count: number
   lastUpdate: firebase.firestore.Timestamp
+}
+interface ReadMarkerData {
+  [key: string]: string
+}
+export interface ChatRoomData {
+  id: string
+  members: string[]
+  readMarker: ReadMarkerData
+}
+export interface MessageData {
+  sequenceId: string
+  uid: string
+  message: string
+  timestamp: firebase.firestore.Timestamp
+}
+interface MyChatRoomsData {
+  roomIds: string[]
 }
 
 const LOGIN_COUNTER = () => ({
@@ -248,4 +267,112 @@ export const updateLoginCount = async (uid: string) => {
     return
   }
   await docRef.update(LOGIN_COUNTER())
+}
+
+export const fetchChatRooms = async (uid: string): Promise<ChatRoomData[]> => {
+  const myChatRoomsDoc = await firestore
+    .collection('v2/proto/myChatRooms')
+    .doc(uid)
+    .get()
+  const myChatRooms = myChatRoomsDoc.data() as MyChatRoomsData
+  if (!myChatRooms?.roomIds?.length) {
+    return []
+  }
+  const docsData = await firestore
+    .collection('v2/proto/chatRooms')
+    .where(firebase.firestore.FieldPath.documentId(), 'in', myChatRooms.roomIds)
+    .get()
+  return docsData.docs.map(doc => {
+    const chatRoom = doc.data()
+    return {
+      id: doc.id,
+      members: chatRoom.members,
+      readMarker: chatRoom.readMarker
+    }
+  })
+}
+export const fetchChatRoomById = async (id: string): Promise<ChatRoomData> => {
+  const doc = await firestore
+    .collection('v2/proto/chatRooms')
+    .doc(id)
+    .get()
+  const chatRoom = doc.data() || {}
+  return {
+    id: doc.id || '',
+    members: chatRoom.members || [],
+    readMarker: chatRoom.readMarker || {}
+  }
+}
+export const fetchChatMessages = async (id: string, sequenceFrom: number, limit: number, offset: number): Promise<MessageData[]> => {
+  const docsData = await firestore
+    .collection(`v2/proto/chatRooms/${id}/messages`)
+    .orderBy('sequenceId')
+    .startAt(toSequenceString(sequenceFrom - offset || 0))
+    // .limit(limit)
+    .get()
+  return docsData.docs.map(doc => {
+    const message = doc.data()
+    return {
+      sequenceId: doc.id,
+      uid: message.uid,
+      message: message.message,
+      timestamp: message.timestamp
+    }
+  })
+}
+const fetchLatestMessageSequence = async (roomId: string) => {
+  const docsData = await firestore
+    .collection(`v2/proto/chatRooms/${roomId}/messages`)
+    .orderBy('sequenceId', 'desc')
+    .limit(1)
+    .get()
+  if (!docsData.docs.length) {
+    return 0
+  }
+  return +docsData.docs[0].data().sequenceId
+}
+
+export const sendMessage = async (uid: string, roomId: string, message: string) => {
+  const latestSequence = await fetchLatestMessageSequence(roomId)
+  const sequenceId = toSequenceString(latestSequence + 1)
+  await firestore
+    .collection(`v2/proto/chatRooms/${roomId}/messages`)
+    .doc(sequenceId)
+    .set({
+      sequenceId,
+      uid,
+      message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+}
+
+export const updateReadMarker = async (uid: string, roomId: string, sequenceId: string) => {
+  await firestore
+    .collection(`v2/proto/chatRooms/${roomId}`)
+    .doc(sequenceId)
+    .set(
+      {
+        readMarkers: {
+          [uid]: sequenceId
+        }
+      },
+      { merge: true }
+    )
+}
+export const subscribeRoom = (id: string, onUpdate: (message: MessageData[]) => void) => {
+  firestore.collection(`v2/proto/chatRooms/${id}/messages`).onSnapshot(snapshot => {
+    const updatedData = snapshot.docs.map(doc => {
+      const message = doc.data()
+      return {
+        sequenceId: doc.id,
+        uid: message.uid,
+        message: message.message,
+        timestamp: message.timestamp || { toDate: () => new Date() }
+      }
+    })
+    onUpdate(updatedData)
+  })
+}
+export const unsubscribeRoom = (id: string) => {
+  firestore.collection(`v2/proto/chatRooms/${id}/messages`).onSnapshot(() => {})
 }
