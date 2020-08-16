@@ -20,5 +20,5 @@ export class LoginUserModel implements LoginUser {
     return !!this._uid
   }
 
-  editablePage = (path = '') => path.startsWith(`/persons/${this.uid}`)
+  editablePage = (path = '') => path === `/persons/${this.uid}`
 }

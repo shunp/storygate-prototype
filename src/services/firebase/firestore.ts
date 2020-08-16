@@ -12,6 +12,7 @@ export interface PersonCaption {
   introduction: string
   location: string
   img: string
+  openCommunities: string[]
 }
 export interface CommunityCaptionData {
   pageId: string
@@ -58,7 +59,8 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     title: personCaption.title || '',
     introduction: personCaption.introduction || '',
     location: personCaption.location || '',
-    img: personCaption.img || ''
+    img: personCaption.img || '',
+    openCommunities: personCaption.openCommunities || []
   }
 }
 export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
@@ -103,6 +105,26 @@ export const fetchCommunityMembers = async (communityId: string): Promise<string
 export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
   const collectionRef = firestore.collection('v2/proto/communityCaptions')
   const communities = await collectionRef.where('members', 'array-contains', personId).get()
+  const communityCaptions: CommunityCaptionData[] = []
+  communities.forEach(community => {
+    const communityCaption = community.data()
+    communityCaptions.push({
+      pageId: community.id || '',
+      name: communityCaption.name || '',
+      introduction: communityCaption.introduction || '',
+      backgroundImg: communityCaption.backgroundImg || '',
+      groups: communityCaption.groups || [],
+      numOfMembers: communityCaption.numOfMembers || 0
+    })
+  })
+  return communityCaptions
+}
+export const queryCommunityCaptionByIds = async (communityIds: string[] = []): Promise<CommunityCaptionData[]> => {
+  if (!communityIds.length) {
+    return []
+  }
+  const collectionRef = firestore.collection('v2/proto/communityCaptions')
+  const communities = await collectionRef.where(firebase.firestore.FieldPath.documentId(), 'in', communityIds).get()
   const communityCaptions: CommunityCaptionData[] = []
   communities.forEach(community => {
     const communityCaption = community.data()

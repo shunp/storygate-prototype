@@ -6,7 +6,8 @@ import {
   updatePerson,
   updateLoginCount,
   fetchPoints,
-  queryCommunityCaptionByPerson
+  queryCommunityCaptionByPerson,
+  queryCommunityCaptionByIds
 } from 'src/services/firebase/firestore'
 import { lastLogin } from 'src/services/firebase/functions'
 import { CommunityReferenceModel } from 'src/services/CommunityService/CommunityReferenceModel'
@@ -18,9 +19,9 @@ class Service {
     return PersonModel.empty()
   }
 
-  fetchById = async (id: string): Promise<Person> => {
+  fetchById = async (id: string, mySelf = false): Promise<Person> => {
     const personCaption = await fetchPersonCaption(id)
-    const communities = await queryCommunityCaptionByPerson(id)
+    const communities = mySelf ? await queryCommunityCaptionByPerson(id) : await queryCommunityCaptionByIds(personCaption.openCommunities)
     return PersonModel.fromCaption(
       personCaption,
       await lastLogin(id),
