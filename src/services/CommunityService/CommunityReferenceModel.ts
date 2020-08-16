@@ -8,22 +8,18 @@ export class CommunityReferenceModel extends CommunityCaptionModel implements Co
     readonly name: string,
     readonly introduction: string,
     readonly backgroundImg: string,
-    readonly members: string[],
-    readonly groups: string[]
+    readonly groups: string[],
+    readonly numOfMembers: number
   ) {
-    super(pageId, name, introduction, backgroundImg)
+    super(pageId, name, introduction, backgroundImg, numOfMembers)
   }
 
   static empty(): CommunityReference {
-    return new CommunityReferenceModel('', '', '', '', [], [])
+    return new CommunityReferenceModel('', '', '', '', [], 0)
   }
 
   static fromCaption(caption: CommunityCaptionData): CommunityReference {
-    const { pageId, name, introduction, backgroundImg, members, groups } = caption
-    return new CommunityReferenceModel(pageId, name, introduction, backgroundImg, members, groups)
-  }
-
-  get numOfMembers(): number {
-    return this.members.length
+    const { pageId, name, introduction, backgroundImg, groups, numOfMembers } = caption
+    return new CommunityReferenceModel(pageId, name, introduction, backgroundImg, groups, numOfMembers)
   }
 }
