@@ -52,10 +52,12 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
   const location = useLocation()
   const loadPerson = async () => {
-    await PersonService.fetchById(pageId, loginUser.editablePage(location.pathname)).then(fetchedPerson => setPerson(fetchedPerson))
+    await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
   }
   const loadContent = async () => {
-    await ContentService.fetchPersonContentById(pageId).then(fetchedContent => setContent(fetchedContent))
+    await ContentService.fetchPersonContentById(pageId, loginUser.editablePage(location.pathname)).then(fetchedContent =>
+      setContent(fetchedContent)
+    )
   }
   const updateCaption = async (updatedPerson: Person, newImg?: Blob) => {
     await PersonService.updateCaption(updatedPerson, newImg)
@@ -82,7 +84,6 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
       <PersonContentLayout
         openTab={openTab}
         content={content}
-        communities={person.communities}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}
         editingCommunity={editingCommunity}

@@ -1,3 +1,5 @@
+import { Story } from 'src/services/interfaces/Story'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
 import { equalsDay } from 'src/utils/date'
@@ -12,6 +14,10 @@ export interface PersonCaption {
   introduction: string
   location: string
   img: string
+}
+export interface ContentData {
+  portfolio: Portfolio
+  story: Story
   openCommunities: string[]
 }
 export interface CommunityCaptionData {
@@ -59,8 +65,7 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     title: personCaption.title || '',
     introduction: personCaption.introduction || '',
     location: personCaption.location || '',
-    img: personCaption.img || '',
-    openCommunities: personCaption.openCommunities || []
+    img: personCaption.img || ''
   }
 }
 export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
@@ -102,23 +107,6 @@ export const fetchCommunityMembers = async (communityId: string): Promise<string
   const communityMembers = doc.data() || {}
   return communityMembers.members || []
 }
-export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
-  const collectionRef = firestore.collection('v2/proto/communityCaptions')
-  const communities = await collectionRef.where('members', 'array-contains', personId).get()
-  const communityCaptions: CommunityCaptionData[] = []
-  communities.forEach(community => {
-    const communityCaption = community.data()
-    communityCaptions.push({
-      pageId: community.id || '',
-      name: communityCaption.name || '',
-      introduction: communityCaption.introduction || '',
-      backgroundImg: communityCaption.backgroundImg || '',
-      groups: communityCaption.groups || [],
-      numOfMembers: communityCaption.numOfMembers || 0
-    })
-  })
-  return communityCaptions
-}
 export const queryCommunityCaptionByIds = async (communityIds: string[] = []): Promise<CommunityCaptionData[]> => {
   if (!communityIds.length) {
     return []
@@ -138,6 +126,15 @@ export const queryCommunityCaptionByIds = async (communityIds: string[] = []): P
     })
   })
   return communityCaptions
+}
+export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
+  const docs = await firestore
+    .collection('v2/proto/communityMembers')
+    .where('members', 'array-contains', personId)
+    .get()
+  const communityIds: string[] = []
+  docs.forEach(doc => communityIds.push(doc.id))
+  return queryCommunityCaptionByIds(communityIds)
 }
 export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string, introduction: string) => {
   const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
@@ -216,13 +213,14 @@ export const updatePerson = async (person: Person) => {
   await docRef.update(update).catch(err => console.error(err))
 }
 
-export const fetchPersonContent = async (pageId: string): Promise<Content> => {
+export const fetchPersonContent = async (pageId: string): Promise<ContentData> => {
   const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
   const doc = await docRef.get()
   const personContent = doc.data() || {}
   return {
     portfolio: personContent.portfolio || { contents: [] },
-    story: personContent.story || { contents: [] }
+    story: personContent.story || { contents: [] },
+    openCommunities: personContent.openCommunities || []
   }
 }
 export const updatePersonContent = async (pageId: string, personContent: Content) => {
