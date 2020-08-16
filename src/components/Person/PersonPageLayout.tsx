@@ -73,7 +73,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
     applyTheme(DEFAULT_THEME, themes)
     loadPerson()
     loadContent()
-  }, [location])
+  }, [location, loginUser.editablePage(location.pathname)])
 
   return (
     <>
