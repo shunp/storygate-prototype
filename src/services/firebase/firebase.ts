@@ -10,7 +10,6 @@ let facebookProvider: firebase.auth.FacebookAuthProvider = {}
 if (typeof window !== 'undefined') {
   storage = firebase.storage()
   firestore = firebase.firestore()
-  firestore.settings({ timestampsInSnapshots: true })
   functions = firebase.functions()
   auth = firebase.auth()
   auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
