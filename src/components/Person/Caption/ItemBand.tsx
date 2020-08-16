@@ -1,12 +1,12 @@
 import * as React from 'react'
-import ChatButton from 'src/components/Header/ChatButton'
 import { Widget, addResponseMessage, toggleWidget } from 'react-chat-widget'
 import 'src/styles/chat.css'
+import Chat from 'src/components/Chat'
 
-const ItemBand = ({ loginUser, uid }) => {
+const ItemBand = ({ uid, loginUser }) => {
   return (
     <>
-      <ChatButton from={loginUser.ownerUid} to={uid} />
+      {loginUser.loggedIn ? <Chat loginUser={loginUser} to={uid} /> : ''}
       {/* <button type="button" className="text-white" onClick={() => action()}>
         <FontAwesomeIcon icon={faPaw} size="2x" className="text-white mt-2" />
       </button> */}

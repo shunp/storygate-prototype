@@ -12,7 +12,7 @@ const CaptionMain = ({ loginUser, uid, profileImg, name, introduction }) => {
         <CaptionName name={name} />
         <CaptionIntroduction introduction={introduction} />
       </div>
-      <ItemBand loginUser={loginUser} uid={uid} />
+      <ItemBand uid={uid} loginUser={loginUser} />
     </>
   )
 }
