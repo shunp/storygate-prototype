@@ -16,6 +16,7 @@ interface PersonContentLayoutProps {
   editingCommunity: boolean
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
+  toggleEditingCommunity: () => void
   updateContent: (updatedContent: Content) => void
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
@@ -26,6 +27,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   editingCommunity,
   toggleEditingPortfolio,
   toggleEditingStory,
+  toggleEditingCommunity,
   updateContent
 }) => {
   const size = useWindowSize()
@@ -49,7 +51,16 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         toggleEditingStory={toggleEditingStory}
         update={(story: Story) => updateContent({ ...content, story })}
       />
-      <CommunityTabContent index={3} openTab={openTab} communities={communities} size={size.width} editing={editingCommunity} />
+      <CommunityTabContent
+        index={3}
+        openTab={openTab}
+        communities={content.communities}
+        size={size.width}
+        editing={editingCommunity}
+        openCommunities={content.openCommunities}
+        toggleEditingCommunity={toggleEditingCommunity}
+        update={async (openCommunities: string[]) => updateContent({ ...content, openCommunities })}
+      />
     </PersonContentWrapper>
   )
 }

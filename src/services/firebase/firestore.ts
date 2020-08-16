@@ -225,7 +225,9 @@ export const fetchPersonContent = async (pageId: string): Promise<ContentData> =
 }
 export const updatePersonContent = async (pageId: string, personContent: Content) => {
   const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
-  await docRef.set(personContent, { merge: true }).catch(err => console.error(err))
+  const update = { ...personContent }
+  delete update.communities
+  await docRef.set(update, { merge: true }).catch(err => console.error(err))
 }
 
 export const fetchPoints = async (uid: string) => {
