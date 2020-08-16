@@ -75,7 +75,7 @@ export const StoryLine: React.FC<StoryLineProps> = ({ story, size }) => {
   return (
     <>
       {story.contents.map(p => (
-        <StoryContentComponent content={p} size={size} />
+        <StoryContentComponent key={p.id} content={p} size={size} />
       ))}
       <Text TitleLine={<BallonTitleLine title="Your Story" />} iframeKey="To Be Continued..." text="" size={size} />
     </>
@@ -109,9 +109,9 @@ export const ModifiableStoryLine: React.FC<ModifiableStoryLineProps> = ({ story,
   if (!story?.contents) {
     return <></>
   }
-  return story.contents.map(p => {
+  const StoryLineContents = story.contents.map(p => {
     return (
-      <>
+      <div key={p.id}>
         <EditingButtonSet
           DeleteButton={<DeleteButton onClick={() => deletePost(p.id)} />}
           EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
@@ -136,7 +136,8 @@ export const ModifiableStoryLine: React.FC<ModifiableStoryLineProps> = ({ story,
             </>
           }
         />
-      </>
+      </div>
     )
   })
+  return <>{StoryLineContents}</>
 }

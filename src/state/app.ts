@@ -33,8 +33,8 @@ export const loginAction = (loginUser: LoginUser) => {
     loginUser
   }
 }
-export const logoutAction = () => {
-  AuthService.logout()
+export const logoutAction = async () => {
+  await AuthService.logout()
   return {
     type: SET_LOGIN_USER,
     loginUser: LoginUserModel.guest()

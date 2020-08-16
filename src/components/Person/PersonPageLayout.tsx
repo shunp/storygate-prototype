@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { useLocation } from '@reach/router'
 
 import { State } from 'src/state'
 import { PersonService } from 'src/services/PersonService'
@@ -11,10 +12,18 @@ import { themes, DEFAULT_THEME } from 'src/themes'
 import PersonTabLayout from 'src/components/Person/PersonTabLayout'
 import PersonContentLayout from 'src/components/Person/PersonContentLayout'
 import { Person } from 'src/services/interfaces/Person'
-import { toggleEditingCaptionAction, toggleEditingPortfolioAction, toggleEditingStoryAction, clearEditingStateAction } from 'src/state/app'
+import {
+  toggleEditingCaptionAction,
+  toggleEditingPortfolioAction,
+  toggleEditingStoryAction,
+  clearEditingStateAction,
+  toggleEditingCommunityAction
+} from 'src/state/app'
 import { Content } from 'src/services/interfaces/Content'
+import { LoginUser } from 'src/services/interfaces/Auth'
 
 interface PersonPageState {
+  loginUser: LoginUser
   editingCaption: boolean
   editingPortfolio: boolean
   editingStory: boolean
@@ -24,6 +33,7 @@ interface PersonPageDispatch {
   toggleEditingCaption: () => void
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
+  toggleEditingCommunity: () => void
   clearEditingState: () => void
 }
 interface PersonPageLayoutOwnProps {
@@ -34,6 +44,7 @@ interface PersonPageLayoutOwnProps {
 type PersonPageLayoutProps = PersonPageState & PersonPageDispatch & PersonPageLayoutOwnProps
 const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   pageId,
+  loginUser,
   editingCaption,
   editingPortfolio,
   editingStory,
@@ -41,16 +52,20 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   toggleEditingCaption,
   toggleEditingPortfolio,
   toggleEditingStory,
+  toggleEditingCommunity,
   clearEditingState
 }) => {
   const [openTab, setOpenTab] = React.useState(1)
   const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
   const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
+  const location = useLocation()
   const loadPerson = async () => {
     await PersonService.fetchById(pageId).then(fetchedPerson => setPerson(fetchedPerson))
   }
   const loadContent = async () => {
-    await ContentService.fetchPersonContentById(pageId).then(fetchedContent => setContent(fetchedContent))
+    await ContentService.fetchPersonContentById(pageId, loginUser.editablePage(location.pathname)).then(fetchedContent =>
+      setContent(fetchedContent)
+    )
   }
   const updateCaption = async (updatedPerson: Person, newImg?: Blob) => {
     await PersonService.updateCaption(updatedPerson, newImg)
@@ -68,7 +83,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
     applyTheme(DEFAULT_THEME, themes)
     loadPerson()
     loadContent()
-  }, [pageId])
+  }, [location, loginUser])
 
   return (
     <>
@@ -77,12 +92,12 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
       <PersonContentLayout
         openTab={openTab}
         content={content}
-        communities={person.communities}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}
         editingCommunity={editingCommunity}
         toggleEditingPortfolio={toggleEditingPortfolio}
         toggleEditingStory={toggleEditingStory}
+        toggleEditingCommunity={toggleEditingCommunity}
         updateContent={updateContent}
       />
     </>
@@ -91,6 +106,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
 
 export default connect<PersonPageState, PersonPageDispatch, PersonPageLayoutOwnProps, State>(
   (state, props) => ({
+    loginUser: state.app.loginUser,
     editingCaption: state.app.editingCaption,
     editingPortfolio: state.app.editingPortfolio,
     editingStory: state.app.editingStory,
@@ -107,6 +123,9 @@ export default connect<PersonPageState, PersonPageDispatch, PersonPageLayoutOwnP
     },
     toggleEditingStory: () => {
       dispatch(toggleEditingStoryAction())
+    },
+    toggleEditingCommunity: () => {
+      dispatch(toggleEditingCommunityAction())
     },
     clearEditingState: () => {
       dispatch(clearEditingStateAction())

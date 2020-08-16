@@ -1,4 +1,3 @@
-import { Group } from 'src/services/interfaces/Group'
 import { Community } from 'src/services/interfaces/Community'
 import { Person } from 'src/services/interfaces/Person'
 import { CommunityCaptionModel } from './CommunityCaptionModel'
@@ -11,22 +10,19 @@ export class CommunityModel extends CommunityCaptionModel implements Community {
     readonly name: string,
     readonly introduction: string,
     readonly backgroundImg: string,
-    readonly members: Person[],
-    readonly groups: GroupReference[]
+    readonly groups: GroupReference[],
+    readonly numOfMembers: number,
+    readonly members: Person[]
   ) {
-    super(pageId, name, introduction, backgroundImg)
+    super(pageId, name, introduction, backgroundImg, numOfMembers)
   }
 
   static empty(): Community {
-    return new CommunityModel('', '', '', '', [], [])
+    return new CommunityModel('', '', '', '', [], 0, [])
   }
 
   static fromCaption(caption: CommunityCaptionData, members: Person[] = [], groups: GroupReference[] = []): Community {
-    const { pageId, name, introduction, backgroundImg } = caption
-    return new CommunityModel(pageId, name, introduction, backgroundImg, members, groups)
-  }
-
-  get numOfMembers(): number {
-    return this.members.length
+    const { pageId, name, introduction, backgroundImg, numOfMembers } = caption
+    return new CommunityModel(pageId, name, introduction, backgroundImg, groups, numOfMembers, members)
   }
 }

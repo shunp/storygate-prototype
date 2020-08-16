@@ -3,7 +3,6 @@ import { useWindowSize } from 'src/utils/useWindowSize'
 import { Content } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
-import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import PortfolioTabContent from './Portfolio/PortfolioTabContent'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
@@ -12,23 +11,23 @@ import PersonContentWrapper from './PersonContentWrapper'
 interface PersonContentLayoutProps {
   openTab: number
   content: Content
-  communities: CommunityReference[]
   editingPortfolio: boolean
   editingStory: boolean
   editingCommunity: boolean
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
+  toggleEditingCommunity: () => void
   updateContent: (updatedContent: Content) => void
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
   content,
-  communities,
   editingPortfolio,
   editingStory,
   editingCommunity,
   toggleEditingPortfolio,
   toggleEditingStory,
+  toggleEditingCommunity,
   updateContent
 }) => {
   const size = useWindowSize()
@@ -52,7 +51,16 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         toggleEditingStory={toggleEditingStory}
         update={(story: Story) => updateContent({ ...content, story })}
       />
-      <CommunityTabContent index={3} openTab={openTab} communities={communities} size={size.width} editing={editingCommunity} />
+      <CommunityTabContent
+        index={3}
+        openTab={openTab}
+        communities={content.communities}
+        size={size.width}
+        editing={editingCommunity}
+        openCommunities={content.openCommunities}
+        toggleEditingCommunity={toggleEditingCommunity}
+        update={async (openCommunities: string[]) => updateContent({ ...content, openCommunities })}
+      />
     </PersonContentWrapper>
   )
 }

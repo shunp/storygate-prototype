@@ -1,3 +1,5 @@
+import { Story } from 'src/services/interfaces/Story'
+import { Portfolio } from 'src/services/interfaces/Portfolio'
 import firebase from 'gatsby-plugin-firebase'
 import { Person } from 'src/services/interfaces/Person'
 import { equalsDay } from 'src/utils/date'
@@ -13,13 +15,22 @@ export interface PersonCaption {
   location: string
   img: string
 }
+export interface ContentData {
+  portfolio: Portfolio
+  story: Story
+  openCommunities: string[]
+}
 export interface CommunityCaptionData {
   pageId: string
   name: string
   introduction: string
   backgroundImg: string
-  members: string[]
   groups: string[]
+  numOfMembers: number
+}
+export interface CommunityMembersData {
+  communityId: string
+  members: string[]
 }
 export interface GroupCaptionData {
   pageId: string
@@ -86,13 +97,22 @@ export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCa
     name: communityCaption.name || '',
     introduction: communityCaption.introduction || '',
     backgroundImg: communityCaption.backgroundImg || '',
-    members: communityCaption.members || [],
-    groups: communityCaption.groups || []
+    groups: communityCaption.groups || [],
+    numOfMembers: communityCaption.numOfMembers || 0
   }
 }
-export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
+export const fetchCommunityMembers = async (communityId: string): Promise<string[]> => {
+  const docRef = firestore.collection('v2/proto/communityMembers').doc(communityId)
+  const doc = await docRef.get()
+  const communityMembers = doc.data() || {}
+  return communityMembers.members || []
+}
+export const queryCommunityCaptionByIds = async (communityIds: string[] = []): Promise<CommunityCaptionData[]> => {
+  if (!communityIds.length) {
+    return []
+  }
   const collectionRef = firestore.collection('v2/proto/communityCaptions')
-  const communities = await collectionRef.where('members', 'array-contains', personId).get()
+  const communities = await collectionRef.where(firebase.firestore.FieldPath.documentId(), 'in', communityIds).get()
   const communityCaptions: CommunityCaptionData[] = []
   communities.forEach(community => {
     const communityCaption = community.data()
@@ -101,11 +121,20 @@ export const queryCommunityCaptionByPerson = async (personId: string): Promise<C
       name: communityCaption.name || '',
       introduction: communityCaption.introduction || '',
       backgroundImg: communityCaption.backgroundImg || '',
-      members: communityCaption.members || [],
-      groups: communityCaption.groups || []
+      groups: communityCaption.groups || [],
+      numOfMembers: communityCaption.numOfMembers || 0
     })
   })
   return communityCaptions
+}
+export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
+  const docs = await firestore
+    .collection('v2/proto/communityMembers')
+    .where('members', 'array-contains', personId)
+    .get()
+  const communityIds: string[] = []
+  docs.forEach(doc => communityIds.push(doc.id))
+  return queryCommunityCaptionByIds(communityIds)
 }
 export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string, introduction: string) => {
   const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
@@ -184,18 +213,21 @@ export const updatePerson = async (person: Person) => {
   await docRef.update(update).catch(err => console.error(err))
 }
 
-export const fetchPersonContent = async (pageId: string): Promise<Content> => {
+export const fetchPersonContent = async (pageId: string): Promise<ContentData> => {
   const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
   const doc = await docRef.get()
   const personContent = doc.data() || {}
   return {
     portfolio: personContent.portfolio || { contents: [] },
-    story: personContent.story || { contents: [] }
+    story: personContent.story || { contents: [] },
+    openCommunities: personContent.openCommunities || []
   }
 }
 export const updatePersonContent = async (pageId: string, personContent: Content) => {
   const docRef = firestore.collection('v2/proto/personContents').doc(pageId)
-  await docRef.set(personContent, { merge: true }).catch(err => console.error(err))
+  const update = { ...personContent }
+  delete update.communities
+  await docRef.set(update, { merge: true }).catch(err => console.error(err))
 }
 
 export const fetchPoints = async (uid: string) => {

@@ -45,17 +45,17 @@ interface HeaderDispatch {
 
 type HeaderProps = HeaderStates & HeaderDispatch
 const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
+  const location = useLocation()
   const [icon, setIcon] = React.useState('')
   const [editable, setEditable] = React.useState(false)
-  const location = useLocation()
   React.useEffect(() => {
     setEditable(loginUser.editablePage(location.pathname))
-  }, [location])
-
+  }, [location, loginUser])
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
     if (storedUser.loggedIn) {
       login(storedUser)
+      return <></>
     }
   }
   if (loginUser.loggedIn) {
@@ -79,6 +79,6 @@ export default connect<HeaderStates, HeaderDispatch, {}, State>(
   }),
   dispatch => ({
     login: (loginUser: LoginUser) => dispatch(loginAction(loginUser)),
-    logout: () => dispatch(logoutAction())
+    logout: () => logoutAction().then(action => dispatch(action))
   })
 )(HeaderBase)

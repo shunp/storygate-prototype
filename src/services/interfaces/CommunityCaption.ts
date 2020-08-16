@@ -3,10 +3,9 @@ export interface CommunityCaption {
   readonly name: string
   readonly introduction: string
   readonly backgroundImg: string
+  readonly numOfMembers: number
 }
 
 export type CommunityReference = CommunityCaption & {
-  readonly members: string[]
   readonly groups: string[]
-  readonly numOfMembers: number
 }

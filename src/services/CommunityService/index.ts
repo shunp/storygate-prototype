@@ -5,7 +5,8 @@ import {
   fetchFromGroupRef,
   fetchFromMemberRef,
   createNewGroupInCommunity,
-  updateGroup
+  updateGroup,
+  fetchCommunityMembers
 } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
 import { uploadGroupImg } from '../firebase/storage'
@@ -20,7 +21,8 @@ class Service {
 
   fetchById = async (id: string): Promise<Community> => {
     const communityCaption = await fetchCommunityCaption(id)
-    const members = await fetchFromMemberRef(communityCaption.members)
+    const communityMembersRef = await fetchCommunityMembers(id)
+    const members = await fetchFromMemberRef(communityMembersRef)
     const groups = await fetchFromGroupRef(communityCaption.groups)
     return CommunityModel.fromCaption(
       communityCaption,
