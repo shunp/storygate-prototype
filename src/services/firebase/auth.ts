@@ -22,6 +22,6 @@ export const signUpWithFacebook = async () => {
   return result
 }
 
-export const signOut = () => auth.signOut()
+export const signOut = async () => auth.signOut()
 
 export const currentUser = () => auth.currentUser

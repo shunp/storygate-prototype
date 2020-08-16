@@ -21,7 +21,11 @@ const LoginUserIcon: React.FC<LoginUserIconProps> = ({ pageId, icon }) => {
   `)
   return (
     <Link to={`/persons/${pageId}`}>
-      {icon ? <img src={icon} className={className} alt="" /> : <Img fluid={data.guest.childImageSharp.fluid} className={className} />}
+      {pageId && icon ? (
+        <img src={icon} className={className} alt="" />
+      ) : (
+        <Img fluid={data.guest.childImageSharp.fluid} className={className} />
+      )}
     </Link>
   )
 }

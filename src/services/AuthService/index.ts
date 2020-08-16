@@ -25,8 +25,8 @@ class Service {
     }
   }
 
-  logout = (): LoginUser => {
-    signOut()
+  logout = async (): Promise<LoginUser> => {
+    await signOut()
     return LoginUserModel.guest()
   }
 }
