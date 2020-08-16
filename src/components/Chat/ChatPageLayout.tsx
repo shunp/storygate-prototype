@@ -26,13 +26,19 @@ const ChatPageLayout = ({ path, pageId }) => {
     console.log(`New message incoming! ${newMessage}`)
     // Now send the message throught the backend API
   }
+  const handleQuickButtonClicked = args => {
+    console.log(args)
+  }
   return (
     <>
+      <div>x</div>
       <Widget
         handleNewUserMessage={handleNewUserMessage}
+        handleQuickButtonClicked={handleQuickButtonClicked}
         // profileAvatar={logo}
         title="Chat Box"
         subtitle="マナーを守ったメッセージを心がけましょう。"
+        showtime
       />
     </>
   )

@@ -1,13 +1,125 @@
-:root {
+ :root {
   --primary-color: rgba(13, 110, 139, 0.75);
   --overlay-color: transparent linear-gradient(0deg, rgba(199, 43, 185, 0.85) 0%, rgba(77, 55, 237, 0.85) 100%) 0% 0% no-repeat padding-box;
-  --menu-speed: 0.75s;
-}
-.rcw-conversation-container > .rcw-header, .rcw-close-button {
-  background: var(--overlay-color);
+  --chat-box-speed: 0.75s;
 }
 
-.rcw-message > .rcw-response {
-  background-color: black;
-  color: white;
+.chat-box-wrap {
+  position: fixed;
+  top:0;
+  right: 0;
+  z-index: 30;
+}
+
+.chat-box-wrap .toggler {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 30;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+}
+
+/* Hamburger Line */
+.chat-box-wrap .hamburger > div {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+/* Hamburger Lines - Top & Bottom */
+.chat-box-wrap .hamburger > div::before,
+.chat-box-wrap .hamburger > div::after {
+  content: '';
+  position: absolute;
+  z-index: 30;
+  top: -10px;
+  width: 100%;
+  height: 2px;
+  background: inherit;
+}
+
+/* Moves Line Down */
+.chat-box-wrap .hamburger > div::after {
+  top: 10px;
+}
+
+/* Toggler Animation */
+.chat-box-wrap .toggler:checked + .hamburger > div {
+  transform: rotate(135deg);
+  visibility: visible;
+}
+
+/* Turns Lines Into X */
+.chat-box-wrap .toggler:checked + .hamburger > div:before,
+.chat-box-wrap .toggler:checked + .hamburger > div:after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+/* Rotate On Hover When Checked */
+.chat-box-wrap .toggler:checked:hover + .hamburger > div {
+  transform: rotate(225deg);
+}
+
+/* Show Menu */
+.chat-box-wrap .toggler:checked ~ .chat-box {
+  visibility: visible;
+}
+
+.chat-box-wrap .toggler:checked ~ .chat-box > div {
+  transform: scale(1);
+  transition-duration: var(--chat-box-speed);
+}
+
+.chat-box-wrap .toggler:checked ~ .chat-box > div > div {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.chat-box-wrap .chat-box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-box-wrap .chat-box > div {
+  background: var(--overlay-color);
+  border-radius: 50%;
+  width: 300vw;
+  height: 300vw;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+  transition: all 0.4s ease;
+}
+
+.chat-box-wrap .chat-box > div > div {
+  text-align: center;
+  max-width: 90vw;
+  max-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  overflow-y: auto;
+}
+.chat-box-wrap .chat-box > div > div::-webkit-scrollbar {
+  display: none
 }

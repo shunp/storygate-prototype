@@ -87,7 +87,13 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
 
   return (
     <>
-      <Caption data={person} editingCaption={editingCaption} toggleEditingCaption={toggleEditingCaption} updateCaption={updateCaption} />
+      <Caption
+        loginUser={loginUser}
+        data={person}
+        editingCaption={editingCaption}
+        toggleEditingCaption={toggleEditingCaption}
+        updateCaption={updateCaption}
+      />
       <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
       <PersonContentLayout
         openTab={openTab}

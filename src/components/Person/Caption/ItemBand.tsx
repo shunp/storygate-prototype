@@ -1,13 +1,16 @@
 import * as React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import ChatButton from 'src/components/Header/ChatButton'
+import { Widget, addResponseMessage, toggleWidget } from 'react-chat-widget'
+import 'src/styles/chat.css'
 
-const ItemBand = ({ uid }) => {
+const ItemBand = ({ loginUser, uid }) => {
   return (
-    <ChatButton pageId={uid}>
-      <FontAwesomeIcon icon={faPaw} size="2x" className="text-white mt-2" />
-    </ChatButton>
+    <>
+      <ChatButton from={loginUser.ownerUid} to={uid} />
+      {/* <button type="button" className="text-white" onClick={() => action()}>
+        <FontAwesomeIcon icon={faPaw} size="2x" className="text-white mt-2" />
+      </button> */}
+    </>
   )
 }
 
