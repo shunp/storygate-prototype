@@ -27,6 +27,6 @@ export const CommunityList: React.FC<CommunityListProps> = ({ communities, size 
   if (!communities) {
     return <></>
   }
-  const CommuntyComponents = communities.map(d => <CommunityPanel pageId={d.pageId} name={d.name} num={d.numOfMembers} />)
+  const CommuntyComponents = communities.map(d => <CommunityPanel key={d.pageId} pageId={d.pageId} name={d.name} num={d.numOfMembers} />)
   return <>{CommuntyComponents}</>
 }

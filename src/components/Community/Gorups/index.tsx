@@ -27,7 +27,7 @@ interface GroupsProps {
 }
 export const Groups: React.FC<GroupsProps> = ({ groups, createNewGroup }) => {
   const GroupComponents = groups.map(group => {
-    return <GroupView name={group.name} pageId={group.pageId} num={group.numOfMembers} img={group.backgroundImg} />
+    return <GroupView key={group.pageId} name={group.name} pageId={group.pageId} num={group.numOfMembers} img={group.backgroundImg} />
   })
   return (
     <>

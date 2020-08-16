@@ -59,7 +59,8 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({ portfolio, size })
       </div>
     )
   }
-  return portfolio.contents.map(p => <PortfolioContentComponent content={p} size={size} />)
+  const PortfolioContents = portfolio.contents.map(p => <PortfolioContentComponent key={p.id} content={p} size={size} />)
+  return <>{PortfolioContents}</>
 }
 
 export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = ({ portfolio, size, update }) => {
@@ -89,9 +90,9 @@ export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = (
   if (!portfolio?.contents) {
     return <></>
   }
-  return portfolio.contents.map(p => {
+  const PortfolioContents = portfolio.contents.map(p => {
     return (
-      <>
+      <div key={p.id}>
         <EditingButtonSet
           DeleteButton={<DeleteButton onClick={() => deletePost(p.id)} />}
           EditingButton={<EditingButton onClick={() => editPost(p.id)} />}
@@ -116,7 +117,8 @@ export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = (
             </>
           }
         />
-      </>
+      </div>
     )
   })
+  return <>{PortfolioContents} </>
 }

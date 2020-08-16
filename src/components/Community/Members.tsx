@@ -35,7 +35,7 @@ export const Members: React.FC<MembersProps> = ({ members, filterWords }) => {
       return finalResult
     })
     .map(member => {
-      return <Member name={member.name} pageId={member.pageId} img={member.img} />
+      return <Member key={member.pageId} name={member.name} pageId={member.pageId} img={member.img} />
     })
   return <>{MemberComponents}</>
 }
