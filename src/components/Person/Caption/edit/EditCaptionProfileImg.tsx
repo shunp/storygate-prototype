@@ -70,8 +70,8 @@ const EditCaptionProfileImg = ({ profileImg, setProfileImg }) => {
   if (profileImg) {
     return (
       <>
-        <img src={profileImg} className="w-24 h-24 rounded-full bg-white border-4 border-primary" alt="" />
-        <div className="flex flex-col">
+        <div className="flex items-center flex-col">
+          <img src={profileImg} className="w-24 h-24 rounded-full bg-white border-4 border-primary" alt="" />
           <ReactCrop src={upImg} onImageLoaded={onLoad} crop={crop} onChange={setCrop} onComplete={makeClientCrop} />
           <div className="flex items-center justify-center bg-grey-lighter ">
             <label className="p-1 w-32 flex flex-col items-center border-2 bordeer-gray-300 focus:outline-none bg-white rounded-lg">
