@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 import { Montserrat } from './SGText'
+import 'src/styles/portfolio-title.css'
 
 interface TitleLineProps {
   title: string
@@ -11,8 +12,23 @@ interface TitleLineProps {
 export const PortfolioTitle: React.FC<TitleLineProps> = ({ title }) => {
   return (
     <div id="line-title" className="flex flex-col w-full">
-      <div className="bg-white shadow-xl">
-        <Montserrat className="font-semibold text-white bg-gradient-b-blue-pink-purple text-center py-2 text-lg">{title}</Montserrat>
+      <div id="logo">
+        <div className="bar1" />
+        <div className="bar2" />
+        <div className="bar3" />
+        <div className="bar4" />
+        <div className="bar5" />
+        <div className="logo-text-background" />
+        <div className="logo-text">
+          <Montserrat
+            className="relative font-bold text-purple-c3 text-xl tracking-tight"
+            css={css`
+              left: -50%;
+            `}
+          >
+            {title}
+          </Montserrat>
+        </div>
       </div>
     </div>
   )
