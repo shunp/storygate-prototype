@@ -19,16 +19,17 @@ export const PortfolioTitle: React.FC<TitleLineProps> = ({ title }) => {
         <div className="bar4" />
         <div className="bar5" />
         <div className="logo-text-background" />
-        <div className="logo-text">
-          <Montserrat
-            className="relative font-bold text-purple-c3 text-xl tracking-tight"
-            css={css`
-              left: -50%;
-            `}
-          >
-            {title}
-          </Montserrat>
-        </div>
+      </div>
+      <div className="w-full flex justify-center pl-8">
+        <Montserrat
+          className="relative font-bold text-purple-c3 text-xl tracking-tight"
+          css={css`
+            top: 50%;
+            bottom: -60px;
+          `}
+        >
+          {title}
+        </Montserrat>
       </div>
     </div>
   )

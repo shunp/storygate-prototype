@@ -1,5 +1,4 @@
 #logo {
-  width: 450px;
   height: 150px;
   cursor: pointer;
   position: absolute;
@@ -64,12 +63,4 @@
   width: 270px;
   height: 55px;
   transform: skewX(-30deg);
-}
-
-#logo .logo-text {
-  position: absolute;
-  left: 50%;
-  bottom: 60px;
-  opacity: 2;
-  white-space: nowrap;
 }
