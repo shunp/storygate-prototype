@@ -128,7 +128,8 @@ module.exports = {
         800: '#553c9a',
         900: '#44337a',
         c1: '#5442D6',
-        c2: '#AF23C8'
+        c2: '#AF23C8',
+        c3: '#8C35E8'
       },
       pink: {
         100: '#fff5f7',
@@ -763,8 +764,8 @@ module.exports = {
   },
   variants: {
     // background
-    backgroundImage: ['responsive'], // this is for the "bg-none" utility
-    linearGradients: ['responsive'],
+    backgroundImage: ['responsive', 'hover', 'focus'], // this is for the "bg-none" utility
+    linearGradients: ['responsive', 'hover', 'focus'],
     radialGradients: ['responsive'],
     conicGradients: ['responsive'],
     repeatingLinearGradients: ['responsive'],
@@ -869,5 +870,5 @@ module.exports = {
     transitionDelay: ['responsive']
   },
   corePlugins: {},
-  plugins: [require('tailwindcss-gradients')]
+  plugins: [require('tailwindcss-gradients'), require('@tailwindcss/ui')]
 }

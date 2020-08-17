@@ -4,7 +4,7 @@ import ItemBand from './ItemBand'
 import CaptionName from './CaptionName'
 import CaptionIntroduction from './CaptionIntroduction'
 
-const CaptionMain = ({ profileImg, name, introduction }) => {
+const CaptionMain = ({ loginUser, uid, profileImg, name, introduction }) => {
   return (
     <>
       <CaptionProfileImg profileImg={profileImg} />
@@ -12,7 +12,7 @@ const CaptionMain = ({ profileImg, name, introduction }) => {
         <CaptionName name={name} />
         <CaptionIntroduction introduction={introduction} />
       </div>
-      <ItemBand />
+      <ItemBand uid={uid} loginUser={loginUser} />
     </>
   )
 }

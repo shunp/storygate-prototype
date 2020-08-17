@@ -4,6 +4,9 @@ import { PortfolioTitle, ModifiableTitleLine } from 'src/components/TitleLine'
 import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
 import { ModifiableContentLocation, ContentLocation } from 'src/components/ContentLocation'
 
+const ContentMain = ({ children }) => {
+  return <div className="flex justify-center overflow-hidden mt-32">{children}</div>
+}
 export interface PortfolioContentWrapperProps<T = {}> {
   content: PortfolioContent<T>
   editingObj?: PortfolioContent<T> | {}
@@ -14,7 +17,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     return (
       <>
         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
-        <div className="flex justify-center overflow-hidden">{children}</div>
+        <ContentMain>{children}</ContentMain>
         <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
       </>
     )
@@ -22,7 +25,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
   return (
     <>
       <PortfolioTitle title={content.title} />
-      <div className="flex justify-center">{children}</div>
+      <ContentMain>{children}</ContentMain>
       <ContentExplanation text={content.text} />
     </>
   )
@@ -37,7 +40,7 @@ export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrappe
     return (
       <>
         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
-        <div className="flex justify-center">{children}</div>
+        <ContentMain>{children}</ContentMain>
         <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
         <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
       </>
@@ -46,7 +49,7 @@ export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrappe
   return (
     <>
       <PortfolioTitle title={content.title} />
-      <div className="flex justify-center">{children}</div>
+      <ContentMain>{children}</ContentMain>
       <ContentExplanation text={content.text} />
       <ContentLocation location={content.location} />
     </>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { css } from '@emotion/core'
 import 'src/styles/top-menu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faMapMarkerAlt, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'gatsby'
 import {
   toggleEditingCaptionAction,
@@ -11,60 +11,26 @@ import {
   toggleEditingPortfolioAction,
   toggleEditingCommunityAction
 } from 'src/state/app'
+// TODO: import { CSSTransition } from 'react-transition-group'
+import { Montserrat } from '../SGText'
 
-const MenuLinkWrapper = ({ title, to, icon }) => {
+const MenuLinkWrapper = ({ title, to }) => {
   return (
-    <div className="flex justify-center w-full bg-gray-600 p-2 mt-4 rounded-lg">
+    <div className="m-2 w-full px-10">
       <Link to={`/${to}`}>
-        <div
-          className="text-white bg-gray-600 text-xl"
-          css={css`
-            font-family: 'Lato', sans-serif;
-          `}
-        >
-          {icon}
-          {title}
-        </div>
+        <Montserrat className="text-left text-white font-bold text-2xl">{title}</Montserrat>
       </Link>
     </div>
   )
 }
 
-const MenuButtonWrapper = ({ title, icon, onClick }) => {
+const MenuButtonWrapper = ({ title, onClick }) => {
   return (
-    <div className="flex justify-center w-full bg-gray-600 p-2 mt-4 rounded-lg">
+    <div className="m-2">
       <button type="button" className="focus:outline-none" onClick={onClick}>
-        <div
-          className="text-white bg-gray-600 text-xl"
-          css={css`
-            font-family: 'Lato', sans-serif;
-          `}
-        >
-          {icon}
-          {title}
-        </div>
+        <Montserrat className="text-left text-purple-c2 bg-white font-bold text-2xl pl-2 w-48">{title}</Montserrat>
       </button>
     </div>
-  )
-}
-
-const MapMenuButton = () => {
-  return (
-    <>
-      <MenuLinkWrapper title="フレンドマップ" to="map" icon={<FontAwesomeIcon icon={faMapMarkerAlt} size="sm" className="mr-2" />} />
-      <div className="text-white text-xs">
-        グループ内の友達を地図上から検索できます。近くにある店舗や待ち合わせ場所を決める際に便利です。
-      </div>
-    </>
-  )
-}
-
-const SearchMenuButton = () => {
-  return (
-    <>
-      <MenuLinkWrapper title="キーワード検索" to="list" icon={<FontAwesomeIcon icon={faSearch} size="sm" className="mr-2" />} />
-      <div className="text-white text-xs">キーワードで友達を検索できます。仕事の依頼や共通の趣味を持つ人を見つけることができます。</div>
-    </>
   )
 }
 
@@ -77,14 +43,7 @@ const EditCaptionButton = ({ editCaption }) => {
   }
   return (
     <>
-      <MenuButtonWrapper
-        title="プロフィール編集"
-        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-        onClick={startEditingCaption}
-      />
-      <div className="text-white text-xs">
-        自分のプロフィールを変更できます。検索でヒットしてもらいやすいようなわかりやすいプロフィールを心がけましょう。
-      </div>
+      <MenuButtonWrapper title="Profile" onClick={startEditingCaption} />
     </>
   )
 }
@@ -100,14 +59,7 @@ const EditPortfolioButton = ({ editPortfolio }) => {
   }
   return (
     <>
-      <MenuButtonWrapper
-        title="ポートフォリオ編集"
-        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-        onClick={startEditingPortfolio}
-      />
-      <div className="text-white text-xs">
-        自分のポートフォリオを修正できます。最近の活動内容や自身の強みを記載してGiveできる項目をまとめてみましょう。
-      </div>
+      <MenuButtonWrapper title="Portfolio" onClick={startEditingPortfolio} />
     </>
   )
 }
@@ -121,14 +73,7 @@ const EditStoryButton = ({ editStory }) => {
   }
   return (
     <>
-      <MenuButtonWrapper
-        title="ストーリー編集"
-        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-        onClick={startEditingStory}
-      />
-      <div className="text-white text-xs">
-        自分のストーリーを修正できます。苦い経験や達成した出来事を過去から順に綴ったあなたの物語は、きっと共感者や応援してくれる仲間を呼ぶことに繋がるでしょう。
-      </div>
+      <MenuButtonWrapper title="Story" onClick={startEditingStory} />
     </>
   )
 }
@@ -142,17 +87,14 @@ const EditCommunityButton = ({ editCommunity }) => {
   }
   return (
     <>
-      <MenuButtonWrapper
-        title="コミュニティ編集"
-        icon={<FontAwesomeIcon icon={faEdit} size="sm" className="mr-2" />}
-        onClick={startEditingCommunity}
-      />
-      <div className="text-white text-xs">自分のコミュニティを修正できます。所属先を増やして新たな仲間を見つけましょう。</div>
+      <MenuButtonWrapper title="Community" onClick={startEditingCommunity} />
     </>
   )
 }
 
 const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommunity }) => {
+  const [editingMode, setEditingmode] = React.useState<boolean>(false)
+
   return (
     <div className="menu-wrap">
       <input id="top-menu-toggle" type="checkbox" className="toggler" />
@@ -161,27 +103,31 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
       </div>
       <div className="menu">
         <div className="flex-col">
-          <div
-            className="text-white font-bold text-3xl"
-            css={css`
-              font-family: 'Lato', sans-serif;
-            `}
-          >
-            MENU
+          <MenuLinkWrapper title="Map" to="map" />
+          <div className="relative m-2 w-full px-8">
+            <button
+              type="button"
+              className="float-left w-48 pl-2 bg-transparent focus:outline-none focus:bg-gradient-t-blue-pink-purple border border-none hover:border-blue-500 "
+              onClick={() => setEditingmode(!editingMode)}
+            >
+              <Montserrat className="text-left text-white font-bold text-2xl">Edit</Montserrat>
+            </button>
+
+            {editingMode && (
+              <div className="right-0 mt-2 py-2 w-48 rounded-lg shadow-xl text-left">
+                <EditCaptionButton editCaption={editCaption} />
+                <EditPortfolioButton editPortfolio={editPortfolio} />
+                <EditStoryButton editStory={editStory} />
+                <EditCommunityButton editCommunity={editCommunity} />
+              </div>
+            )}
           </div>
-          <MapMenuButton />
-          <SearchMenuButton />
-          <EditCaptionButton editCaption={editCaption} />
-          <EditPortfolioButton editPortfolio={editPortfolio} />
-          <EditStoryButton editStory={editStory} />
-          <EditCommunityButton editCommunity={editCommunity} />
-          <div
-            className="text-sm text-gray-300 mt-6 p-2 border border-gray-300 rounded"
-            onClick={logout}
-            onKeyPress={logout}
-            role="button"
-            tabIndex={0}
-          >
+          <div className="mt-20" />
+
+          <MenuLinkWrapper title="About" to="about" />
+          <MenuLinkWrapper title="Company" to="company" />
+          <MenuLinkWrapper title="FAQ" to="faq" />
+          <div className="text-sm text-gray-300 mt-10 p-2" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1" />
             Logout
           </div>
