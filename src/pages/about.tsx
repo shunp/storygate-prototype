@@ -2,10 +2,12 @@ import * as React from 'react'
 import { Montserrat } from 'src/components/SGText'
 import { css } from '@emotion/core'
 import PageRoot from 'src/components/Root/PageRoot'
+import Header from 'src/components/Header/index'
 
 const Recruit = () => {
   return (
     <PageRoot>
+      <Header />
       <div
         className="absolute w-full"
         css={css`
@@ -13,7 +15,7 @@ const Recruit = () => {
           height: 100%;
         `}
       >
-        <div className="flex justify-center items-center mt-10 mb-10">
+        <div className="flex justify-center items-center mt-16 mb-10">
           <Montserrat className="text-white text-3xl font-bold">StoryGateとは？</Montserrat>
         </div>
         <div className="flex justify-center items-center mx-5">
