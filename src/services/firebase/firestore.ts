@@ -57,6 +57,7 @@ export interface ChatRoomData {
   id: string
   members: string[]
   readMarker: ReadMarkerData
+  latestMessage?: MessageData
 }
 export interface MessageData {
   sequenceId: string
@@ -287,7 +288,8 @@ export const fetchChatRooms = async (uid: string): Promise<ChatRoomData[]> => {
     return {
       id: doc.id,
       members: chatRoom.members,
-      readMarker: chatRoom.readMarker
+      readMarker: chatRoom.readMarker,
+      latestMessage: chatRoom.latestMessage
     }
   })
 }
@@ -300,7 +302,8 @@ export const fetchChatRoomById = async (id: string): Promise<ChatRoomData> => {
   return {
     id: doc.id || '',
     members: chatRoom.members || [],
-    readMarker: chatRoom.readMarker || {}
+    readMarker: chatRoom.readMarker || {},
+    latestMessage: chatRoom.latestMessage
   }
 }
 export const fetchChatMessages = async (id: string, sequenceFrom: number, limit: number, offset: number): Promise<MessageData[]> => {
@@ -332,18 +335,37 @@ const fetchLatestMessageSequence = async (roomId: string) => {
   return +docsData.docs[0].data().sequenceId
 }
 
-export const sendMessage = async (uid: string, roomId: string, message: string) => {
-  const latestSequence = await fetchLatestMessageSequence(roomId)
-  const sequenceId = toSequenceString(latestSequence + 1)
-  await firestore
-    .collection(`v2/proto/chatRooms/${roomId}/messages`)
-    .doc(sequenceId)
-    .set({
+export const sendMessage = async (uid: string, roomId: string, message: string): Promise<void> => {
+  const roomDocRef = firestore.collection('v2/proto/chatRooms').doc(roomId)
+  return firestore.runTransaction(async tx => {
+    const roomDoc = await tx.get(roomDocRef)
+    if (!roomDoc.exists) {
+      tx.set(roomDocRef, {
+        // FIXME
+        members: roomId.split('_'),
+        latestMessage: {}
+      })
+    }
+    const sequenceId = toSequenceString(+(roomDoc.data()?.latestMessage?.sequenceId || 0) + 1)
+    const messageDocRef = firestore.collection(`v2/proto/chatRooms/${roomId}/messages`).doc(sequenceId)
+    const messageData = {
       sequenceId,
       uid,
       message,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
+    }
+    tx.set(messageDocRef, messageData)
+    tx.set(
+      roomDocRef,
+      {
+        latestMessage: messageData,
+        readMarkers: {
+          [uid]: sequenceId
+        }
+      },
+      { merge: true }
+    )
+  })
 }
 
 export const updateReadMarker = async (uid: string, roomId: string, sequenceId: string) => {
