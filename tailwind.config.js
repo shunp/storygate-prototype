@@ -142,6 +142,12 @@ module.exports = {
         800: '#97266d',
         900: '#702459',
         c1: '#CC2CB7'
+      },
+      social: {
+        facebook: '#3B5998',
+        linkedin: '#0E76A8',
+        note: '#41C9B3',
+        twitter: '#00ACEE'
       }
     },
     // border gradient doesn't work
@@ -169,6 +175,7 @@ module.exports = {
       'gray900-secondary-gray900': ['#1a202c', 'var(--color-secondary)', '#1a202c 90%'],
       'secondary-gray500-secondary': ['var(--color-secondary) 10%', '#a0aec0', 'var(--color-secondary) 90%'],
       'blue-pink-purple': ['#5442D6', '#9622D2', '#CC2CB7'],
+      instagram: ['#FFDC80', '#F77737', '#FD1D1D', '#C13584', '#833AB4', '#405DE6'],
       'blue-pink': ['#5442D6 50%', '#9622D2'],
       'red-blue': ['#f00', '#00f'],
       'red-green-blue': ['#f00', '#0f0', '#00f'],
@@ -310,6 +317,7 @@ module.exports = {
       default: '0.25rem',
       md: '0.375rem',
       lg: '0.5rem',
+      '2xl': '0.75rem',
       full: '9999px'
     },
     borderWidth: {
