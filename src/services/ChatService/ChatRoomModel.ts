@@ -2,7 +2,7 @@ import { Message, ReadMarker, ChatRoom } from 'src/services/interfaces/Chat'
 import { ChatRoomData } from 'src/services/firebase/firestore'
 
 export class ChatRoomModel implements ChatRoom {
-  constructor(readonly id: string, readonly members: string[], readonly readMarker: ReadMarker, private _messages: Message[] = []) {}
+  constructor(readonly id: string, readonly readMarker: ReadMarker, private _messages: Message[] = []) {}
 
   get oldestSequence() {
     if (!this.messages.length) {
@@ -19,8 +19,8 @@ export class ChatRoomModel implements ChatRoom {
   }
 
   static fromData = (data: ChatRoomData) => {
-    const { id, members, readMarker } = data
-    return new ChatRoomModel(id, members, readMarker)
+    const { id, readMarker } = data
+    return new ChatRoomModel(id, readMarker)
   }
 
   get messages() {

@@ -6,6 +6,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Group } from 'src/services/interfaces/Group'
 import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
 import { Link } from 'gatsby'
+import { LoginUser } from 'src/services/interfaces/Auth'
 import GroupBackground from './GroupBackground'
 import GroupCaption from './GroupCaption'
 import SearchBar from '../SearchBar'
@@ -13,6 +14,7 @@ import { BasicTitleLine } from '../TitleLine'
 import { Members } from './Members'
 import CommunityBackground from '../Community/CommunityBackground'
 import CommunityCaption from '../Community/CommunityCaption'
+import { ChatGroup } from '../Chat'
 
 interface JoinGroupButtonProps {
   joinGroup: () => Promise<void>
@@ -36,12 +38,10 @@ const JoinGroupButton: React.FC<JoinGroupButtonProps> = ({ loggedIn, joined, joi
 
 interface GroupBaseProps {
   group: Group
-  community?: CommunityReference
-  loggedIn: boolean
-  joined: boolean
+  loginUser: LoginUser
   joinGroup: () => Promise<void>
 }
-const GroupBase: React.FC<GroupBaseProps> = ({ group, community, loggedIn, joined, joinGroup }) => {
+const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -58,12 +58,16 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, community, loggedIn, joine
     setFilterWords(words)
   }
 
+  const { community } = group
+  const joined = group.joined(loginUser.uid)
+
   return (
     <>
       <div className="flex justify-center items-center flex-col mt-16">
         <GroupBackground img={group.backgroundImg} />
         <GroupCaption name={group.name} introduction={group.introduction} num={group.numOfMembers} />
-        <JoinGroupButton loggedIn={loggedIn} joined={joined} joinGroup={joinGroup} />
+        {joined ? <ChatGroup loginUser={loginUser} roomId={group.pageId} /> : ''}
+        <JoinGroupButton loggedIn={loginUser.loggedIn} joined={joined} joinGroup={joinGroup} />
         <BasicTitleLine title="Member Search" Icon={<FontAwesomeIcon icon={faSearch} size="1x" className="text-white" />} />
         <SearchBar searchWord={searchWord} filter={filter} />
         <div id="search-result" className="flex flex-wrap w-full">
