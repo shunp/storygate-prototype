@@ -1,10 +1,33 @@
 import * as React from 'react'
+import 'src/styles/explanation.css'
+import { useWindowSize } from 'src/utils/useWindowSize'
+import { css } from '@emotion/core'
 
 export const ContentExplanation = ({ text }) => {
+  const size = useWindowSize()
+  const { width } = size
   if (!text) {
     return <></>
   }
-  return <div className="text-gray-500 p-4">{text}</div>
+  return (
+    <div>
+      <div
+        id="layout"
+        css={css`
+          width: ${width * 0.8}px;
+        `}
+      >
+        <div className="layer1">
+          <div className="layer-text">{text}</div>
+        </div>
+        <div className="layer2" />
+        <div className="layer3" />
+        <div className="layer4"> </div>
+        <div className="quote1" />
+        <div className="quote2" />
+      </div>
+    </div>
+  )
 }
 
 export const ModifiableContentExplanation = ({ text, onChange }) => {

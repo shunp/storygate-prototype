@@ -1,0 +1,81 @@
+/* Height will increase automatically as content grows */
+
+#layout {
+  position: relative;
+  margin: 50px 60px 100px 20px;
+  /* width: 300px; Adjust component width from here */
+}
+
+#layout .layer1 {
+  padding: 10px;
+  background: linear-gradient(rgba(80, 35, 256, 0.9), rgba(143, 20, 225, 0.6));
+}
+
+#layout .layer-text {
+  font-family: Helvetica, sans-serif;
+  text-align: justify;
+  word-wrap: break-word;
+  color: #ffffff;
+  font-size: 1.3em;
+  opacity: 2;
+  font-weight: 600;
+  padding: 45px 50px 40px 60px;
+  border: 2px solid black;
+  
+}
+
+#layout .layer2 {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  width: 100%;
+  height: 100%;
+  border: 5px solid rgba(239, 239, 239, 1);
+  transform: rotate(-10deg);
+  z-index: -1;
+}
+
+#layout .layer3 {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  width: 100%;
+  height: 100%;
+  background: rgba(239, 239, 239, 1);
+  z-index: -1;
+}
+
+#layout .layer4 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border: 3px solid black;
+  transform: rotate(-8deg);
+  z-index: -1;
+}
+
+#layout .quote1 {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  display: block;
+  width: 25px;
+  height: 65px;
+  background-color: #383838;
+  border-radius: 40% 50% 50% 30% / 70% 1% 0% 0%;
+  transform: skewx(-20deg);
+}
+
+#layout .quote2 {
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  display: block;
+  width: 25px;
+  height: 65px;
+  background-color: #383838;
+  border-radius: 40% 50% 50% 30% / 70% 1% 0% 0%;
+  transform: skewx(-20deg);
+}
