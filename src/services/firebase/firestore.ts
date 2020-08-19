@@ -55,7 +55,6 @@ interface ReadMarkerData {
 }
 export interface ChatRoomData {
   id: string
-  members: string[]
   readMarker: ReadMarkerData
   latestMessage?: MessageData
 }
@@ -301,7 +300,6 @@ export const fetchChatRoomById = async (id: string): Promise<ChatRoomData> => {
   const chatRoom = doc.data() || {}
   return {
     id: doc.id || '',
-    members: chatRoom.members || [],
     readMarker: chatRoom.readMarker || {},
     latestMessage: chatRoom.latestMessage
   }
@@ -341,8 +339,6 @@ export const sendMessage = async (uid: string, roomId: string, message: string):
     const roomDoc = await tx.get(roomDocRef)
     if (!roomDoc.exists) {
       tx.set(roomDocRef, {
-        // FIXME
-        members: roomId.split('_'),
         latestMessage: {}
       })
     }
