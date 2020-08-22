@@ -111,11 +111,11 @@ const StoryTabContentComponent: React.FC<StoryTabContentComponentProps> = ({ sto
 }
 
 type StoryTabContentProps = StoryTabContentComponentProps & {
-  openTab: ContentType
+  currentTab: ContentType
 }
-const StoryTabContent: React.FC<StoryTabContentProps> = ({ openTab, ...props }) => {
+const StoryTabContent: React.FC<StoryTabContentProps> = ({ currentTab, ...props }) => {
   return (
-    <PersonTabContentWrapper openTab={openTab} contentType="Story">
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Story">
       <StoryTabContentComponent {...props} />
     </PersonTabContentWrapper>
   )
