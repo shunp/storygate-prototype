@@ -122,6 +122,8 @@ export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionDat
     .get()
   return toGroupCaptionData(doc)
 }
+export const fetchFromMemberRef = async (members: string[]): Promise<PersonCaption[]> => {
+  return queryByDocIds(members, 'personCaptions', toPersonCaptionData)
 }
 export const fetchFromGroupRef = (groups: string[]): Promise<GroupCaptionData[]> => {
   return queryByDocIds(groups, 'groupCaptions', toGroupCaptionData)
