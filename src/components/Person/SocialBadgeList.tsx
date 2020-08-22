@@ -2,48 +2,8 @@ import * as React from 'react'
 import { SocialMediaCaption, ContentType } from 'src/services/interfaces/Content'
 import { Person } from 'src/services/interfaces/Person'
 import { Montserrat } from '../SGText'
-import { ServiceType } from '../Provider/providers'
 import CaptionProfileImg from './Caption/CaptionProfileImg'
-import PersonContentWrapper from './PersonContentWrapper'
 import { PersonTabContentWrapper } from './PersonTabContentWrapper'
-
-const data = [
-  {
-    serviceName: 'Facebook',
-    serviceColor: 'social-facebook',
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    linkUrl: 'https://www.facebook.com/shunpei.koike.9'
-  },
-  {
-    serviceName: 'LinkedIn',
-    serviceColor: 'social-linkedin',
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    linkUrl: 'https://www.linkedin.com/in/shumpeikoike/'
-  },
-  {
-    serviceName: 'Instagram',
-    serviceColor: 'gradient-tl-instagram',
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    linkUrl: 'https://www.linkedin.com/in/shumpeikoike/'
-  },
-  {
-    serviceName: 'Note',
-    serviceColor: 'social-note',
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    linkUrl: 'https://www.linkedin.com/in/shumpeikoike/'
-  },
-  {
-    serviceName: 'Twitter',
-    serviceColor: 'social-twitter',
-    imgUrl:
-      'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    linkUrl: 'https://www.linkedin.com/in/shumpeikoike/'
-  }
-]
 
 interface SocialMediaBadgeProps {
   socialMediaCaption: SocialMediaCaption
