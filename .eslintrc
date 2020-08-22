@@ -22,6 +22,7 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "no-underscore-dangle": "off",
     "no-useless-constructor": "off",
+    "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-useless-constructor": ["error"],
     "react/no-unescaped-entities": [
       "error",
