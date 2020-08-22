@@ -42,6 +42,11 @@ export interface GroupCaptionData {
   community?: string
   members: string[]
 }
+export interface AnnouncementData {
+  message: string
+  createdAt: Date
+  authorName: string
+}
 export interface Invitation {
   id: string
   hostCommunity: string
@@ -67,7 +72,6 @@ export interface MessageData {
 interface MyChatRoomsData {
   roomIds: string[]
 }
-
 const queryByDocIds = async <T>(
   ids: string[],
   path: string,
@@ -121,6 +125,22 @@ export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionDat
     .doc(pageId)
     .get()
   return toGroupCaptionData(doc)
+}
+export const fetchLatestGroupAnnoucement = async (groupId: string): Promise<AnnouncementData | undefined> => {
+  const collection = await firestore
+    .collection(`v2/proto/groupCaptions/${groupId}/announcements`)
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .get()
+  if (!collection.docs.length) {
+    return undefined
+  }
+  const data = collection.docs[0]?.data() || {}
+  return {
+    message: data.message || '',
+    authorName: data.authorName || '',
+    createdAt: data.createdAt.toDate()
+  }
 }
 export const fetchFromMemberRef = async (members: string[]): Promise<PersonCaption[]> => {
   return queryByDocIds(members, 'personCaptions', toPersonCaptionData)

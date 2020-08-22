@@ -8,6 +8,7 @@ import GroupCaption from './GroupCaption'
 import { ChatGroup } from '../Chat'
 import { GroupMember } from './GroupMember'
 import { GroupCommunity } from './GroupCommunity'
+import { GroupAnnounce } from './GroupAnnounce'
 
 interface JoinGroupButtonProps {
   joinGroup: () => Promise<void>
@@ -48,6 +49,7 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup }) =>
         <GroupCaption name={group.name} introduction={group.introduction} num={group.numOfMembers} />
         {joined ? <ChatGroup loginUser={loginUser} roomId={group.pageId} /> : ''}
         <JoinGroupButton loggedIn={loginUser.loggedIn} joined={joined} joinGroup={joinGroup} />
+        <GroupAnnounce announcement={group.latestAnnoucement} />
         <GroupMember members={group.members} />
         <GroupCommunity community={group.community} />
       </div>
