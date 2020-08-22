@@ -13,7 +13,6 @@ export interface Message {
 }
 export interface ChatRoom {
   readonly id: string
-  readonly members: string[]
   readonly readMarker: ReadMarker
   readonly messages: Message[]
   readonly oldestSequence: number

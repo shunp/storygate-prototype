@@ -31,15 +31,7 @@ const GroupPageLayout: React.FC<GroupPageLayoutProps> = ({ loginUser, groupId })
     reload()
   }, [groupId])
 
-  return (
-    <GroupPage
-      group={group}
-      community={group.community}
-      loggedIn={loginUser.loggedIn}
-      joined={group.joined(loginUser.uid)}
-      joinGroup={joinGroup}
-    />
-  )
+  return <GroupPage group={group} loginUser={loginUser} joinGroup={joinGroup} />
 }
 
 export default connect<GroupPageLayoutState, {}, GroupPageLayoutOwnProps, State>(

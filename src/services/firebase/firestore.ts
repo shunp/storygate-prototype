@@ -42,6 +42,11 @@ export interface GroupCaptionData {
   community?: string
   members: string[]
 }
+export interface AnnouncementData {
+  message: string
+  createdAt: Date
+  authorName: string
+}
 export interface Invitation {
   id: string
   hostCommunity: string
@@ -55,8 +60,8 @@ interface ReadMarkerData {
 }
 export interface ChatRoomData {
   id: string
-  members: string[]
   readMarker: ReadMarkerData
+  latestMessage?: MessageData
 }
 export interface MessageData {
   sequenceId: string
@@ -67,15 +72,23 @@ export interface MessageData {
 interface MyChatRoomsData {
   roomIds: string[]
 }
-
+const queryByDocIds = async <T>(
+  ids: string[],
+  path: string,
+  build: (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => T
+): Promise<T[]> => {
+  const collection = await firestore
+    .collection(`v2/proto/${path}`)
+    .where(firebase.firestore.FieldPath.documentId(), 'in', ids)
+    .get()
+  return collection.docs.map(doc => build(doc))
+}
 const LOGIN_COUNTER = () => ({
   count: firebase.firestore.FieldValue.increment(1),
   lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
 })
 
-export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
-  const docRef = firestore.collection('v2/proto/personCaptions').doc(pageId)
-  const doc = await docRef.get()
+const toPersonCaptionData = (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): PersonCaption => {
   const personCaption = doc.data() || {}
   return {
     pageId: doc.id || '',
@@ -87,9 +100,15 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     img: personCaption.img || ''
   }
 }
-export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
-  const docRef = firestore.collection('v2/proto/groupCaptions').doc(pageId)
-  const doc = await docRef.get()
+export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
+  const doc = await firestore
+    .collection('v2/proto/personCaptions')
+    .doc(pageId)
+    .get()
+  return toPersonCaptionData(doc)
+}
+
+const toGroupCaptionData = (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): GroupCaptionData => {
   const groupCaption = doc.data() || {}
   return {
     pageId: doc.id || '',
@@ -100,12 +119,34 @@ export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionDat
     community: groupCaption.community || ''
   }
 }
-
-export const fetchFromMemberRef = (members: string[]): Promise<PersonCaption[]> => {
-  return Promise.all(members.map(async memberId => fetchPersonCaption(memberId)))
+export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
+  const doc = await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(pageId)
+    .get()
+  return toGroupCaptionData(doc)
+}
+export const fetchLatestGroupAnnoucement = async (groupId: string): Promise<AnnouncementData | undefined> => {
+  const collection = await firestore
+    .collection(`v2/proto/groupCaptions/${groupId}/announcements`)
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .get()
+  if (!collection.docs.length) {
+    return undefined
+  }
+  const data = collection.docs[0]?.data() || {}
+  return {
+    message: data.message || '',
+    authorName: data.authorName || '',
+    createdAt: data.createdAt.toDate()
+  }
+}
+export const fetchFromMemberRef = async (members: string[]): Promise<PersonCaption[]> => {
+  return queryByDocIds(members, 'personCaptions', toPersonCaptionData)
 }
 export const fetchFromGroupRef = (groups: string[]): Promise<GroupCaptionData[]> => {
-  return Promise.all(groups.map(async groupId => fetchGroupCaption(groupId)))
+  return queryByDocIds(groups, 'groupCaptions', toGroupCaptionData)
 }
 export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaptionData> => {
   const docRef = firestore.collection('v2/proto/communityCaptions').doc(pageId)
@@ -287,7 +328,8 @@ export const fetchChatRooms = async (uid: string): Promise<ChatRoomData[]> => {
     return {
       id: doc.id,
       members: chatRoom.members,
-      readMarker: chatRoom.readMarker
+      readMarker: chatRoom.readMarker,
+      latestMessage: chatRoom.latestMessage
     }
   })
 }
@@ -299,8 +341,8 @@ export const fetchChatRoomById = async (id: string): Promise<ChatRoomData> => {
   const chatRoom = doc.data() || {}
   return {
     id: doc.id || '',
-    members: chatRoom.members || [],
-    readMarker: chatRoom.readMarker || {}
+    readMarker: chatRoom.readMarker || {},
+    latestMessage: chatRoom.latestMessage
   }
 }
 export const fetchChatMessages = async (id: string, sequenceFrom: number, limit: number, offset: number): Promise<MessageData[]> => {
@@ -320,30 +362,36 @@ export const fetchChatMessages = async (id: string, sequenceFrom: number, limit:
     }
   })
 }
-const fetchLatestMessageSequence = async (roomId: string) => {
-  const docsData = await firestore
-    .collection(`v2/proto/chatRooms/${roomId}/messages`)
-    .orderBy('sequenceId', 'desc')
-    .limit(1)
-    .get()
-  if (!docsData.docs.length) {
-    return 0
-  }
-  return +docsData.docs[0].data().sequenceId
-}
 
-export const sendMessage = async (uid: string, roomId: string, message: string) => {
-  const latestSequence = await fetchLatestMessageSequence(roomId)
-  const sequenceId = toSequenceString(latestSequence + 1)
-  await firestore
-    .collection(`v2/proto/chatRooms/${roomId}/messages`)
-    .doc(sequenceId)
-    .set({
+export const sendMessage = async (uid: string, roomId: string, message: string): Promise<void> => {
+  const roomDocRef = firestore.collection('v2/proto/chatRooms').doc(roomId)
+  return firestore.runTransaction(async tx => {
+    const roomDoc = await tx.get(roomDocRef)
+    if (!roomDoc.exists) {
+      tx.set(roomDocRef, {
+        latestMessage: {}
+      })
+    }
+    const sequenceId = toSequenceString(+(roomDoc.data()?.latestMessage?.sequenceId || 0) + 1)
+    const messageDocRef = firestore.collection(`v2/proto/chatRooms/${roomId}/messages`).doc(sequenceId)
+    const messageData = {
       sequenceId,
       uid,
       message,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
+    }
+    tx.set(messageDocRef, messageData)
+    tx.set(
+      roomDocRef,
+      {
+        latestMessage: messageData,
+        readMarkers: {
+          [uid]: sequenceId
+        }
+      },
+      { merge: true }
+    )
+  })
 }
 
 export const updateReadMarker = async (uid: string, roomId: string, sequenceId: string) => {

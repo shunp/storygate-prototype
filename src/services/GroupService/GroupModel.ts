@@ -1,8 +1,9 @@
 import { Group } from 'src/services/interfaces/Group'
 import { Person } from 'src/services/interfaces/Person'
 import { GroupCaptionData } from 'src/services/firebase/firestore'
+import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
+import { Announcement } from 'src/services/interfaces/Announcement'
 import { GroupCaptionModel } from './GroupCaptionModel'
-import { CommunityReference } from '../interfaces/CommunityCaption'
 
 export class GroupModel extends GroupCaptionModel implements Group {
   constructor(
@@ -11,7 +12,8 @@ export class GroupModel extends GroupCaptionModel implements Group {
     readonly introduction: string,
     readonly backgroundImg: string,
     readonly members: Person[] = [],
-    readonly community?: CommunityReference
+    readonly community?: CommunityReference,
+    readonly latestAnnoucement?: Announcement
   ) {
     super(pageId, name, introduction, backgroundImg)
   }
@@ -20,9 +22,9 @@ export class GroupModel extends GroupCaptionModel implements Group {
     return new GroupModel('', '', '', '', [])
   }
 
-  static fromCaption(caption: GroupCaptionData, members: Person[] = [], community = undefined): Group {
+  static fromCaption(caption: GroupCaptionData, members: Person[] = [], community = undefined, latestAnnouncement = undefined): Group {
     const { pageId, name, introduction, backgroundImg } = caption
-    return new GroupModel(pageId, name, introduction, backgroundImg, members, community)
+    return new GroupModel(pageId, name, introduction, backgroundImg, members, community, latestAnnouncement)
   }
 
   get numOfMembers(): number {
