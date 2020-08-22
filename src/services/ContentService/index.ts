@@ -6,6 +6,7 @@ import { CommunityReferenceModel } from '../CommunityService/CommunityReferenceM
 class Service {
   emptyContent = (): Content => {
     return {
+      socialMediaCaptions: [],
       portfolio: {
         contents: []
       },

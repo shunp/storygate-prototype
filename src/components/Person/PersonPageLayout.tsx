@@ -103,6 +103,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
       />
       <PersonContentLayout
         openTab={openTab}
+        caption={person}
         content={content}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}

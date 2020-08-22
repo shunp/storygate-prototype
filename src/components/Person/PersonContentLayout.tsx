@@ -3,14 +3,17 @@ import { useWindowSize } from 'src/utils/useWindowSize'
 import { Content } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
+import { Person } from 'src/services/interfaces/Person'
 import PortfolioTabContent from './Portfolio/PortfolioTabContent'
 import { resolveCurrentTab } from './PersonTabLayout'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
+import { SocialBadgeList } from './SocialBadgeList'
 
 interface PersonContentLayoutProps {
   openTab: number
+  caption: Person
   content: Content
   editingPortfolio: boolean
   editingStory: boolean
@@ -22,6 +25,7 @@ interface PersonContentLayoutProps {
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   openTab,
+  caption,
   content,
   editingPortfolio,
   editingStory,
@@ -35,6 +39,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
   return (
     <PersonContentWrapper>
+      <SocialBadgeList index={1} openTab={currentTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
       <PortfolioTabContent
         index={1}
         openTab={currentTab}
