@@ -3,6 +3,7 @@ import { css } from '@emotion/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faBook, faUserFriends } from '@fortawesome/free-solid-svg-icons'
 import { Montserrat } from '../SGText'
+import { SocialBadgeList } from './SocialBadgeList'
 
 const TabList = ({ openTab, setOpenTab, index, icon }) => {
   return (
@@ -27,60 +28,6 @@ const tabTitle = (openTab: number) => {
   if (openTab === 2) return 'Story'
   if (openTab === 3) return 'Community'
   return 'Portfolio'
-}
-
-const SocialBadgeList = () => {
-  // TODO: DB
-  const data = [
-    // {
-    //   serviceName: 'Facebook',
-    //   serviceColor: 'social-facebook',
-    //   imgUrl:
-    //     'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    //   link: 'https://www.facebook.com/shunpei.koike.9'
-    // },
-    // {
-    //   serviceName: 'LinkedIn',
-    //   serviceColor: 'social-linkedin',
-    //   imgUrl:
-    //     'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    //   link: 'https://www.linkedin.com/in/shumpeikoike/'
-    // },
-    // {
-    //   serviceName: 'Instagram',
-    //   serviceColor: 'gradient-tl-instagram',
-    //   imgUrl:
-    //     'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    //   link: 'https://www.linkedin.com/in/shumpeikoike/'
-    // },
-    // {
-    //   serviceName: 'Note',
-    //   serviceColor: 'social-note',
-    //   imgUrl:
-    //     'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    //   link: 'https://www.linkedin.com/in/shumpeikoike/'
-    // },
-    // {
-    //   serviceName: 'Twitter',
-    //   serviceColor: 'social-twitter',
-    //   imgUrl:
-    //     'https://firebasestorage.googleapis.com/v0/b/story-gate.appspot.com/o/baiUK5z4NYhFscfuwpJuT7NTwZs2%2Fprofile.jpg?alt=media&token=56a52afe-7ca6-47f7-bbfb-c3139d2ae20d',
-    //   link: 'https://www.linkedin.com/in/shumpeikoike/'
-    // }
-  ]
-  const list = data.map(d => <SocialMediaBadge serviceName={d.serviceName} serviceColor={d.serviceColor} imgUrl={d.imgUrl} />)
-  return <div className="flex flex-wrap mx-4">{list}</div>
-}
-
-const SocialMediaBadge = ({ serviceName, serviceColor, imgUrl }) => {
-  return (
-    <a href="#" className="w-1/2">
-      <div className={`flex flex-row items-center bg-${serviceColor} rounded-full py-1 px-1 mt-2 mx-2`}>
-        <img src={imgUrl} className="rounded-full w-8 mr-2" />
-        <Montserrat className="text-white text-md font-bold">{serviceName}</Montserrat>
-      </div>
-    </a>
-  )
 }
 
 export const resolveCurrentTab = (openTab: number, editingPortfolio: boolean, editingStory: boolean, editingCommunity: boolean) => {
@@ -111,11 +58,6 @@ const PersonTabLayout = ({ openTab, setOpenTab, editingPortfolio, editingStory, 
             <TabList openTab={currentTab} setOpenTab={setOpenTab} index={3} icon={faUserFriends} />
           </ul>
         </div>
-        {currentTab === 1 && (
-          <div className="flex justify-start">
-            <SocialBadgeList />
-          </div>
-        )}
       </div>
     </>
   )

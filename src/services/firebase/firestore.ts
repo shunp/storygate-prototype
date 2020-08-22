@@ -1,7 +1,7 @@
 import firebase from 'gatsby-plugin-firebase'
 import { Content } from 'src/services/interfaces/Content'
 import { Story } from 'src/services/interfaces/Story'
-import { Portfolio } from 'src/services/interfaces/Portfolio'
+import { Portfolio, SocialMediaCaption } from 'src/services/interfaces/Portfolio'
 import { Person } from 'src/services/interfaces/Person'
 import { equalsDay } from 'src/utils/date'
 import { toSequenceString } from 'src/utils/sequnce'
@@ -18,6 +18,7 @@ export interface PersonCaption {
   img: string
 }
 export interface ContentData {
+  socialMediaCaptions: SocialMediaCaption[]
   portfolio: Portfolio
   story: Story
   openCommunities: string[]
@@ -314,6 +315,7 @@ export const fetchPersonContent = async (pageId: string): Promise<ContentData> =
   const doc = await docRef.get()
   const personContent = doc.data() || {}
   return {
+    socialMediaCaptions: personContent.socialMediaCaptions || [],
     portfolio: personContent.portfolio || { contents: [] },
     story: personContent.story || { contents: [] },
     openCommunities: personContent.openCommunities || []
