@@ -94,7 +94,13 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
         toggleEditingCaption={toggleEditingCaption}
         updateCaption={updateCaption}
       />
-      <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
+      <PersonTabLayout
+        openTab={openTab}
+        setOpenTab={setOpenTab}
+        editingPortfolio={editingPortfolio}
+        editingStory={editingStory}
+        editingCommunity={editingCommunity}
+      />
       <PersonContentLayout
         openTab={openTab}
         content={content}

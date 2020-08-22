@@ -83,8 +83,16 @@ const SocialMediaBadge = ({ serviceName, serviceColor, imgUrl }) => {
   )
 }
 
-const PersonTabLayout = ({ openTab, setOpenTab }) => {
-  const currentTitle = tabTitle(openTab)
+export const resolveCurrentTab = (openTab: number, editingPortfolio: boolean, editingStory: boolean, editingCommunity: boolean) => {
+  if (editingPortfolio) return 1
+  if (editingStory) return 2
+  if (editingCommunity) return 3
+  return openTab
+}
+
+const PersonTabLayout = ({ openTab, setOpenTab, editingPortfolio, editingStory, editingCommunity }) => {
+  const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
+  const currentTitle = tabTitle(currentTab)
   return (
     <>
       <div
@@ -98,12 +106,12 @@ const PersonTabLayout = ({ openTab, setOpenTab }) => {
         <div className="flex justify-between my-4 mx-4">
           <Montserrat className="text-2xl font-bold text-white">{currentTitle}</Montserrat>
           <ul className="flex mb-0 list-none pb-4 flex-row" role="tablist">
-            <TabList openTab={openTab} setOpenTab={setOpenTab} index={1} icon={faList} />
-            <TabList openTab={openTab} setOpenTab={setOpenTab} index={2} icon={faBook} />
-            <TabList openTab={openTab} setOpenTab={setOpenTab} index={3} icon={faUserFriends} />
+            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={1} icon={faList} />
+            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={2} icon={faBook} />
+            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={3} icon={faUserFriends} />
           </ul>
         </div>
-        {openTab === 1 && (
+        {currentTab === 1 && (
           <div className="flex justify-start">
             <SocialBadgeList />
           </div>

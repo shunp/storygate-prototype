@@ -4,6 +4,7 @@ import { Content } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
 import PortfolioTabContent from './Portfolio/PortfolioTabContent'
+import { resolveCurrentTab } from './PersonTabLayout'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
@@ -31,11 +32,12 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   updateContent
 }) => {
   const size = useWindowSize()
+  const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
   return (
     <PersonContentWrapper>
       <PortfolioTabContent
         index={1}
-        openTab={openTab}
+        openTab={currentTab}
         portfolio={content.portfolio}
         size={size.width}
         editing={editingPortfolio}
@@ -44,7 +46,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
       />
       <StoryTabContent
         index={2}
-        openTab={openTab}
+        openTab={currentTab}
         story={content.story}
         size={size.width}
         editing={editingStory}
@@ -53,7 +55,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
       />
       <CommunityTabContent
         index={3}
-        openTab={openTab}
+        openTab={currentTab}
         communities={content.communities}
         size={size.width}
         editing={editingCommunity}
