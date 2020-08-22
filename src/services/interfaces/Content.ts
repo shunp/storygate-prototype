@@ -18,3 +18,6 @@ export interface Content {
   readonly communities: CommunityReference[]
   openCommunities: string[]
 }
+
+const CONTENT_TYPES = ['Portfolio', 'Story', 'Community'] as const
+export type ContentType = typeof CONTENT_TYPES[number]

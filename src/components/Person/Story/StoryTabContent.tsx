@@ -3,8 +3,10 @@ import { Story, StoryContent } from 'src/services/interfaces/Story'
 import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
 import { findOpenGraph } from 'src/services/firebase/functions'
 import { WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
+import { ContentType } from 'src/services/interfaces/Content'
 import { StoryLine, AddStory, ModifiableStoryLine } from '../../Content/Story'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
+import { PersonTabContentWrapper } from '../PersonTabContentWrapper'
 
 const createContent = async (
   time: string,
@@ -34,16 +36,14 @@ const createContent = async (
     iframeKey: contentElement.key
   }
 }
-interface StoryTabContentProps {
-  index: number
-  openTab: number
+interface StoryTabContentComponentProps {
   story: Story
   size: number
   editing: boolean
   toggleEditingStory: () => void
   update: (story: Story) => void
 }
-const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, story, size, editing, toggleEditingStory, update }) => {
+const StoryTabContentComponent: React.FC<StoryTabContentComponentProps> = ({ story, size, editing, toggleEditingStory, update }) => {
   const [inputNewTime, setInputNewTime] = React.useState('')
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
@@ -87,7 +87,7 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, story
 
   if (editing) {
     return (
-      <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
+      <>
         <CompleteButtonSet
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
@@ -104,14 +104,20 @@ const StoryTabContent: React.FC<StoryTabContentProps> = ({ index, openTab, story
           setInputNewExplanation={setInputNewExplanation}
         />
         <ModifiableStoryLine story={story} size={size} update={update} />
-      </div>
+      </>
     )
   }
-  return (
-    <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-      <StoryLine story={story} size={size} />
-    </div>
-  )
+  return <StoryLine story={story} size={size} />
 }
 
+type StoryTabContentProps = StoryTabContentComponentProps & {
+  openTab: ContentType
+}
+const StoryTabContent: React.FC<StoryTabContentProps> = ({ openTab, ...props }) => {
+  return (
+    <PersonTabContentWrapper openTab={openTab} contentType="Story">
+      <StoryTabContentComponent {...props} />
+    </PersonTabContentWrapper>
+  )
+}
 export default StoryTabContent

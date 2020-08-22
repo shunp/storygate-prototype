@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useWindowSize } from 'src/utils/useWindowSize'
-import { Content } from 'src/services/interfaces/Content'
+import { Content, ContentType } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
 import { Person } from 'src/services/interfaces/Person'
@@ -12,7 +12,7 @@ import PersonContentWrapper from './PersonContentWrapper'
 import { SocialBadgeList } from './SocialBadgeList'
 
 interface PersonContentLayoutProps {
-  openTab: number
+  openTab: ContentType
   caption: Person
   content: Content
   editingPortfolio: boolean
@@ -36,13 +36,11 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   updateContent
 }) => {
   const size = useWindowSize()
-  const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
   return (
     <PersonContentWrapper>
-      <SocialBadgeList index={1} openTab={currentTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
+      <SocialBadgeList openTab={openTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
       <PortfolioTabContent
-        index={1}
-        openTab={currentTab}
+        openTab={openTab}
         portfolio={content.portfolio}
         size={size.width}
         editing={editingPortfolio}
@@ -50,8 +48,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(portfolio: Portfolio) => updateContent({ ...content, portfolio })}
       />
       <StoryTabContent
-        index={2}
-        openTab={currentTab}
+        openTab={openTab}
         story={content.story}
         size={size.width}
         editing={editingStory}
@@ -59,8 +56,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(story: Story) => updateContent({ ...content, story })}
       />
       <CommunityTabContent
-        index={3}
-        openTab={currentTab}
+        openTab={openTab}
         communities={content.communities}
         size={size.width}
         editing={editingCommunity}
