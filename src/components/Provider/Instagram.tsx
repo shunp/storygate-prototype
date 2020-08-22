@@ -3,7 +3,7 @@ import { IframeProps } from 'src/services/interfaces/Provider'
 import InstagramEmbed from 'react-instagram-embed'
 import { WithIFrame } from 'src/services/interfaces/Portfolio'
 import { PortfolioContentProps } from 'src/components/Person/Portfolio/PortfolioContentBase'
-import { ContentExplanation } from '../ContentExplanation'
+import { PortfolioExplanation } from '../ContentExplanation'
 
 export const InstagramIframe: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
   return (
@@ -38,7 +38,7 @@ export const InstagramPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, tex
           onFailure={() => {}}
         />
       </div>
-      <ContentExplanation text={text} />
+      <PortfolioExplanation text={text} />
     </>
   )
 }

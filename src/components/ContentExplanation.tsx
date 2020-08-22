@@ -1,9 +1,44 @@
 import * as React from 'react'
-import 'src/styles/explanation.css'
+import 'src/styles/explanation-portfolio.css'
+import 'src/styles/explanation-story.css'
+
 import { useWindowSize } from 'src/utils/useWindowSize'
 import { css } from '@emotion/core'
 
-export const ContentExplanation = ({ text }) => {
+export const StoryExplanation = ({ title, text }) => {
+  const size = useWindowSize()
+  const { width } = size
+  if (!text) {
+    return <></>
+  }
+  return (
+    <>
+      <div id="layout-2">
+        <div className="arrow" />
+        <div className="arrow-down" />
+        <div className="bar1" />
+        <div className="bar2" />
+        <div className="bar3" />
+        <div className="bar4" />
+      </div>
+      <div
+        id="layout-3"
+        css={css`
+          width: ${width * 0.8}px;
+        `}
+      >
+        <div className="layer1">
+          <div className="circle1">“</div>
+          <div className="header-text">{title}</div>
+          <div className="text">{text}</div>
+          <div className="circle2">“</div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export const PortfolioExplanation = ({ text }) => {
   const size = useWindowSize()
   const { width } = size
   if (!text) {
@@ -30,7 +65,7 @@ export const ContentExplanation = ({ text }) => {
   )
 }
 
-export const ModifiableContentExplanation = ({ text, onChange }) => {
+export const ModifiablePortfolioExplanation = ({ text, onChange }) => {
   return (
     <div className="text-gray-500">
       <div className="m-1 text-xs text-white">説明</div>

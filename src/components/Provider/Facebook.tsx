@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IframeProps } from 'src/services/interfaces/Provider'
 import { WithIFrame } from 'src/services/interfaces/Portfolio'
-import { ContentExplanation } from '../ContentExplanation'
+import { PortfolioExplanation } from '../ContentExplanation'
 import { PortfolioContentProps } from '../Person/Portfolio/PortfolioContentBase'
 
 export const FacebookIFrame: React.FC<PortfolioContentProps<WithIFrame>> = ({ iframeKey, size }) => {
@@ -35,7 +35,7 @@ export const FacebookPost: React.FC<IframeProps> = ({ TitleLine, iframeKey, text
           allow="encrypted-media"
         />
       </div>
-      <ContentExplanation text={text} />
+      <PortfolioExplanation text={text} />
     </>
   )
 }

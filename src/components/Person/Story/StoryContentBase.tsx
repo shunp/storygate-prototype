@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
-import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
+import { PortfolioExplanation, StoryExplanation, ModifiablePortfolioExplanation } from 'src/components/ContentExplanation'
 import { StoryContent } from 'src/services/interfaces/Story'
 import { BallonTitleLine, ModifiableBallonTitleLine } from 'src/components/TitleLine'
 import { ContentLocation, ModifiableContentLocation } from 'src/components/ContentLocation'
@@ -16,15 +16,14 @@ export const StoryContentWrapper: React.FC<StoryContentWrapperProps> = ({ childr
       <>
         <ModifiableBallonTitleLine title={editingObj.title} time={editingObj.time} onChange={onChange} />
         <div className="flex justify-center">{children}</div>
-        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiablePortfolioExplanation text={editingObj.text} onChange={onChange} />
       </>
     )
   }
   return (
     <>
-      <BallonTitleLine title={content.title} time={content.time} />
       <div className="flex justify-center">{children}</div>
-      <ContentExplanation text={content.text} />
+      <StoryExplanation title={content.title} text={content.text} />
     </>
   )
 }
@@ -39,7 +38,7 @@ export const StoryContentWrapperWithPicture: React.FC<StoryContentWrapperProps<W
       <>
         <ModifiableBallonTitleLine title={editingObj.title} time={editingObj.time} onChange={onChange} />
         <div className="flex justify-center">{children}</div>
-        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiablePortfolioExplanation text={editingObj.text} onChange={onChange} />
         <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
       </>
     )
@@ -48,7 +47,7 @@ export const StoryContentWrapperWithPicture: React.FC<StoryContentWrapperProps<W
     <>
       <BallonTitleLine title={content.title} time={content.time} />
       <div className="flex justify-center">{children}</div>
-      <ContentExplanation text={content.text} />
+      <PortfolioExplanation text={content.text} />
       <ContentLocation location={content.location} />
     </>
   )
