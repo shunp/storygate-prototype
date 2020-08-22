@@ -321,17 +321,6 @@ export const fetchChatMessages = async (id: string, sequenceFrom: number, limit:
     }
   })
 }
-const fetchLatestMessageSequence = async (roomId: string) => {
-  const docsData = await firestore
-    .collection(`v2/proto/chatRooms/${roomId}/messages`)
-    .orderBy('sequenceId', 'desc')
-    .limit(1)
-    .get()
-  if (!docsData.docs.length) {
-    return 0
-  }
-  return +docsData.docs[0].data().sequenceId
-}
 
 export const sendMessage = async (uid: string, roomId: string, message: string): Promise<void> => {
   const roomDocRef = firestore.collection('v2/proto/chatRooms').doc(roomId)
