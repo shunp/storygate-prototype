@@ -230,11 +230,16 @@ export const fetchInvitation = async (invitationId: string): Promise<Invitation>
 }
 
 export const addCommunityMember = async (communityId: string, uid: string) => {
-  const docRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
-  const doc = await docRef.get()
-  const communityCaption = doc.data() || {}
-  communityCaption.members.push(uid)
-  await docRef.update(communityCaption).catch(err => console.error(err))
+  const captionRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
+  const membersRef = firestore.collection('v2/proto/communityMembers').doc(communityId)
+  return firestore.runTransaction(async tx => {
+    tx.update(captionRef, {
+      numOfMembers: firebase.firestore.FieldValue.increment(1)
+    })
+    tx.update(membersRef, {
+      members: firebase.firestore.FieldValue.arrayUnion(uid)
+    })
+  })
 }
 export const addGroupMember = async (groupId: string, uid: string) => {
   await firestore
