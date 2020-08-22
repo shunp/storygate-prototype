@@ -101,11 +101,11 @@ const PortfolioTabContentComponent: React.FC<PortfolioTabContentComponentProps> 
 }
 
 type PortfolioTabContentProps = PortfolioTabContentComponentProps & {
-  openTab: ContentType
+  currentTab: ContentType
 }
-const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ openTab, ...props }) => {
+const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ currentTab, ...props }) => {
   return (
-    <PersonTabContentWrapper openTab={openTab} contentType="Portfolio">
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Portfolio">
       <PortfolioTabContentComponent {...props} />
     </PersonTabContentWrapper>
   )

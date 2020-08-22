@@ -35,11 +35,11 @@ const CommunityTabContentComponent: React.FC<CommunityTabComponentProps> = ({
 }
 
 type CommunityTabContentProps = CommunityTabComponentProps & {
-  openTab: ContentType
+  currentTab: ContentType
 }
-const CommunityTabContent: React.FC<CommunityTabContentProps> = ({ openTab, ...props }) => {
+const CommunityTabContent: React.FC<CommunityTabContentProps> = ({ currentTab, ...props }) => {
   return (
-    <PersonTabContentWrapper openTab={openTab} contentType="Community">
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Community">
       <CommunityTabContentComponent {...props} />
     </PersonTabContentWrapper>
   )

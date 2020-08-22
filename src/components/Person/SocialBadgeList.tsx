@@ -62,14 +62,14 @@ const SocialMediaBadge: React.FC<SocialMediaBadgeProps> = ({ socialMediaCaption,
 }
 
 interface SocialBadgeListProps {
-  openTab: ContentType
+  currentTab: ContentType
   socialMediaCaptions: SocialMediaCaption[]
   personCaption: Person
 }
-export const SocialBadgeList: React.FC<SocialBadgeListProps> = ({ openTab, socialMediaCaptions, personCaption }) => {
+export const SocialBadgeList: React.FC<SocialBadgeListProps> = ({ currentTab, socialMediaCaptions, personCaption }) => {
   const list = socialMediaCaptions.map(caption => <SocialMediaBadge socialMediaCaption={caption} profileImg={personCaption.img} />)
   return (
-    <PersonTabContentWrapper openTab={openTab} contentType="Portfolio">
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Portfolio">
       <div className="flex flex-wrap mx-4">{list}</div>
     </PersonTabContentWrapper>
   )

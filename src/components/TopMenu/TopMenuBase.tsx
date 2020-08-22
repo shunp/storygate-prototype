@@ -52,7 +52,7 @@ const EditPortfolioButton = ({ editPortfolio }) => {
   const startEditingPortfolio = () => {
     editPortfolio()
     // TODO: open portfolio tab
-    // setOpenTab(1)
+    // setCurrentTab(1)
     if (document.getElementById('top-menu-toggle')) {
       document.getElementById('top-menu-toggle').checked = false
     }

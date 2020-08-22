@@ -12,7 +12,7 @@ import PersonContentWrapper from './PersonContentWrapper'
 import { SocialBadgeList } from './SocialBadgeList'
 
 interface PersonContentLayoutProps {
-  openTab: ContentType
+  currentTab: ContentType
   caption: Person
   content: Content
   editingPortfolio: boolean
@@ -24,7 +24,7 @@ interface PersonContentLayoutProps {
   updateContent: (updatedContent: Content) => void
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
-  openTab,
+  currentTab,
   caption,
   content,
   editingPortfolio,
@@ -38,9 +38,9 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   const size = useWindowSize()
   return (
     <PersonContentWrapper>
-      <SocialBadgeList openTab={openTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
+      <SocialBadgeList currentTab={currentTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
       <PortfolioTabContent
-        openTab={openTab}
+        currentTab={currentTab}
         portfolio={content.portfolio}
         size={size.width}
         editing={editingPortfolio}
@@ -48,7 +48,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(portfolio: Portfolio) => updateContent({ ...content, portfolio })}
       />
       <StoryTabContent
-        openTab={openTab}
+        currentTab={currentTab}
         story={content.story}
         size={size.width}
         editing={editingStory}
@@ -56,7 +56,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(story: Story) => updateContent({ ...content, story })}
       />
       <CommunityTabContent
-        openTab={openTab}
+        currentTab={currentTab}
         communities={content.communities}
         size={size.width}
         editing={editingCommunity}

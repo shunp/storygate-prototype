@@ -55,7 +55,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   toggleEditingCommunity,
   clearEditingState
 }) => {
-  const [openTab, setOpenTab] = React.useState<ContentType>('Portfolio')
+  const [currentTab, setCurrentTab] = React.useState<ContentType>('Portfolio')
   const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
   const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
   const location = useLocation()
@@ -86,13 +86,13 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   }, [location, loginUser])
   React.useEffect(() => {
     if (editingPortfolio) {
-      setOpenTab('Portfolio')
+      setCurrentTab('Portfolio')
     }
     if (editingStory) {
-      setOpenTab('Story')
+      setCurrentTab('Story')
     }
     if (editingCommunity) {
-      setOpenTab('Community')
+      setCurrentTab('Community')
     }
   }, [editingPortfolio, editingStory, editingCommunity])
 
@@ -105,9 +105,9 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
         toggleEditingCaption={toggleEditingCaption}
         updateCaption={updateCaption}
       />
-      <PersonTabLayout openTab={openTab} setOpenTab={setOpenTab} />
+      <PersonTabLayout currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <PersonContentLayout
-        openTab={openTab}
+        currentTab={currentTab}
         caption={person}
         content={content}
         editingPortfolio={editingPortfolio}
