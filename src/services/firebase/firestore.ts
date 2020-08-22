@@ -68,14 +68,23 @@ interface MyChatRoomsData {
   roomIds: string[]
 }
 
+const queryByDocIds = async <T>(
+  ids: string[],
+  path: string,
+  build: (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => T
+): Promise<T[]> => {
+  const collection = await firestore
+    .collection(`v2/proto/${path}`)
+    .where(firebase.firestore.FieldPath.documentId(), 'in', ids)
+    .get()
+  return collection.docs.map(doc => build(doc))
+}
 const LOGIN_COUNTER = () => ({
   count: firebase.firestore.FieldValue.increment(1),
   lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
 })
 
-export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
-  const docRef = firestore.collection('v2/proto/personCaptions').doc(pageId)
-  const doc = await docRef.get()
+const toPersonCaptionData = (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): PersonCaption => {
   const personCaption = doc.data() || {}
   return {
     pageId: doc.id || '',
@@ -87,9 +96,15 @@ export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption>
     img: personCaption.img || ''
   }
 }
-export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
-  const docRef = firestore.collection('v2/proto/groupCaptions').doc(pageId)
-  const doc = await docRef.get()
+export const fetchPersonCaption = async (pageId: string): Promise<PersonCaption> => {
+  const doc = await firestore
+    .collection('v2/proto/personCaptions')
+    .doc(pageId)
+    .get()
+  return toPersonCaptionData(doc)
+}
+
+const toGroupCaptionData = (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): GroupCaptionData => {
   const groupCaption = doc.data() || {}
   return {
     pageId: doc.id || '',
@@ -100,12 +115,16 @@ export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionDat
     community: groupCaption.community || ''
   }
 }
-
-export const fetchFromMemberRef = (members: string[]): Promise<PersonCaption[]> => {
-  return Promise.all(members.map(async memberId => fetchPersonCaption(memberId)))
+export const fetchGroupCaption = async (pageId: string): Promise<GroupCaptionData> => {
+  const doc = await firestore
+    .collection('v2/proto/groupCaptions')
+    .doc(pageId)
+    .get()
+  return toGroupCaptionData(doc)
+}
 }
 export const fetchFromGroupRef = (groups: string[]): Promise<GroupCaptionData[]> => {
-  return Promise.all(groups.map(async groupId => fetchGroupCaption(groupId)))
+  return queryByDocIds(groups, 'groupCaptions', toGroupCaptionData)
 }
 export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaptionData> => {
   const docRef = firestore.collection('v2/proto/communityCaptions').doc(pageId)
