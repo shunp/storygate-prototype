@@ -47,7 +47,6 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup }) =>
       <div className="flex justify-center items-center flex-col mt-16">
         <GroupBackground img={group.backgroundImg} />
         <GroupCaption name={group.name} introduction={group.introduction} num={group.numOfMembers} />
-        {joined ? <ChatGroup loginUser={loginUser} roomId={group.pageId} /> : ''}
         <JoinGroupButton loggedIn={loginUser.loggedIn} joined={joined} joinGroup={joinGroup} />
         <GroupAnnounce announcement={group.latestAnnoucement} />
         <GroupMember members={group.members} />
