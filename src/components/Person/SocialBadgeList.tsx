@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { SocialMediaCaption } from 'src/services/interfaces/Content'
+import { SocialMediaCaption, ContentType } from 'src/services/interfaces/Content'
 import { Person } from 'src/services/interfaces/Person'
 import { Montserrat } from '../SGText'
 import { ServiceType } from '../Provider/providers'
 import CaptionProfileImg from './Caption/CaptionProfileImg'
+import PersonContentWrapper from './PersonContentWrapper'
+import { PersonTabContentWrapper } from './PersonTabContentWrapper'
 
 const data = [
   {
@@ -60,16 +62,15 @@ const SocialMediaBadge: React.FC<SocialMediaBadgeProps> = ({ socialMediaCaption,
 }
 
 interface SocialBadgeListProps {
-  index: number
-  openTab: number
+  openTab: ContentType
   socialMediaCaptions: SocialMediaCaption[]
   personCaption: Person
 }
-export const SocialBadgeList: React.FC<SocialBadgeListProps> = ({ index, openTab, socialMediaCaptions, personCaption }) => {
+export const SocialBadgeList: React.FC<SocialBadgeListProps> = ({ openTab, socialMediaCaptions, personCaption }) => {
   const list = socialMediaCaptions.map(caption => <SocialMediaBadge socialMediaCaption={caption} profileImg={personCaption.img} />)
   return (
-    <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
+    <PersonTabContentWrapper openTab={openTab} contentType="Portfolio">
       <div className="flex flex-wrap mx-4">{list}</div>
-    </div>
+    </PersonTabContentWrapper>
   )
 }

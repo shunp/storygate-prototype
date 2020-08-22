@@ -1,45 +1,39 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faBook, faUserFriends } from '@fortawesome/free-solid-svg-icons'
+import { faList, faBook, faUserFriends, IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { ContentType } from 'src/services/interfaces/Content'
 import { Montserrat } from '../SGText'
-import { SocialBadgeList } from './SocialBadgeList'
 
-const TabList = ({ openTab, setOpenTab, index, icon }) => {
+interface TabListProps {
+  openTab: ContentType
+  setOpenTab: React.Dispatch<React.SetStateAction<ContentType>>
+  content: ContentType
+  icon: IconDefinition
+}
+const TabList: React.FC<TabListProps> = ({ openTab, setOpenTab, content, icon }) => {
   return (
     <li className="mt-2 mx-2 text-center">
       <a
         onClick={e => {
           e.preventDefault()
-          setOpenTab(index)
+          setOpenTab(content)
         }}
         data-toggle="tab"
         href="#link1"
         role="tablist"
       >
-        <FontAwesomeIcon icon={icon} size="lg" className={` ${openTab === index ? 'text-primary' : 'text-secondary'}`} />
+        <FontAwesomeIcon icon={icon} size="lg" className={` ${openTab === content ? 'text-primary' : 'text-secondary'}`} />
       </a>
     </li>
   )
 }
 
-const tabTitle = (openTab: number) => {
-  if (openTab === 1) return 'Portfolio'
-  if (openTab === 2) return 'Story'
-  if (openTab === 3) return 'Community'
-  return 'Portfolio'
+interface PersonTabLayoutProps {
+  openTab: ContentType
+  setOpenTab: React.Dispatch<React.SetStateAction<ContentType>>
 }
-
-export const resolveCurrentTab = (openTab: number, editingPortfolio: boolean, editingStory: boolean, editingCommunity: boolean) => {
-  if (editingPortfolio) return 1
-  if (editingStory) return 2
-  if (editingCommunity) return 3
-  return openTab
-}
-
-const PersonTabLayout = ({ openTab, setOpenTab, editingPortfolio, editingStory, editingCommunity }) => {
-  const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
-  const currentTitle = tabTitle(currentTab)
+const PersonTabLayout: React.FC<PersonTabLayoutProps> = ({ openTab, setOpenTab }) => {
   return (
     <>
       <div
@@ -51,11 +45,11 @@ const PersonTabLayout = ({ openTab, setOpenTab, editingPortfolio, editingStory, 
       />
       <div className="relative">
         <div className="flex justify-between my-4 mx-4">
-          <Montserrat className="text-2xl font-bold text-white">{currentTitle}</Montserrat>
+          <Montserrat className="text-2xl font-bold text-white">{openTab}</Montserrat>
           <ul className="flex mb-0 list-none pb-4 flex-row" role="tablist">
-            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={1} icon={faList} />
-            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={2} icon={faBook} />
-            <TabList openTab={currentTab} setOpenTab={setOpenTab} index={3} icon={faUserFriends} />
+            <TabList openTab={openTab} setOpenTab={setOpenTab} content="Portfolio" icon={faList} />
+            <TabList openTab={openTab} setOpenTab={setOpenTab} content="Story" icon={faBook} />
+            <TabList openTab={openTab} setOpenTab={setOpenTab} content="Community" icon={faUserFriends} />
           </ul>
         </div>
       </div>
