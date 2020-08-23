@@ -91,6 +91,7 @@
   font-size: 0.9em;
   font-weight: bold;
   padding: 15px 55px 60px 45px;
+  white-space: pre-wrap;
 }
 
 #layout-3 .layer1 {
