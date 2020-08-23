@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
+import { existImg } from 'src/utils/image'
 
 export interface CaptionProfileImgProps {
   profileImg?: string
@@ -19,7 +20,7 @@ const CaptionProfileImg: React.FC<CaptionProfileImgProps> = ({ profileImg, class
       }
     }
   `)
-  if (profileImg) {
+  if (existImg(profileImg)) {
     return <img src={profileImg} className={className} alt="" />
   }
   return <Img fluid={data.guest.childImageSharp.fluid} className={`${className} bg-white border-4 border-primary`} />
