@@ -19,12 +19,12 @@ const ModifiableAnnoucement: React.FC<ModifiableAnnoucementProps> = ({ message, 
   />
 )
 
-interface AnnoucementComponentProps {
+interface AnnoucementContentProps {
   announcement?: Announcement
   joined: boolean
   onEditButtonClick: () => void
 }
-const AnnoucementComponent: React.FC<AnnoucementComponentProps> = ({ announcement, joined, onEditButtonClick }) => {
+const AnnoucementContent: React.FC<AnnoucementContentProps> = ({ announcement, joined, onEditButtonClick }) => {
   if (!joined && !announcement) {
     return <></>
   }
@@ -32,7 +32,7 @@ const AnnoucementComponent: React.FC<AnnoucementComponentProps> = ({ announcemen
     return <FontAwesomeIcon size="2x" className="text-gray-500 m-2" icon={faEdit} onClick={onEditButtonClick} />
   }
   return (
-    <div id="group-announcement" className="max-w-sm rounded overflow-hidden shadow-lg w-full">
+    <div id="announcement" className="max-w-sm rounded overflow-hidden shadow-lg w-full">
       <div className="p-4">
         <div className="flex justify-between text-gray-500">
           <div>{announcement.createdAt.format()}</div>
@@ -46,12 +46,12 @@ const AnnoucementComponent: React.FC<AnnoucementComponentProps> = ({ announcemen
     </div>
   )
 }
-interface GroupAnnounceProps {
+interface AnnouncementComponentProps {
   announcement?: Announcement
   joined: boolean
   updateAnnouncement: (message: string) => Promise<void>
 }
-export const GroupAnnounce: React.FC<GroupAnnounceProps> = ({ announcement, joined, updateAnnouncement }) => {
+export const AnnouncementComponent: React.FC<AnnouncementComponentProps> = ({ announcement, joined, updateAnnouncement }) => {
   const [editing, setEditing] = React.useState(false)
   const [message, setMessage] = React.useState(announcement?.message || '')
   React.useEffect(() => {
@@ -60,7 +60,7 @@ export const GroupAnnounce: React.FC<GroupAnnounceProps> = ({ announcement, join
   return (
     <>
       <BasicTitleLine title="Announcement" />
-      <AnnoucementComponent announcement={announcement} joined={joined} onEditButtonClick={() => setEditing(true)} />
+      <AnnoucementContent announcement={announcement} joined={joined} onEditButtonClick={() => setEditing(true)} />
       <DefaultPostModal
         id="group-annouce"
         editing={editing}
