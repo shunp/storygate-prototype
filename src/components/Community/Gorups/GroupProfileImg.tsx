@@ -9,7 +9,7 @@ interface ImgProps {
 const GroupProfileImg: React.FC<ImgProps> = ({ setImg }) => {
   const [upImg, setUpImg] = React.useState()
   const imgRef = React.useRef(null)
-  const [crop, setCrop] = React.useState({ unit: '%', width: 30, aspect: 1 / 1, minWidth: 20, minHeight: 20 })
+  const [crop, setCrop] = React.useState({ unit: '%', width: 100, aspect: 16 / 9, minWidth: 20, minHeight: 20 })
   const [previewUrl, setPreviewUrl] = React.useState<string>()
 
   const onLoad = React.useCallback(img => {
@@ -25,7 +25,6 @@ const GroupProfileImg: React.FC<ImgProps> = ({ setImg }) => {
     const ctx = canvas.getContext('2d')
 
     ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width, crop.height)
-
     return new Promise((resolve, reject) => {
       canvas.toBlob(b => {
         if (!b) {

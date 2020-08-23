@@ -1,0 +1,130 @@
+#layout-2 {
+  position: relative;
+  top: -120px;
+  left: -100px;
+  margin: 0px 60px 10px 20px;
+  width: 420px;
+  height: 100px;
+  z-index: -10;
+}
+
+#layout-2 .arrow {
+  margin: 40px 27px 25px 25px;
+  float: right;
+  width: 45px;
+  height: 100px;
+  background: linear-gradient(rgba(118, 95, 208, 1), rgba(212, 154, 216, 1));
+}
+
+#layout-2 .arrow-down {
+  position: absolute;
+  right: 10px;
+  bottom: -75px;
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-top: 40px solid #d49ad8;
+}
+
+#layout-2 .bar1 {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  width: 60px;
+  height: 30px;
+  background: #ffffff;
+  transform: rotate(20deg);
+}
+
+#layout-2 .bar2 {
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  width: 60px;
+  height: 7px;
+  background: #ffffff;
+  transform: rotate(20deg);
+}
+
+#layout-2 .bar3 {
+  position: absolute;
+  right: 20px;
+  top: 65px;
+  width: 60px;
+  height: 7px;
+  background: #ffffff;
+  transform: rotate(20deg);
+}
+
+#layout-2 .bar4 {
+  position: absolute;
+  right: 20px;
+  top: 80px;
+  width: 60px;
+  height: 7px;
+  background: #ffffff;
+  transform: rotate(20deg);
+}
+
+#layout-3 {
+  position: relative;
+  top: -120px;
+  margin-top: 10px;
+  /* margin: 0px 60px 100px 20px; */
+  /* width: 350px; */
+  /* Adjust component width from here*/
+}
+
+#layout-3 .header-text {
+  color: black;
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: 900;
+}
+
+#layout-3 .text {
+  color: black;
+  font-family: Helvetica, sans-serif;
+  text-align: justify;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 15px 55px 60px 45px;
+  white-space: pre-wrap;
+}
+
+#layout-3 .layer1 {
+  height: inherit;
+  width: inherit;
+  border: 5px solid black;
+  margin: 50px;
+}
+
+#layout-3 .circle1 {
+  position: relative;
+  top: -50px;
+  left: -30px;
+  left: 0 px;
+  background: #ffffff;
+  color: black;
+  width: 60px;
+  height: 70px;
+  text-align: center;
+  font-size: 8rem;
+  transform: scale(1.0);
+}
+
+#layout-3 .circle2 {
+  float: right;
+  position: relative;
+  bottom: 20px;
+  left: 30px;
+  background: #ffffff;
+  color: black;
+  width: 60px;
+  height: 70px;
+  text-align: center;
+  font-size: 8rem;
+  transform: scale(1.0) rotate(180deg);
+}

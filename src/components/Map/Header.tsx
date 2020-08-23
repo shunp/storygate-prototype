@@ -26,18 +26,8 @@ const MapHeader = ({ loginUser, login, logout }) => {
       <div className="absolute w-full h-12 bg-white z-20" />
       <div className="absolute w-full h-12 bg-gradient-b-blue-pink z-20 opacity-85" />
       <NavWrapper>
-        <LoginUserIcon pageId={loginUser.uid} icon={icon} />
+        <LoginUserIcon pageId={loginUser.uid} icon={icon} login={login} />
         <Logo className="absolute w-full h-12 flex justify-center items-center text-white z-20 text-2xl">StoryGate</Logo>
-        {loginUser.loggedIn ? (
-          <>
-            <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-white text-lg border-none border rounded">
-              ...
-            </button>
-            <TopMenuBase logout={logout} />
-          </>
-        ) : (
-          <ToggleLoginButton />
-        )}
       </NavWrapper>
     </>
   )

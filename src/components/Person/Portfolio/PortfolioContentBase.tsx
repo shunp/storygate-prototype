@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PortfolioContent, WithIFrame, WithPicture } from 'src/services/interfaces/Portfolio'
 import { PortfolioTitle, ModifiableTitleLine } from 'src/components/TitleLine'
-import { ContentExplanation, ModifiableContentExplanation } from 'src/components/ContentExplanation'
+import { PortfolioExplanation, ModifiablePortfolioExplanation } from 'src/components/ContentExplanation'
 import { ModifiableContentLocation, ContentLocation } from 'src/components/ContentLocation'
 
 const ContentMain = ({ children }) => {
@@ -18,7 +18,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
       <>
         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
         <ContentMain>{children}</ContentMain>
-        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiablePortfolioExplanation text={editingObj.text} onChange={onChange} />
       </>
     )
   }
@@ -26,7 +26,7 @@ export const PortfolioContentWrapper: React.FC<PortfolioContentWrapperProps> = (
     <>
       <PortfolioTitle title={content.title} />
       <ContentMain>{children}</ContentMain>
-      <ContentExplanation text={content.text} />
+      <PortfolioExplanation text={content.text} />
     </>
   )
 }
@@ -41,7 +41,7 @@ export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrappe
       <>
         <ModifiableTitleLine title={editingObj.title} onChange={onChange} />
         <ContentMain>{children}</ContentMain>
-        <ModifiableContentExplanation text={editingObj.text} onChange={onChange} />
+        <ModifiablePortfolioExplanation text={editingObj.text} onChange={onChange} />
         <ModifiableContentLocation location={editingObj.location} onChange={onChange} />
       </>
     )
@@ -50,7 +50,7 @@ export const PortfolioContentWrapperWithPicture: React.FC<PortfolioContentWrappe
     <>
       <PortfolioTitle title={content.title} />
       <ContentMain>{children}</ContentMain>
-      <ContentExplanation text={content.text} />
+      <PortfolioExplanation text={content.text} />
       <ContentLocation location={content.location} />
     </>
   )

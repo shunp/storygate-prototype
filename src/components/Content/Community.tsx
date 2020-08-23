@@ -2,22 +2,33 @@ import * as React from 'react'
 import { Link } from 'gatsby'
 import { display } from 'src/utils/numeral'
 import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { CompleteButtonSet } from '../EditButton'
 import ClearButton from '../ClearButton'
 import DoneButton from '../DeleteButton'
+import { Montserrat } from '../SGText'
 
 interface CommunityPanelProps {
   pageId: string
   name: string
   num: number
+  img: string
   hidden?: boolean
 }
 
-const CommunityPanel: React.FC<CommunityPanelProps> = ({ pageId, name, num, hidden }) => {
+const CommunityPanel: React.FC<CommunityPanelProps> = ({ pageId, name, num, img, hidden }) => {
   return (
-    <div className="font-semibold italic text-primary text-center py-3 shadow-lg">
+    <div className="font-semibold py-3">
+      {hidden && <FontAwesomeIcon icon={faEyeSlash} size="lg" className="ml-4" />}
       <Link to={`/communities/${pageId}`}>
-        {hidden ? '<Secret>' : ''} {name} ({display(num)}人)
+        <div className="flex justify-start items-center mx-4">
+          <img src={img} className="rounded-2xl w-1/3" />
+          <div className="ml-2">
+            <Montserrat className="text-gray-600 text-xs">{display(num)}人のメンバー</Montserrat>
+            <Montserrat className="text-lg">{name}</Montserrat>
+          </div>
+        </div>
       </Link>
     </div>
   )
@@ -49,7 +60,14 @@ export const CommunityList: React.FC<CommunityListProps> = ({ communities, openC
     return <></>
   }
   const CommuntyComponents = communities.map(d => (
-    <CommunityPanel key={d.pageId} pageId={d.pageId} name={d.name} num={d.numOfMembers} hidden={!openCommunities.includes(d.pageId)} />
+    <CommunityPanel
+      key={d.pageId}
+      pageId={d.pageId}
+      name={d.name}
+      num={d.numOfMembers}
+      img={d.backgroundImg}
+      hidden={!openCommunities.includes(d.pageId)}
+    />
   ))
   return <>{CommuntyComponents}</>
 }

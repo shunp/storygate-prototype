@@ -7,9 +7,10 @@ import { PersonService } from 'src/services/PersonService'
 
 import { loginAction, logoutAction } from 'src/state/app'
 import { AuthService } from 'src/services/AuthService'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import NavWrapper from './NavWrapper'
 import LoginUserIcon from './LoginUserIcon'
-import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 import ToggleLoginButton from './ToggleLoginButton'
 import LoginModal from '../Auth/modal/LoginModal'
@@ -27,7 +28,7 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({ loggedIn, editable, logout }) =
     return (
       <>
         <button type="button" className="inline-block text-sm px-2 py-2 leading-none text-white text-lg border-none border rounded">
-          ...
+          <FontAwesomeIcon icon={faBars} size="lg" className="text-white" />
         </button>
         <TopMenuBase logout={logout} />
       </>
@@ -64,7 +65,7 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
   return (
     <>
       <NavWrapper>
-        <LoginUserIcon pageId={loginUser.uid} icon={icon} />
+        <LoginUserIcon pageId={loginUser.uid} icon={icon} login={login} />
         {/* <HeaderLogo /> */}
         <HeaderMenu loggedIn={loginUser.loggedIn} editable={editable} logout={logout} />
       </NavWrapper>

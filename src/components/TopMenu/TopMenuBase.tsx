@@ -16,7 +16,7 @@ import { Montserrat } from '../SGText'
 
 const MenuLinkWrapper = ({ title, to }) => {
   return (
-    <div className="m-2 w-full px-10">
+    <div className="m-2 w-full px-10 z-30">
       <Link to={`/${to}`}>
         <Montserrat className="text-left text-white font-bold text-2xl">{title}</Montserrat>
       </Link>
@@ -92,9 +92,55 @@ const EditCommunityButton = ({ editCommunity }) => {
   )
 }
 
+const CloseMenuButtom = ({ onClick }) => {
+  return (
+    <div className="absolute w-2/3 h-screen">
+      <div className="float-top mt-20">
+        <button type="button" className="text-white" onClick={onClick}>
+          <Montserrat className="text-white font-bold">
+            <span className="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" enableBackground="new 0 0 40 40">
+                <line x1="15" y1="15" x2="25" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
+                <line x1="25" y1="15" x2="15" y2="25" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeMiterlimit="10" />
+                <circle
+                  className="circle"
+                  cx="20"
+                  cy="20"
+                  r="19"
+                  opacity="0"
+                  stroke="#000"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  fill="none"
+                />
+                <path
+                  d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
+                  className="progress"
+                  stroke="#fff"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            Close
+          </Montserrat>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommunity }) => {
   const [editingMode, setEditingmode] = React.useState<boolean>(false)
 
+  const onCloseMenu = () => {
+    if (document.getElementById('top-menu-toggle')) {
+      document.getElementById('top-menu-toggle').checked = false
+    }
+  }
   return (
     <div className="menu-wrap">
       <input id="top-menu-toggle" type="checkbox" className="toggler" />
@@ -103,6 +149,7 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
       </div>
       <div className="menu">
         <div className="flex-col">
+          <CloseMenuButtom onClick={onCloseMenu} />
           <MenuLinkWrapper title="Map" to="map" />
           <div className="relative m-2 w-full px-8">
             <button
@@ -125,9 +172,10 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
           <div className="mt-20" />
 
           <MenuLinkWrapper title="About" to="about" />
-          <MenuLinkWrapper title="Company" to="company" />
+          <MenuLinkWrapper title="Policy" to="policy" />
           <MenuLinkWrapper title="FAQ" to="faq" />
-          <div className="text-sm text-gray-300 mt-10 p-2" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
+          <MenuLinkWrapper title="Recruit" to="recruit" />
+          <div className="text-sm text-gray-300 mt-10 p-2 z-30" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1" />
             Logout
           </div>

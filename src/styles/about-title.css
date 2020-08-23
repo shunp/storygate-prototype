@@ -1,0 +1,27 @@
+#about {
+  height: 150px;
+  cursor: pointer;
+  position: absolute;
+}
+
+#about .bar1 {
+  width: 8px;
+  height: 35px;
+  background:  rgba(129, 66, 223, 1);
+  position: absolute;
+  left: 40px;
+  top: 35px;
+  transform: skewX(-30deg);
+}
+
+#about .bar2 {
+  width: 15px;
+  height: 80px;
+  background: rgba(129, 66, 223, 1);
+  position: absolute;
+  left: 60px;
+  top: 10px;
+  z-index: 20;
+  box-shadow: 4px 4px 4px black;
+  transform: skewX(-30deg);
+}

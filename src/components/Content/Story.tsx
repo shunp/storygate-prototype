@@ -51,6 +51,7 @@ export const AddStory = ({
         className="border-2 bordeer-gray-300 focus:outline-none bg-white h-20 w-full px-5 rounded-lg"
         value={inputNewExplanation}
         placeholder="Introduction..."
+        wrap="hard"
         onChange={e => setInputNewExplanation(e.target.value)}
       />
     </div>
