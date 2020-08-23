@@ -32,7 +32,7 @@ export const SocialMediaBadge: React.FC<SocialMediaBadgeProps> = ({ socialMediaC
     <SocialMediaBadgeBase
       title={title || serviceName}
       linkUrl={linkUrl}
-      color={serviceColor}
+      color={serviceColor || getServiceColor(serviceName)}
       imgUrl={useProfileImg ? profileImg : imgUrl}
     />
   )
@@ -56,7 +56,7 @@ interface SocialMediaBadgePreviewProps {
 }
 export const SocialMediaBadgePreview: React.FC<SocialMediaBadgePreviewProps> = ({ linkUrl, title, imgUrl, useProfileImg, profileImg }) => {
   const serviceType = judgeServiceOrUndefined(linkUrl)
-  const serviceColor = serviceType ? getServiceColor(serviceType) : ''
+  const serviceColor =  getServiceColor(serviceType)
   const displayTitle = title || (serviceType !== 'Others' ? serviceType : '')
   return (
     <SocialMediaBadgeBase
