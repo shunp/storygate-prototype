@@ -22,19 +22,16 @@ const CommunityPageLayout: React.FC<CommunityPageLayoutProps> = ({ loginUser, co
     await CommunityService.createNewGroup(communityId, loginUser.uid, name, introduction, backgroundImg)
     reloadCommunity()
   }
+  const updateAnnouncement = async (message: string) => {
+    await CommunityService.updateAnnouncement(communityId, loginUser.uid, message)
+    reloadCommunity()
+  }
   React.useEffect(() => {
     reloadCommunity()
   }, [communityId])
 
   return (
-    <CommunityPage
-      name={community.name}
-      img={community.backgroundImg}
-      number={community.numOfMembers}
-      members={community.members}
-      groups={community.groups}
-      createNewGroup={createNewGroup}
-    />
+    <CommunityPage community={community} loginUser={loginUser} createNewGroup={createNewGroup} updateAnnouncement={updateAnnouncement} />
   )
 }
 

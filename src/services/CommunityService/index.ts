@@ -6,9 +6,14 @@ import {
   fetchFromMemberRef,
   createNewGroupInCommunity,
   updateGroup,
-  fetchCommunityMembers
+  fetchCommunityMembers,
+  fetchPersonCaption,
+  updateCommunityAnnouncement,
+  fetchLatestCommunityAnnoucement
 } from 'src/services/firebase/firestore'
 import { PersonModel } from 'src/services/PersonService/PersonModel'
+
+import dayjs from 'dayjs'
 import { uploadGroupImg } from '../firebase/storage'
 
 import { CommunityModel } from './CommunityModel'
@@ -24,10 +29,19 @@ class Service {
     const communityMembersRef = await fetchCommunityMembers(id)
     const members = await fetchFromMemberRef(communityMembersRef)
     const groups = await fetchFromGroupRef(communityCaption.groups)
+    const announcementData = await fetchLatestCommunityAnnoucement(id)
+    const latestAnnouncement = announcementData
+      ? {
+          authorName: announcementData.authorName,
+          message: announcementData.message,
+          createdAt: dayjs(announcementData.createdAt)
+        }
+      : undefined
     return CommunityModel.fromCaption(
       communityCaption,
       members.map(member => PersonModel.fromCaption(member)),
-      groups.map(group => GroupReferenceModel.fromCaption(group))
+      groups.map(group => GroupReferenceModel.fromCaption(group)),
+      latestAnnouncement
     )
   }
 
@@ -42,6 +56,11 @@ class Service {
     }
     const imgUrl = await uploadGroupImg(groupId, backgroundImg)
     await updateGroup(groupId, name, introduction, imgUrl)
+  }
+
+  updateAnnouncement = async (communityId: string, uid: string, message: string) => {
+    const person = await fetchPersonCaption(uid)
+    await updateCommunityAnnouncement(communityId, person.name, message)
   }
 }
 

@@ -145,9 +145,35 @@ export const fetchLatestGroupAnnoucement = async (groupId: string): Promise<Anno
     createdAt: data.createdAt.toDate()
   }
 }
+export const fetchLatestCommunityAnnoucement = async (communityId: string): Promise<AnnouncementData | undefined> => {
+  const collection = await firestore
+    .collection(`v2/proto/communityCaptions/${communityId}/announcements`)
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .get()
+  if (!collection.docs.length) {
+    return undefined
+  }
+  const data = collection.docs[0]?.data() || {}
+  return {
+    message: data.message || '',
+    authorName: data.authorName || '',
+    createdAt: data.createdAt.toDate()
+  }
+}
 export const updateGroupAnnouncement = async (groupId: string, authorName: string, message: string) => {
   await firestore
     .collection(`v2/proto/groupCaptions/${groupId}/announcements`)
+    .add({
+      message,
+      authorName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .catch(err => console.error(err))
+}
+export const updateCommunityAnnouncement = async (communityId: string, authorName: string, message: string) => {
+  await firestore
+    .collection(`v2/proto/communityCaptions/${communityId}/announcements`)
     .add({
       message,
       authorName,
