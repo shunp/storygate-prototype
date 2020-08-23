@@ -100,6 +100,7 @@ export const buildSocialMediaCaption = (
 ): SocialMediaCaption => {
   const serviceName = judgeService(url)
   return {
+    id: `social${new Date().getTime()}`,
     title,
     serviceName,
     linkUrl: url,
