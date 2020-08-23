@@ -5,7 +5,9 @@ import {
   fetchFromMemberRef,
   addGroupMember,
   fetchCommunityCaption,
-  fetchLatestGroupAnnoucement
+  fetchLatestGroupAnnoucement,
+  fetchPersonCaption,
+  updateGroupAnnouncement
 } from 'src/services/firebase/firestore'
 
 import dayjs from 'dayjs'
@@ -43,6 +45,11 @@ class Service {
 
   join = async (id: string, uid: string) => {
     await addGroupMember(id, uid)
+  }
+
+  updateAnnouncement = async (groupId: string, uid: string, message: string) => {
+    const person = await fetchPersonCaption(uid)
+    await updateGroupAnnouncement(groupId, person.name, message)
   }
 }
 

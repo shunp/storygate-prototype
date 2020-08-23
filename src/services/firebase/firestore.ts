@@ -77,6 +77,9 @@ const queryByDocIds = async <T>(
   path: string,
   build: (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => T
 ): Promise<T[]> => {
+  if (!ids.length) {
+    return []
+  }
   const collection = await firestore
     .collection(`v2/proto/${path}`)
     .where(firebase.firestore.FieldPath.documentId(), 'in', ids)
@@ -142,11 +145,58 @@ export const fetchLatestGroupAnnoucement = async (groupId: string): Promise<Anno
     createdAt: data.createdAt.toDate()
   }
 }
+export const fetchLatestCommunityAnnoucement = async (communityId: string): Promise<AnnouncementData | undefined> => {
+  const collection = await firestore
+    .collection(`v2/proto/communityCaptions/${communityId}/announcements`)
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .get()
+  if (!collection.docs.length) {
+    return undefined
+  }
+  const data = collection.docs[0]?.data() || {}
+  return {
+    message: data.message || '',
+    authorName: data.authorName || '',
+    createdAt: data.createdAt.toDate()
+  }
+}
+export const updateGroupAnnouncement = async (groupId: string, authorName: string, message: string) => {
+  await firestore
+    .collection(`v2/proto/groupCaptions/${groupId}/announcements`)
+    .add({
+      message,
+      authorName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .catch(err => console.error(err))
+}
+export const updateCommunityAnnouncement = async (communityId: string, authorName: string, message: string) => {
+  await firestore
+    .collection(`v2/proto/communityCaptions/${communityId}/announcements`)
+    .add({
+      message,
+      authorName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .catch(err => console.error(err))
+}
 export const fetchFromMemberRef = async (members: string[]): Promise<PersonCaption[]> => {
   return queryByDocIds(members, 'personCaptions', toPersonCaptionData)
 }
 export const fetchFromGroupRef = (groups: string[]): Promise<GroupCaptionData[]> => {
   return queryByDocIds(groups, 'groupCaptions', toGroupCaptionData)
+}
+const toCommunityCaptionData = (doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>): CommunityCaptionData => {
+  const communityCaption = doc.data() || {}
+  return {
+    pageId: doc.id || '',
+    name: communityCaption.name || '',
+    introduction: communityCaption.introduction || '',
+    backgroundImg: communityCaption.backgroundImg || '',
+    groups: communityCaption.groups || [],
+    numOfMembers: communityCaption.numOfMembers || 0
+  }
 }
 export const fetchCommunityCaption = async (pageId: string): Promise<CommunityCaptionData> => {
   const docRef = firestore.collection('v2/proto/communityCaptions').doc(pageId)
@@ -168,33 +218,14 @@ export const fetchCommunityMembers = async (communityId: string): Promise<string
   return communityMembers.members || []
 }
 export const queryCommunityCaptionByIds = async (communityIds: string[] = []): Promise<CommunityCaptionData[]> => {
-  if (!communityIds.length) {
-    return []
-  }
-  const collectionRef = firestore.collection('v2/proto/communityCaptions')
-  const communities = await collectionRef.where(firebase.firestore.FieldPath.documentId(), 'in', communityIds).get()
-  const communityCaptions: CommunityCaptionData[] = []
-  communities.forEach(community => {
-    const communityCaption = community.data()
-    communityCaptions.push({
-      pageId: community.id || '',
-      name: communityCaption.name || '',
-      introduction: communityCaption.introduction || '',
-      backgroundImg: communityCaption.backgroundImg || '',
-      groups: communityCaption.groups || [],
-      numOfMembers: communityCaption.numOfMembers || 0
-    })
-  })
-  return communityCaptions
+  return queryByDocIds(communityIds, 'communityCaptions', toCommunityCaptionData)
 }
 export const queryCommunityCaptionByPerson = async (personId: string): Promise<CommunityCaptionData[]> => {
-  const docs = await firestore
+  const collection = await firestore
     .collection('v2/proto/communityMembers')
     .where('members', 'array-contains', personId)
     .get()
-  const communityIds: string[] = []
-  docs.forEach(doc => communityIds.push(doc.id))
-  return queryCommunityCaptionByIds(communityIds)
+  return queryCommunityCaptionByIds(collection.docs.map(doc => doc.id))
 }
 export const createNewGroupInCommunity = async (communityId: string, ownerUid: string, name: string, introduction: string) => {
   const groupRef = await firestore.collection('v2/proto/groupCaptions').add({
@@ -235,11 +266,16 @@ export const fetchInvitation = async (invitationId: string): Promise<Invitation>
 }
 
 export const addCommunityMember = async (communityId: string, uid: string) => {
-  const docRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
-  const doc = await docRef.get()
-  const communityCaption = doc.data() || {}
-  communityCaption.members.push(uid)
-  await docRef.update(communityCaption).catch(err => console.error(err))
+  const captionRef = firestore.collection('v2/proto/communityCaptions').doc(communityId)
+  const membersRef = firestore.collection('v2/proto/communityMembers').doc(communityId)
+  return firestore.runTransaction(async tx => {
+    tx.update(captionRef, {
+      numOfMembers: firebase.firestore.FieldValue.increment(1)
+    })
+    tx.update(membersRef, {
+      members: firebase.firestore.FieldValue.arrayUnion(uid)
+    })
+  })
 }
 export const addGroupMember = async (groupId: string, uid: string) => {
   await firestore
