@@ -7,6 +7,7 @@ export type ServiceType = typeof ServiceType[number]
 type ServiceColor = {
   [key in ServiceType]: string
 }
+const DEFAULT_COLOR = 'gray-700'
 const ServiceColorDict: ServiceColor = {
   YouTube: '',
   Twitter: 'social-twitter',
@@ -15,7 +16,7 @@ const ServiceColorDict: ServiceColor = {
   LinkedIn: 'social-linkedin',
   'Note.com': 'social-note',
   StoryGate: '',
-  Others: ''
+  Others: DEFAULT_COLOR
 }
 
-export const getServiceColor = (serviceType: ServiceType) => ServiceColorDict[serviceType]
+export const getServiceColor = (serviceType?: ServiceType) => (serviceType ? ServiceColorDict[serviceType] : DEFAULT_COLOR)
