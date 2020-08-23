@@ -46,6 +46,14 @@ export const DeleteButton = ({ onClick }) => {
   )
 }
 
+export const AddButton = ({ onClick }) => {
+  return (
+    <button type="button" className="text-positive bg-transparent text-xs font-bold uppercase px-2 py-2 rounded" onClick={onClick}>
+      Add
+    </button>
+  )
+}
+
 export const ClearButton = ({ onClick }) => {
   return (
     <button type="button" className="text-negative bg-transparent text-xs font-bold uppercase px-2 py-2 rounded" onClick={onClick}>
