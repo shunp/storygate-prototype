@@ -4,9 +4,11 @@ import { Portfolio } from './Portfolio'
 import { CommunityReference } from './CommunityCaption'
 
 export interface SocialMediaCaption {
+  id: string
   serviceName: ServiceType
-  serviceColor: string
   linkUrl: string
+  title?: string
+  serviceColor?: string
   imgUrl?: string
   useProfileImg?: boolean
 }

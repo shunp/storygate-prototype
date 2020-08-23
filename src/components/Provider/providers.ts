@@ -3,3 +3,19 @@ const ServiceType = ['YouTube', 'Twitter', 'Note.com', 'Facebook', 'Instagram', 
 
 export type PostType = typeof PostType[number]
 export type ServiceType = typeof ServiceType[number]
+
+type ServiceColor = {
+  [key in ServiceType]: string
+}
+const ServiceColorDict: ServiceColor = {
+  YouTube: '',
+  Twitter: 'social-twitter',
+  Instagram: 'gradient-tl-instagram',
+  Facebook: 'social-facebook',
+  LinkedIn: 'social-linkedin',
+  'Note.com': 'social-note',
+  StoryGate: '',
+  Others: ''
+}
+
+export const getServiceColor = (serviceType: ServiceType) => ServiceColorDict[serviceType]
