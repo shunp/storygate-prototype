@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Montserrat } from 'src/components/SGText'
+import { ModifiableContentLocation, MapLocatingForm } from 'src/components/ContentLocation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { togglePostModal } from './modal/utils'
 import { DefaultPostModal } from './modal/PostModal'
@@ -12,8 +15,11 @@ export const NewPortfolio = ({
   inputNewURL,
   setInputNewURL,
   inputNewExplanation,
-  setInputNewExplanation
+  setInputNewExplanation,
+  inputNewLocation,
+  setInputNewLocation
 }) => {
+  const [mapLocating, setMapLocating] = React.useState(false)
   return (
     <div id="new-portfolio" className="m-2">
       <div className="text-center text-lg font-bold">新しいコンテンツを追加</div>
@@ -39,6 +45,16 @@ export const NewPortfolio = ({
         value={inputNewExplanation}
         placeholder="Introduction..."
         onChange={e => setInputNewExplanation(e.target.value)}
+      />
+      <div className="flex justify-center mt-2">
+        <div>場所(実店舗の場合のみ)</div>
+        <FontAwesomeIcon size="1x" icon={faMapMarkerAlt} onClick={() => setMapLocating(true)} className="text-gray-500" />
+      </div>
+      <MapLocatingForm
+        location={inputNewLocation}
+        mapLocating={mapLocating}
+        endMapLocating={() => setMapLocating(false)}
+        onChange={(_, location) => setInputNewLocation(location)}
       />
     </div>
   )

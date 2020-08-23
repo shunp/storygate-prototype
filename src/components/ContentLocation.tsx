@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt, faMapPin } from '@fortawesome/free-solid-svg-icons'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { LatLngModel } from 'src/services/MapService/LatLngModel'
 import { Location } from 'src/services/interfaces/Portfolio'
 import { DefaultPostModal } from './Content/modal/PostModal'
@@ -16,14 +16,52 @@ export const ContentLocation: React.FC<ContentLocationProps> = ({ location }) =>
   return (
     <div id="content-location" className="flex justify-center items-center w-full mb-1">
       <FontAwesomeIcon icon={faMapMarkerAlt} size="1x" className="text-gray-500" />
-      <a
-        href={`https://www.google.com/maps/search/?api=1&query=${location.latlng.lat},${location.latlng.lng}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      {location.latlng ? (
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${location.latlng.lat},${location.latlng.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className="mx-1 text-gray-500">{location.label}</span>
+        </a>
+      ) : (
         <span className="mx-1 text-gray-500">{location.label}</span>
-      </a>
+      )}
     </div>
+  )
+}
+
+interface MapLocatingFormProps {
+  location?: Location
+  mapLocating: boolean
+  endMapLocating: () => void
+  onChange: (key: string, location: Location) => void
+}
+export const MapLocatingForm: React.FC<MapLocatingFormProps> = ({ location, mapLocating, endMapLocating, onChange }) => {
+  return (
+    <>
+      <input
+        type="text"
+        placeholder="title..."
+        className="border-2 border-gray-300 bg-white h-10 w-full px-5 rounded-lg text-lg focus:outline-none"
+        value={location?.label}
+        onChange={e => onChange('location', { ...location, label: e.target.value })}
+      />
+      <DefaultPostModal
+        id="map-locating"
+        editing={mapLocating}
+        onClear={endMapLocating}
+        onFocusOut={endMapLocating}
+        onDone={async (id: string) => endMapLocating()}
+        Post={
+          <LocatingMap
+            initialPosition={location?.latlng}
+            onCenterChanged={(latlng: LatLngModel) => onChange('location', { ...location, latlng })}
+          />
+        }
+        containerClassName="h-64"
+      />
+    </>
   )
 }
 
@@ -39,27 +77,7 @@ export const ModifiableContentLocation: React.FC<ModifiableContentLocationProps>
         <div className="m-1 text-xs text-white">場所(実店舗の場合のみ)</div>
         <FontAwesomeIcon size="1x" icon={faMapMarkerAlt} onClick={() => setMapLocating(true)} className="text-gray-500" />
       </div>
-      <input
-        type="text"
-        placeholder="title..."
-        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-lg focus:outline-none"
-        value={location?.label}
-        onChange={e => onChange('location', { ...location, label: e.target.value })}
-      />
-      <DefaultPostModal
-        id="map-locating"
-        editing={mapLocating}
-        onClear={() => setMapLocating(false)}
-        onFocusOut={() => setMapLocating(false)}
-        onDone={async (id: string) => console.log(id)}
-        Post={
-          <LocatingMap
-            initialPosition={location?.latlng}
-            onCenterChanged={(latlng: LatLngModel) => onChange('location', { ...location, latlng })}
-          />
-        }
-        containerClassName="h-64"
-      />
+      <MapLocatingForm location={location} mapLocating={mapLocating} endMapLocating={() => setMapLocating(false)} onChange={onChange} />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Portfolio, WithIFrame, WithPicture, PortfolioContent } from 'src/services/interfaces/Portfolio'
+import { Portfolio, WithIFrame, WithPicture, PortfolioContent, Location } from 'src/services/interfaces/Portfolio'
 import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
 import { findOpenGraph } from 'src/services/firebase/functions'
 import { ContentType } from 'src/services/interfaces/Content'
@@ -7,7 +7,12 @@ import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../../Content/Portfolio'
 import { PersonTabContentWrapper } from '../PersonTabContentWrapper'
 
-const createContent = async (title: string, url: string, explanation: string): Promise<PortfolioContent<WithIFrame | WithPicture>> => {
+const createContent = async (
+  title: string,
+  url: string,
+  explanation: string,
+  location?: Location
+): Promise<PortfolioContent<WithIFrame | WithPicture>> => {
   const contentElement = extractFromUrl(url)
   if (contentElement.type === 'GeneralURL') {
     const result = await findOpenGraph(url)
@@ -17,7 +22,8 @@ const createContent = async (title: string, url: string, explanation: string): P
       text: explanation,
       type: contentElement.type,
       fullURL: contentElement.key,
-      pic: result.ogImg
+      pic: result.ogImg,
+      location
     }
   }
   return {
@@ -45,12 +51,12 @@ const PortfolioTabContentComponent: React.FC<PortfolioTabContentComponentProps> 
   const [inputNewTitle, setInputNewTitle] = React.useState('')
   const [inputNewURL, setInputNewURL] = React.useState('')
   const [inputNewExplanation, setInputNewExplanation] = React.useState('')
-  const [inputNewLocation, setInputNewLocation] = React.useState('')
+  const [inputNewLocation, setInputNewLocation] = React.useState<Location | undefined>()
   const clearState = () => {
     setInputNewTitle('')
     setInputNewURL('')
     setInputNewExplanation('')
-    setInputNewLocation('')
+    setInputNewLocation(undefined)
   }
   const doneEditing = async () => {
     // TODO: firebase
@@ -66,7 +72,7 @@ const PortfolioTabContentComponent: React.FC<PortfolioTabContentComponentProps> 
       return
     }
     const updated = { ...portfolio }
-    updated.contents.push(await createContent(inputNewTitle, inputNewURL, inputNewExplanation))
+    updated.contents.push(await createContent(inputNewTitle, inputNewURL, inputNewExplanation, inputNewLocation))
     update(portfolio)
     clearState()
     toggleEditingPortfolio()
@@ -92,6 +98,8 @@ const PortfolioTabContentComponent: React.FC<PortfolioTabContentComponentProps> 
           setInputNewURL={setInputNewURL}
           inputNewExplanation={inputNewExplanation}
           setInputNewExplanation={setInputNewExplanation}
+          inputNewLocation={inputNewLocation}
+          setInputNewLocation={setInputNewLocation}
         />
         <ModifiablePortfolioList portfolio={portfolio} size={size} update={update} />
       </>
