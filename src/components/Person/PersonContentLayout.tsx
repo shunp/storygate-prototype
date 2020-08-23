@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useWindowSize } from 'src/utils/useWindowSize'
-import { Content, ContentType } from 'src/services/interfaces/Content'
+import { Content, ContentType, SocialMediaCaption } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
 import { Person } from 'src/services/interfaces/Person'
@@ -8,7 +8,7 @@ import PortfolioTabContent from './Portfolio/PortfolioTabContent'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
-import { SocialBadgeList } from './SocialBadgeList'
+import { SocialBadgeList } from './SocialMedia/SocialBadgeList'
 
 interface PersonContentLayoutProps {
   currentTab: ContentType
@@ -20,7 +20,7 @@ interface PersonContentLayoutProps {
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
   toggleEditingCommunity: () => void
-  updateContent: (updatedContent: Content) => void
+  updateContent: (updatedContent: Content) => Promise<void>
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   currentTab,
@@ -37,7 +37,13 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   const size = useWindowSize()
   return (
     <PersonContentWrapper>
-      <SocialBadgeList currentTab={currentTab} socialMediaCaptions={content.socialMediaCaptions} personCaption={caption} />
+      <SocialBadgeList
+        currentTab={currentTab}
+        socialMediaCaptions={content.socialMediaCaptions}
+        personCaption={caption}
+        editing={editingPortfolio}
+        update={async (socialMediaCaptions: SocialMediaCaption[]) => updateContent({ ...content, socialMediaCaptions })}
+      />
       <PortfolioTabContent
         currentTab={currentTab}
         portfolio={content.portfolio}
