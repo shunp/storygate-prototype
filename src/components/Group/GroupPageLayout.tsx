@@ -27,11 +27,15 @@ const GroupPageLayout: React.FC<GroupPageLayoutProps> = ({ loginUser, groupId })
     await GroupService.join(groupId, loginUser.uid)
     reload()
   }
+  const updateAnnouncement = async (message: string) => {
+    await GroupService.updateAnnouncement(groupId, loginUser.uid, message)
+    reload()
+  }
   React.useEffect(() => {
     reload()
   }, [groupId])
 
-  return <GroupPage group={group} loginUser={loginUser} joinGroup={joinGroup} />
+  return <GroupPage group={group} loginUser={loginUser} joinGroup={joinGroup} updateAnnouncement={updateAnnouncement} />
 }
 
 export default connect<GroupPageLayoutState, {}, GroupPageLayoutOwnProps, State>(
