@@ -145,6 +145,16 @@ export const fetchLatestGroupAnnoucement = async (groupId: string): Promise<Anno
     createdAt: data.createdAt.toDate()
   }
 }
+export const updateGroupAnnouncement = async (groupId: string, authorName: string, message: string) => {
+  await firestore
+    .collection(`v2/proto/groupCaptions/${groupId}/announcements`)
+    .add({
+      message,
+      authorName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .catch(err => console.error(err))
+}
 export const fetchFromMemberRef = async (members: string[]): Promise<PersonCaption[]> => {
   return queryByDocIds(members, 'personCaptions', toPersonCaptionData)
 }

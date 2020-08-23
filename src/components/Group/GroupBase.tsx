@@ -34,8 +34,9 @@ interface GroupBaseProps {
   group: Group
   loginUser: LoginUser
   joinGroup: () => Promise<void>
+  updateAnnouncement: (message: string) => Promise<void>
 }
-const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup }) => {
+const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup, updateAnnouncement }) => {
   React.useEffect(() => {
     applyTheme(DEFAULT_THEME, themes)
   }, [])
@@ -48,7 +49,7 @@ const GroupBase: React.FC<GroupBaseProps> = ({ group, loginUser, joinGroup }) =>
         <GroupBackground img={group.backgroundImg} />
         <GroupCaption name={group.name} introduction={group.introduction} num={group.numOfMembers} />
         <JoinGroupButton loggedIn={loginUser.loggedIn} joined={joined} joinGroup={joinGroup} />
-        <GroupAnnounce announcement={group.latestAnnoucement} />
+        <GroupAnnounce announcement={group.latestAnnoucement} joined={joined} updateAnnouncement={updateAnnouncement} />
         <GroupMember members={group.members} />
         <GroupCommunity community={group.community} />
       </div>
