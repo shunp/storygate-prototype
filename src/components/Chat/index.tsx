@@ -10,7 +10,7 @@ import { ChatBox } from './ChatBox'
 const OpenChatButton = ({ onClick }) => {
   return (
     <button type="button" onClick={onClick}>
-      <FontAwesomeIcon icon={faCommentDots} size="2x" className="text-white mt-2" />
+      <FontAwesomeIcon icon={faCommentDots} size="2x" className="text-gray-500 mt-2" />
     </button>
   )
 }
@@ -30,9 +30,10 @@ const closeChatBox = () => {
 
 interface ChatProps {
   loginUser: LoginUser
-  to: string
+  roomId: string
 }
-const Chat: React.FC<ChatProps> = ({ loginUser, to }) => {
+
+const Chat: React.FC<ChatProps> = ({ loginUser, roomId }) => {
   const [chatRoom, setChatRoom] = React.useState<ChatRoom>()
   const [messages, setMessages] = React.useState<Message[]>([])
   const fetchNewMessage = async () => {
@@ -53,7 +54,7 @@ const Chat: React.FC<ChatProps> = ({ loginUser, to }) => {
     <>
       <OpenChatButton
         onClick={async () => {
-          const fetchedChatRoom = await ChatService.fetchDMRoom(loginUser.uid, to)
+          const fetchedChatRoom = await ChatService.fetchRoomById(roomId)
           const fetchedMessages = await ChatService.fetchById(fetchedChatRoom.id, 0)
           setChatRoom(fetchedChatRoom)
           fetchedChatRoom.addMessage(fetchedMessages)
@@ -85,4 +86,15 @@ const Chat: React.FC<ChatProps> = ({ loginUser, to }) => {
     </>
   )
 }
-export default Chat
+
+interface ChatDMProps {
+  loginUser: LoginUser
+  to: string
+}
+
+export const ChatDM: React.FC<ChatDMProps> = ({ loginUser, to }) => {
+  return <Chat loginUser={loginUser} roomId={ChatService.toDMId(loginUser.uid, to)} />
+}
+export const ChatGroup: React.FC<ChatProps> = ({ loginUser, roomId }) => {
+  return <Chat loginUser={loginUser} roomId={roomId} />
+}

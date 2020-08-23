@@ -12,13 +12,13 @@ import { MessageModel } from './MessageModel'
 import { ChatRoomModel } from './ChatRoomModel'
 import { Message } from '../interfaces/Chat'
 
-const toDMId = (uid1: string, uid2: string) => {
-  return [uid1, uid2].sort().join('_')
-}
-
 class Service {
-  fetchDMRoom = async (uid1: string, uid2: string) => {
-    return ChatRoomModel.fromData(await fetchChatRoomById(toDMId(uid1, uid2)))
+  toDMId = (uid1: string, uid2: string) => {
+    return [uid1, uid2].sort().join('_')
+  }
+
+  fetchRoomById = async (roomId: string) => {
+    return ChatRoomModel.fromData(await fetchChatRoomById(roomId))
   }
 
   fetchChatRooms = async (uid: string) => {
