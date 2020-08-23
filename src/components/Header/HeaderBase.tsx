@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import NavWrapper from './NavWrapper'
 import LoginUserIcon from './LoginUserIcon'
-import HeaderLogo from './HeaderLogo'
 import TopMenuBase from '../TopMenu'
 import ToggleLoginButton from './ToggleLoginButton'
 import LoginModal from '../Auth/modal/LoginModal'
@@ -66,7 +65,7 @@ const HeaderBase: React.FC<HeaderProps> = ({ loginUser, login, logout }) => {
   return (
     <>
       <NavWrapper>
-        <LoginUserIcon pageId={loginUser.uid} icon={icon} />
+        <LoginUserIcon pageId={loginUser.uid} icon={icon} login={login} />
         {/* <HeaderLogo /> */}
         <HeaderMenu loggedIn={loginUser.loggedIn} editable={editable} logout={logout} />
       </NavWrapper>

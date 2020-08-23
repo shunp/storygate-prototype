@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Montserrat } from 'src/components/SGText'
 import { css } from '@emotion/core'
 import PageRoot from 'src/components/Root/PageRoot'
-import Header from 'src/components/Header/index'
+import Header from 'src/components/Map/Header'
 
 const Recruit = () => {
   return (

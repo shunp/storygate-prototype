@@ -174,7 +174,7 @@ const TopMenuBase = ({ logout, editCaption, editStory, editPortfolio, editCommun
           <MenuLinkWrapper title="About" to="about" />
           <MenuLinkWrapper title="Company" to="company" />
           <MenuLinkWrapper title="FAQ" to="faq" />
-          <div className="text-sm text-gray-300 mt-10 p-2" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
+          <div className="text-sm text-gray-300 mt-10 p-2 z-30" onClick={logout} onKeyPress={logout} role="button" tabIndex={0}>
             <FontAwesomeIcon icon={faSignOutAlt} size="sm" className="mr-1" />
             Logout
           </div>
