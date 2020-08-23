@@ -19,7 +19,7 @@ import {
   clearEditingStateAction,
   toggleEditingCommunityAction
 } from 'src/state/app'
-import { Content } from 'src/services/interfaces/Content'
+import { Content, ContentType } from 'src/services/interfaces/Content'
 import { LoginUser } from 'src/services/interfaces/Auth'
 
 interface PersonPageState {
@@ -55,7 +55,7 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
   toggleEditingCommunity,
   clearEditingState
 }) => {
-  const [openTab, setOpenTab] = React.useState(1)
+  const [currentTab, setCurrentTab] = React.useState<ContentType>('Portfolio')
   const [person, setPerson] = React.useState<Person>(PersonService.emptyPerson())
   const [content, setContent] = React.useState<Content>(ContentService.emptyContent())
   const location = useLocation()
@@ -84,6 +84,17 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
     loadPerson()
     loadContent()
   }, [location, loginUser])
+  React.useEffect(() => {
+    if (editingPortfolio) {
+      setCurrentTab('Portfolio')
+    }
+    if (editingStory) {
+      setCurrentTab('Story')
+    }
+    if (editingCommunity) {
+      setCurrentTab('Community')
+    }
+  }, [editingPortfolio, editingStory, editingCommunity])
 
   return (
     <>
@@ -94,15 +105,10 @@ const PersonPageLayout: React.FC<PersonPageLayoutProps> = ({
         toggleEditingCaption={toggleEditingCaption}
         updateCaption={updateCaption}
       />
-      <PersonTabLayout
-        openTab={openTab}
-        setOpenTab={setOpenTab}
-        editingPortfolio={editingPortfolio}
-        editingStory={editingStory}
-        editingCommunity={editingCommunity}
-      />
+      <PersonTabLayout currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <PersonContentLayout
-        openTab={openTab}
+        currentTab={currentTab}
+        caption={person}
         content={content}
         editingPortfolio={editingPortfolio}
         editingStory={editingStory}

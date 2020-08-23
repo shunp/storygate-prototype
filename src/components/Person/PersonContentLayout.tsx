@@ -1,16 +1,18 @@
 import * as React from 'react'
 import { useWindowSize } from 'src/utils/useWindowSize'
-import { Content } from 'src/services/interfaces/Content'
+import { Content, ContentType, SocialMediaCaption } from 'src/services/interfaces/Content'
 import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Story } from 'src/services/interfaces/Story'
+import { Person } from 'src/services/interfaces/Person'
 import PortfolioTabContent from './Portfolio/PortfolioTabContent'
-import { resolveCurrentTab } from './PersonTabLayout'
 import StoryTabContent from './Story/StoryTabContent'
 import CommunityTabContent from './CommunityTabContent'
 import PersonContentWrapper from './PersonContentWrapper'
+import { SocialBadgeList } from './SocialMedia/SocialBadgeList'
 
 interface PersonContentLayoutProps {
-  openTab: number
+  currentTab: ContentType
+  caption: Person
   content: Content
   editingPortfolio: boolean
   editingStory: boolean
@@ -18,10 +20,11 @@ interface PersonContentLayoutProps {
   toggleEditingPortfolio: () => void
   toggleEditingStory: () => void
   toggleEditingCommunity: () => void
-  updateContent: (updatedContent: Content) => void
+  updateContent: (updatedContent: Content) => Promise<void>
 }
 const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
-  openTab,
+  currentTab,
+  caption,
   content,
   editingPortfolio,
   editingStory,
@@ -32,12 +35,17 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
   updateContent
 }) => {
   const size = useWindowSize()
-  const currentTab = resolveCurrentTab(openTab, editingPortfolio, editingStory, editingCommunity)
   return (
     <PersonContentWrapper>
+      <SocialBadgeList
+        currentTab={currentTab}
+        socialMediaCaptions={content.socialMediaCaptions}
+        personCaption={caption}
+        editing={editingPortfolio}
+        update={async (socialMediaCaptions: SocialMediaCaption[]) => updateContent({ ...content, socialMediaCaptions })}
+      />
       <PortfolioTabContent
-        index={1}
-        openTab={currentTab}
+        currentTab={currentTab}
         portfolio={content.portfolio}
         size={size.width}
         editing={editingPortfolio}
@@ -45,8 +53,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(portfolio: Portfolio) => updateContent({ ...content, portfolio })}
       />
       <StoryTabContent
-        index={2}
-        openTab={currentTab}
+        currentTab={currentTab}
         story={content.story}
         size={size.width}
         editing={editingStory}
@@ -54,8 +61,7 @@ const PersonContentLayout: React.FC<PersonContentLayoutProps> = ({
         update={(story: Story) => updateContent({ ...content, story })}
       />
       <CommunityTabContent
-        index={3}
-        openTab={currentTab}
+        currentTab={currentTab}
         communities={content.communities}
         size={size.width}
         editing={editingCommunity}

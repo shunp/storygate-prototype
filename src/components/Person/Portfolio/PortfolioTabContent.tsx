@@ -2,8 +2,10 @@ import * as React from 'react'
 import { Portfolio, WithIFrame, WithPicture, PortfolioContent } from 'src/services/interfaces/Portfolio'
 import { extractFromUrl } from 'src/components/Provider/ContentsExtractor'
 import { findOpenGraph } from 'src/services/firebase/functions'
+import { ContentType } from 'src/services/interfaces/Content'
 import { CompleteButtonSet, ClearButton, DoneButton } from '../../EditButton'
 import { NewPortfolio, PortfolioList, ModifiablePortfolioList } from '../../Content/Portfolio'
+import { PersonTabContentWrapper } from '../PersonTabContentWrapper'
 
 const createContent = async (title: string, url: string, explanation: string): Promise<PortfolioContent<WithIFrame | WithPicture>> => {
   const contentElement = extractFromUrl(url)
@@ -26,18 +28,14 @@ const createContent = async (title: string, url: string, explanation: string): P
     iframeKey: contentElement.key
   }
 }
-interface PortfolioTabContentProps {
-  index: number
-  openTab: number
+interface PortfolioTabContentComponentProps {
   portfolio: Portfolio
   size: number
   editing: boolean
   toggleEditingPortfolio: () => void
   update: (portfolio: Portfolio) => void
 }
-const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
-  index,
-  openTab,
+const PortfolioTabContentComponent: React.FC<PortfolioTabContentComponentProps> = ({
   portfolio,
   size,
   editing,
@@ -81,7 +79,7 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
 
   if (editing) {
     return (
-      <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
+      <>
         <CompleteButtonSet
           ClearButton={<ClearButton onClick={resetEditing} />}
           DoneButton={<DoneButton onClick={doneEditing} />}
@@ -96,13 +94,20 @@ const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({
           setInputNewExplanation={setInputNewExplanation}
         />
         <ModifiablePortfolioList portfolio={portfolio} size={size} update={update} />
-      </div>
+      </>
     )
   }
+  return <PortfolioList portfolio={portfolio} size={size} />
+}
+
+type PortfolioTabContentProps = PortfolioTabContentComponentProps & {
+  currentTab: ContentType
+}
+const PortfolioTabContent: React.FC<PortfolioTabContentProps> = ({ currentTab, ...props }) => {
   return (
-    <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-      <PortfolioList portfolio={portfolio} size={size} />
-    </div>
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Portfolio">
+      <PortfolioTabContentComponent {...props} />
+    </PersonTabContentWrapper>
   )
 }
 

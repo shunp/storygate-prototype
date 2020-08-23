@@ -24,8 +24,9 @@ type DefaultPostModalProps = PostModalProps & {
   editing: boolean
   onClear: () => void
   onDone: () => Promise<void>
+  onFocusOut?: () => void
 }
-export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, editing, onClear, onDone }) => {
+export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, editing, onClear, onDone, onFocusOut }) => {
   React.useEffect(() => {
     if (editing) {
       togglePostModal(id)
@@ -33,7 +34,7 @@ export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, ed
   }, [editing])
   return (
     <PostModalWrapper id={id}>
-      <ModalOverlay id={id} />
+      <ModalOverlay id={id} onFocusOut={onFocusOut} />
       <ModalContainer>
         <>
           <CompleteButtonSet

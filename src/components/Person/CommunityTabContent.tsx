@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { CommunityReference } from 'src/services/interfaces/CommunityCaption'
+import { ContentType } from 'src/services/interfaces/Content'
 import { CommunityList, ModifiableCommunityList } from '../Content/Community'
+import { PersonTabContentWrapper } from './PersonTabContentWrapper'
 
-interface CommunityTabProps {
-  index: number
-  openTab: number
+interface CommunityTabComponentProps {
   communities: CommunityReference[]
   openCommunities: string[]
   size: number
@@ -12,9 +12,7 @@ interface CommunityTabProps {
   toggleEditingCommunity: () => void
   update: (openCommunities: string[]) => Promise<void>
 }
-const CommunityTabContent: React.FC<CommunityTabProps> = ({
-  index,
-  openTab,
+const CommunityTabContentComponent: React.FC<CommunityTabComponentProps> = ({
   communities,
   openCommunities,
   size,
@@ -24,22 +22,26 @@ const CommunityTabContent: React.FC<CommunityTabProps> = ({
 }) => {
   if (editing) {
     return (
-      <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-        <ModifiableCommunityList
-          communities={communities}
-          openCommunities={openCommunities}
-          size={size}
-          toggleEditingCommunity={toggleEditingCommunity}
-          update={update}
-        />
-      </div>
+      <ModifiableCommunityList
+        communities={communities}
+        openCommunities={openCommunities}
+        size={size}
+        toggleEditingCommunity={toggleEditingCommunity}
+        update={update}
+      />
     )
   }
-  return (
-    <div className={openTab === index ? 'block' : 'hidden'} id={`link${index}`}>
-      <CommunityList communities={communities} openCommunities={openCommunities} size={size} />
-    </div>
-  )
+  return <CommunityList communities={communities} openCommunities={openCommunities} size={size} />
 }
 
+type CommunityTabContentProps = CommunityTabComponentProps & {
+  currentTab: ContentType
+}
+const CommunityTabContent: React.FC<CommunityTabContentProps> = ({ currentTab, ...props }) => {
+  return (
+    <PersonTabContentWrapper currentTab={currentTab} contentType="Community">
+      <CommunityTabContentComponent {...props} />
+    </PersonTabContentWrapper>
+  )
+}
 export default CommunityTabContent
