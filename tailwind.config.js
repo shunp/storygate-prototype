@@ -175,6 +175,7 @@ module.exports = {
       'gray900-secondary-gray900': ['#1a202c', 'var(--color-secondary)', '#1a202c 90%'],
       'secondary-gray500-secondary': ['var(--color-secondary) 10%', '#a0aec0', 'var(--color-secondary) 90%'],
       'blue-pink-purple': ['#5442D6', '#9622D2', '#CC2CB7'],
+      'blue-purple': ['#5442D6', '#8142df'],
       instagram: ['#FFDC80', '#F77737', '#FD1D1D', '#C13584', '#833AB4', '#405DE6'],
       'blue-pink': ['#5442D6 50%', '#9622D2'],
       'red-blue': ['#f00', '#00f'],
