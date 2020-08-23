@@ -1,10 +1,5 @@
-export class LatLngModel {
-  lat: number
+import { LatLng } from '../interfaces/LatLng'
 
-  lng: number
-
-  constructor(lat: number, lng: number) {
-    this.lat = lat
-    this.lng = lng
-  }
+export class LatLngModel implements LatLng {
+  constructor(readonly lat: number, readonly lng: number) {}
 }

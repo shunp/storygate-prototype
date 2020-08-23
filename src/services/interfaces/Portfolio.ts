@@ -1,5 +1,10 @@
 import { PostType } from 'src/components/Provider/providers'
+import { LatLng } from './LatLng'
 
+export interface Location {
+  label: string
+  latlng: LatLng
+}
 export interface PortfolioCommonContent {
   id: string
   type: PostType
@@ -13,7 +18,7 @@ export interface WithIFrame {
 export interface WithPicture {
   fullURL: string
   pic: string
-  location?: string
+  location?: Location
 }
 export interface Portfolio {
   contents: PortfolioContent<WithIFrame | WithPicture>[]

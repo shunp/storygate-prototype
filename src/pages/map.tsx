@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { css } from '@emotion/core'
 
-import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from 'google-maps-react'
+import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon, GoogleAPI } from 'google-maps-react'
 import Geocode from 'react-geocode'
 import { Link } from 'gatsby'
 import { Noto, Montserrat } from 'src/components/SGText'
@@ -44,7 +44,10 @@ const MapFooter = ({ searchWord, setSearchWord, searchLocation }) => {
 
 Geocode.setApiKey(process.env.GATSBY_MAP_API_KEY)
 
-const MapPage = ({ google }) => {
+interface MapPageProps {
+  google: GoogleAPI
+}
+const MapPage: React.FC<MapPageProps> = ({ google }) => {
   navigator.geolocation.getCurrentPosition(pos => {
     console.log('location', pos)
   })
@@ -119,8 +122,8 @@ const MapPage = ({ google }) => {
     console.log('onInfoWindowClose')
   }
 
-  const onMapClicked = () => {
-    console.log('onMapClicked')
+  const onMapClicked = (...args) => {
+    console.log('onMapClicked', args)
   }
 
   const fetchCurrentLocation = () => {

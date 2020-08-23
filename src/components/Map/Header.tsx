@@ -5,12 +5,19 @@ import { LoginUser } from 'src/services/interfaces/Auth'
 import { loginAction, logoutAction } from 'src/state/app'
 import { AuthService } from 'src/services/AuthService'
 import { PersonService } from 'src/services/PersonService'
+import { State } from 'src/state'
 import LoginUserIcon from '../Header/LoginUserIcon'
-import TopMenuBase from '../TopMenu'
-import ToggleLoginButton from '../Header/ToggleLoginButton'
 import NavWrapper from '../Header/NavWrapper'
 
-const MapHeader = ({ loginUser, login, logout }) => {
+interface MapHeaderStates {
+  loginUser: LoginUser
+}
+interface MapHeaderDispatch {
+  login: (logingUser: LoginUser) => void
+  logout: () => void
+}
+type MapHeaderProps = MapHeaderStates & MapHeaderDispatch
+const MapHeader: React.FC<MapHeaderProps> = ({ loginUser, login, logout }) => {
   const [icon, setIcon] = React.useState('')
   if (!loginUser.loggedIn) {
     const storedUser = AuthService.loadStoredUser()
@@ -33,12 +40,12 @@ const MapHeader = ({ loginUser, login, logout }) => {
   )
 }
 
-export default connect(
+export default connect<MapHeaderStates, MapHeaderDispatch, {}, State>(
   state => ({
     loginUser: state.app.loginUser
   }),
   dispatch => ({
     login: (loginUser: LoginUser) => dispatch(loginAction(loginUser)),
-    logout: () => dispatch(logoutAction())
+    logout: async () => dispatch(await logoutAction())
   })
 )(MapHeader)

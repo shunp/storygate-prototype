@@ -3,7 +3,7 @@ import { Portfolio } from 'src/services/interfaces/Portfolio'
 import { Montserrat } from 'src/components/SGText'
 import { EditingButton, DeleteButton, EditingButtonSet, CompleteButtonSet, ClearButton, DoneButton } from '../EditButton'
 import { togglePostModal } from './modal/utils'
-import PostModal from './modal/PostModal'
+import { DefaultPostModal } from './modal/PostModal'
 import { PortfolioContentComponent } from '../Person/Portfolio/PortfolioContent'
 
 export const NewPortfolio = ({
@@ -73,19 +73,15 @@ export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = (
   const editPost = (id: string) => {
     const target = portfolio.contents.find(content => content.id === id) || {}
     setEditingObj(target)
-    togglePostModal(id)
   }
-  const clearEditing = (id: string) => {
-    togglePostModal(id)
-  }
-  const doneEditing = (id: string) => {
+  const doneEditing = async (id: string) => {
     const updated = { ...portfolio }
     const target = updated.contents.find(content => content.id === id)
     if (target) {
       Object.assign(target, editingObj)
       update(updated)
     }
-    togglePostModal(id)
+    setEditingObj({})
   }
   if (!portfolio?.contents) {
     return <></>
@@ -99,22 +95,19 @@ export const ModifiablePortfolioList: React.FC<ModifiablePortfolioListProps> = (
           className="mt-10"
         />
         <PortfolioContentComponent content={p} size={size} />
-        <PostModal
+        <DefaultPostModal
           id={p.id}
+          editing={editingObj.id === p.id}
+          onDone={doneEditing}
+          onClear={() => setEditingObj({})}
+          onFocusOut={() => setEditingObj({})}
           Post={
-            <>
-              <CompleteButtonSet
-                ClearButton={<ClearButton onClick={() => clearEditing(p.id)} />}
-                DoneButton={<DoneButton onClick={() => doneEditing(p.id)} />}
-                className="mt-1"
-              />
-              <PortfolioContentComponent
-                content={p}
-                size={size}
-                editingObj={editingObj}
-                onChange={(key: string, value: string) => setEditingObj({ ...editingObj, [key]: value })}
-              />
-            </>
+            <PortfolioContentComponent
+              content={p}
+              size={size}
+              editingObj={editingObj}
+              onChange={(key: string, value: string) => setEditingObj({ ...editingObj, [key]: value })}
+            />
           }
         />
       </div>

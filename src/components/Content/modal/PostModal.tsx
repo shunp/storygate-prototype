@@ -22,11 +22,20 @@ const PostModal: React.FC<PostModalProps> = ({ Post, id }) => {
 
 type DefaultPostModalProps = PostModalProps & {
   editing: boolean
-  onClear: () => void
-  onDone: () => Promise<void>
+  onClear?: (id: string) => void
+  onDone: (id: string) => Promise<void>
   onFocusOut?: () => void
+  containerClassName?: string
 }
-export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, editing, onClear, onDone, onFocusOut }) => {
+export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({
+  Post,
+  id,
+  editing,
+  onClear,
+  onDone,
+  onFocusOut,
+  containerClassName
+}) => {
   React.useEffect(() => {
     if (editing) {
       togglePostModal(id)
@@ -35,13 +44,15 @@ export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, ed
   return (
     <PostModalWrapper id={id}>
       <ModalOverlay id={id} onFocusOut={onFocusOut} />
-      <ModalContainer>
+      <ModalContainer className={containerClassName}>
         <>
           <CompleteButtonSet
             ClearButton={
               <ClearButton
                 onClick={() => {
-                  onClear()
+                  if (onClear) {
+                    onClear(id)
+                  }
                   togglePostModal(id)
                 }}
               />
@@ -49,7 +60,7 @@ export const DefaultPostModal: React.FC<DefaultPostModalProps> = ({ Post, id, ed
             DoneButton={
               <DoneButton
                 onClick={async () => {
-                  await onDone()
+                  await onDone(id)
                   togglePostModal(id)
                 }}
               />
