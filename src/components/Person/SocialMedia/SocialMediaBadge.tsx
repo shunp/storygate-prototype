@@ -43,7 +43,9 @@ interface SocialMediaBadgesProps {
   personCaption: Person
 }
 export const SocialMediaBadges: React.FC<SocialMediaBadgesProps> = ({ socialMediaCaptions, personCaption }) => {
-  const list = socialMediaCaptions.map(caption => <SocialMediaBadge socialMediaCaption={caption} profileImg={personCaption.img} />)
+  const list = socialMediaCaptions.map(caption => (
+    <SocialMediaBadge key={caption.id} socialMediaCaption={caption} profileImg={personCaption.img} />
+  ))
   return <div className="flex flex-wrap mx-4">{list}</div>
 }
 
@@ -56,7 +58,7 @@ interface SocialMediaBadgePreviewProps {
 }
 export const SocialMediaBadgePreview: React.FC<SocialMediaBadgePreviewProps> = ({ linkUrl, title, imgUrl, useProfileImg, profileImg }) => {
   const serviceType = judgeServiceOrUndefined(linkUrl)
-  const serviceColor =  getServiceColor(serviceType)
+  const serviceColor = getServiceColor(serviceType)
   const displayTitle = title || (serviceType !== 'Others' ? serviceType : '')
   return (
     <SocialMediaBadgeBase
