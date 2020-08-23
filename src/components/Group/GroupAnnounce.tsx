@@ -12,7 +12,7 @@ interface ModifiableAnnoucementProps {
 }
 const ModifiableAnnoucement: React.FC<ModifiableAnnoucementProps> = ({ message, onChange }) => (
   <textarea
-    className="border-2 border-gray-300 focus:outline-none bg-white h-50 w-full px-2 rounded-lg whitespace-pre-wrap"
+    className="border-2 border-gray-300 focus:outline-none bg-white w-full h-64 px-2 rounded-lg whitespace-pre-wrap"
     value={message}
     onChange={e => onChange(e.target.value)}
   />
